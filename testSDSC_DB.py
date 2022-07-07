@@ -30,22 +30,22 @@ try:
       user="kfrd22",
       password="sungod123")
    
-   cur = conn.cursor()
+      cur = conn.cursor()
 
-   '''
-      replace with your own name
-   '''
-   cur.execute("INSERT INTO test_ground.roster "
-               "(fname, lname) "
-               "VALUES ('Jiting', 'Shen')")
+      '''
+            replace with your own name
+      '''
+      cur.execute("INSERT INTO test_ground.roster "
+                  "(fname, lname) "
+                  "VALUES ('Reimu', 'Hakurei')")
 
-   conn.commit()
+      conn.commit()
    
       
 except mariadb.Error as e:
-   print(e.errno)
-   print(f"Error connecting to the database: {e}")
-   sys.exit(1)
+      print(e.errno)
+      print(f"Error connecting to the database: {e}")
+      sys.exit(1)
 
 print("Exiting...")
 conn.close()
