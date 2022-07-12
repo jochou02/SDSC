@@ -1,0 +1,192 @@
+body {
+  margin: 0;
+  margin-bottom: 1000px;
+  padding: 0;
+  font-family: 'Comic Sans MS';
+}
+
+/* Menu bar */
+.menu-bar {
+  height: 100px;
+  background-color: rgb(100,100,100);
+
+  display: flex;
+  flex-direction: row;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: flex-end;
+  align-items: center;
+
+  z-index: 200;
+}
+
+.menu-item {
+  color: whitesmoke;
+  padding: 0px 30px 0px 30px;
+  transition: color 0.15s,
+    opacity 0.15s;
+}
+
+.menu-item:hover {
+  color: rgb(151, 151, 235);
+}
+
+.menu-item:active {
+  opacity: 0.6;
+}
+
+.user-pfp {
+  height: 70px;
+  width: 70px;
+  object-position: cover;
+  object-fit: center;
+
+  margin-right: 30px;
+  border-radius: 35px;
+}
+
+/* Content */ 
+.content-box {
+  /* background-color: purple; */
+  height: 1000px;
+
+  position: relative;
+  top: 100.1px;
+  left: 0;
+  right: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.personal-info-box {
+  /* background-color: seagreen; */
+
+  position: absolute;
+  top: 20px;
+
+  display: flex;
+}
+
+.profile-pfp {
+  height: 180px;
+  width: 180px;
+  object-position: cover;
+  object-fit: center;
+  border-radius: 100px;
+
+  margin-right: 20px;
+}
+
+.personal-info {
+  /* background-color: lavender; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name {
+  /* background-color: red; */
+  font-size: 50px;
+  font-weight: bold;
+
+  margin: 0;
+}
+
+.major-minor {
+  /* background-color: orange; */
+  margin: 0 0 12px 0;
+}
+
+/* To-do: Shows more contact info if connection request accepted */
+
+.connect-button {
+  background-color: whitesmoke;
+  font-size: 25px;
+  font-family: 'Comic Sans MS';
+  padding: 5px 10px 5px 10px;
+
+  border-style: solid;
+  border-color: gray;
+  border-radius: 5px;
+
+  margin: 0;
+
+  transition: opacity 0.15s;
+}
+
+.connect-button:hover {
+  opacity: 0.8;
+}
+
+.connect-button:active{
+  opacity: 0.6;
+}
+
+.courses-info-box {
+  /* background-color: blue; */
+
+  position: absolute;
+  top: 225px;
+
+  padding: 10px;
+}
+
+.courses-info-section {
+  /* background-color: lavender; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 0;
+}
+
+.section-title {
+  font-size: 25px;
+
+  margin: 0 0 5px 0;
+}
+
+hr.solid {
+  /* To-do: Make this divider expand with the width of courses-grid */
+  width: 600px;
+  border: none;
+  border-top: 5px solid rgb(50,50,50);
+
+  margin: 0;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 15px;
+  row-gap: 15px;
+
+  margin: 20px;
+}
+
+.course-item {
+  background-color: gray;
+  padding: 8px 16px 8px 16px;
+  border-radius: 10px;
+}
+
+.course-item-tutor {
+  /* To-do: Color code to indicate classes that someone feels comfortable tutoring in, change background-color */
+  background-color: turquoise;
+  padding: 8px 16px 8px 16px;
+  border-radius: 10px;
+}
+
+.course-name {
+  color: whitesmoke;
+  font-weight: light;
+  margin: 0;
+}
