@@ -1,0 +1,143 @@
+body {
+  margin: 0;
+  margin-bottom: 1000px;
+  padding: 0;
+}
+
+/* Menu bar */
+  .menu-bar {
+    height: 100px;
+    background-color: rgb(100,100,100);
+
+    display: flex;
+    flex-direction: row;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: flex-end;
+    align-items: center;
+
+    z-index: 200;
+  }
+
+  .menu-item {
+    color: whitesmoke;
+    padding: 0px 30px 0px 30px;
+    transition: color 0.15s,
+      opacity 0.15s;
+  }
+
+  .menu-item:hover {
+    color: lightcoral;
+  }
+
+  .menu-item:active {
+    opacity: 0.6;
+  }
+
+  .user-pfp {
+    height: 70px;
+    width: 70px;
+    object-position: cover;
+    object-fit: center;
+
+    margin-right: 30px;
+    border-radius: 35px;
+  }
+ 
+/* Content */ 
+  .content-box {
+    background-color: purple;
+    height: 1000px;
+
+    position: relative;
+    top: 100.1px;
+    left: 0;
+    right: 0;
+
+    margin: 0;
+  }
+
+  .welcome-header {
+    background-color: rgb(100,100,100);
+
+    position: absolute;
+    top: 50px;
+    left: 300px;
+    right: 300px;
+
+    display: flex;
+    justify-content: center;
+    padding: 25px 50px 25px 50px;
+
+    border-radius: 30px;
+  }
+
+  .welcome-text {
+    color: whitesmoke;
+    font-size: 100px;
+    margin: 0;
+  }
+
+  .connections-box {
+    background-color: rgb(100,100,100);
+
+    border-radius: 30px;
+
+    position: absolute;
+    top: 280px;
+    left: 300px;
+    right: 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .connections-title {
+    margin: 25px 0 0 0;
+    color: whitesmoke;
+  }
+
+  hr.solid {
+    width: 1100px; 
+    /* How to make width fit to box? */
+    border: none;
+    border-top: 5px solid white;
+  }
+
+  .connections-grid {
+    background-color: red;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .connections-item {
+    background-color: blue;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 100px;
+  }
+
+  .connection-pfp-box {
+    background-color: aqua;
+    display: flex;
+  }
+
+  .connection-pfp {
+    height: 100px;
+    width: 100px;
+    object-position: cover;
+    object-fit: center;
+
+    border-radius: 50px;
+    margin: 0;
+  }
+

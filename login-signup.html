@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<title> Login / Sign Up Form</title>
+
+	<!-- Reference to the css styling sheet -->
+	<link rel="stylesheet" href="./styles/login-signup.css">
+
+	    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- Login/sign-up form-->
+	<div class="container"> 
+		<!-- Login form-->
+		<form class="form" id="login">
+			<h1 class="form__title">Login</h1>
+			 <div class="form__message form__message--error"></div>
+			 <div class="form__input-group">
+				<input type="text" class="form__input" autofocus placeholder="Email">
+				<div class="form__input-error-message"></div>
+			 </div>
+			<div class="form__input-group">
+				<input type="password" class="form__input" autofocus placeholder="Password">
+				<div class="form__input-error-message"></div>
+		 	</div>
+			<button class="form__button" type="submit">Continue</button>
+			<p class="form__text">
+				<a href="#" class="form__link">Forgot your password?</a>
+			</p>
+			<p class="form__text">
+				<a class="form__link" href="./" id="linkCreateAccount">Don't have an account? Create account</a>
+				<!-- the linkCreateAccount will be referenced in login-signup.js-->
+			</p>
+		</form>
+
+		<!-- Sign up form -->
+		<form class="form form--hidden" id="createAccount">
+			<h1 class="form__title">Create Account</h1>
+			<div class="form__input-group">
+				<input onkeyup="checkName()" type="text" id="first-name" class="form__input" autofocus placeholder="First Name">
+				<div class="form__input-error-message"></div>
+			</div>
+
+			<div class="form__input-group">
+				<input onkeyup="checkName()" type="text" id="last-name" class="form__input" autofocus placeholder="Last Name">
+				<div class="form__input-error-message"></div>
+			</div>
+
+			 <!-- Email validation form -->
+			 <div class="form__input-group">
+				<input onkeyup="checkEmail()" type="text" id="email" class="form__input" autofocus placeholder="Email">
+				<div class="form__input-error-message"></div>
+			 </div>
+
+			 <!-- Discord validation form -->
+			 <div class="form__input-group">
+				<input onkeyup="checkDiscord()" type="text" id="discord" class="form__input" autofocus placeholder="Discord">
+				<div class="form__input-error-message"></div>
+			 </div>
+
+			<div class="form__input-group">
+				<input type="password" class="form__input" autofocus placeholder="Password">
+				<div class="form__input-error-message"></div>
+		 	</div>
+			 <div class="form__input-group">
+				<input type="password" class="form__input" autofocus placeholder="Confirm password ">
+				<div class="form__input-error-message"></div>
+		 	</div>
+			<button class="form__button" type="submit">Continue</button>
+			<p class="form__text">
+				<a class="form__link" href="./" id="linkLogin">Already have an account? Sign in</a>
+			</p>
+		</form>
+	</div>
+
+	<!-- Load script from login-signup.js -->
+	<script type="text/javascript" src="./src/login-signup.js"></script> 
+</body>
+ 
