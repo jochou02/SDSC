@@ -30,7 +30,7 @@ class Login extends Component {
               .then(response => response.json())
               .then((data) => {
                 this.setState({ token: data['token'] }, () => {
-                    this.fooo()
+                    this.foo()
               })
         })
         .catch(console.log)
@@ -39,7 +39,7 @@ class Login extends Component {
     }
 
     // On success, store the token somewhere and redirect to profile
-    fooo() {
+    foo() {
         if (this.state.token) {
             localStorage.setItem('auth-token', 'Token ' + this.state.token );
             //route
@@ -67,7 +67,7 @@ class Login extends Component {
 
         <label>
             Password:
-            <input type="text" value={this.state.password} onChange={(event) => 
+            <input type="password" value={this.state.password} onChange={(event) =>
                                                                         {this.setState({ password: event.target.value })}} />
         </label>  
           <input type="submit" value="Submit" />
