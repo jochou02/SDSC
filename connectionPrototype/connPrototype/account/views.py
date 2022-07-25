@@ -24,7 +24,7 @@ class foo(APIView):
     token for it.
 '''
 class RegisterView(APIView):
-    authentication_classes = [TokenAuthentication]
+    # No need for authentication here
 
     # Create users in other apps e.g. ConnUser/TutorUser etc.
     def post(self, request):
@@ -62,3 +62,15 @@ class DeleteUserView(APIView):
         User.objects.get(pk=request.user.id).delete()
 
         return Response({})
+
+
+class GenEmailAuth(APIView):
+    # No need for authentication here
+    def get(self, request):
+        return Response({'auth_server': self.send_email()})
+
+    def send_email(self):
+        # See snippet on github about sending email
+        # Use that once we are on SDSC cloud. For now, just return a number
+
+        return 123

@@ -11,4 +11,5 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('get_user_info/', views.GetUserInfoView.as_view(), name='get_info'),
     path('delete_user/', views.DeleteUserView.as_view(), name='delete'),
+    path('gen_auth/', views.GenEmailAuth.as_view(), name='gen_auth'),
 ]
