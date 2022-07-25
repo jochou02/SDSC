@@ -1,3 +1,4 @@
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
@@ -46,6 +47,18 @@ class GetUserInfoView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        serializer =AuthUserSerializer(request.user)
+        serializer = AuthUserSerializer(request.user)
 
         return Response(serializer.data)
+
+
+class DeleteUserView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        # Delete other accounts that has to do with auth_user here.
+
+        Token.objects.get(user=request.user).delete()
+        User.objects.get(pk=request.user.id).delete()
+
+        return Response({})

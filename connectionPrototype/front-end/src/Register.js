@@ -20,8 +20,7 @@ class Register extends Component {
     handleSubmit(event) {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                       'Authorization': localStorage.getItem('auth-token') },
+            headers: { 'Content-Type': 'application/json', },
             body: JSON.stringify({ username: this.state.username,
                                    password: this.state.password,
                                    email: this.state.email,
@@ -33,7 +32,7 @@ class Register extends Component {
               .then(response => response.json())
               .then((data) => {
                 this.setState({ }, () => {
-                    this.fooo()
+                    window.location.href = 'http://localhost:3000/login';
               })
         })
         .catch(console.log)
@@ -41,9 +40,6 @@ class Register extends Component {
         event.preventDefault();
     }
 
-    fooo() {
-      window.location.href = 'http://localhost:3000/login';;
-    }
 
     render() {
       return (
