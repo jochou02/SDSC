@@ -66,10 +66,12 @@ class DeleteUserView(APIView):
 
 class GenEmailAuth(APIView):
     # No need for authentication here
-    def get(self, request):
-        return Response({'auth_server': self.send_email()})
+    def post(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
 
-    def send_email(self):
+        return Response({'auth_server': self.send_email(request_content['email'])})
+
+    def send_email(self, email):
         # See snippet on github about sending email
         # Use that once we are on SDSC cloud. For now, just return a number
 
