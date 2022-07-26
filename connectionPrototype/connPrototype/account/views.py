@@ -1,3 +1,5 @@
+import secrets
+
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.utils import json
@@ -64,15 +66,21 @@ class DeleteUserView(APIView):
         return Response({})
 
 
+# Send a random code to the supplied email address.
 class GenEmailAuth(APIView):
     # No need for authentication here
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
 
-        return Response({'auth_server': self.send_email(request_content['email'])})
+        return Response({'auth_server': send_email(request_content['email'])})
 
-    def send_email(self, email):
-        # See snippet on github about sending email
-        # Use that once we are on SDSC cloud. For now, just return a number
 
-        return 123
+# Use the snippet I had once we are on SDSC
+
+# We be passing all these credentials in plain text, let's hope
+# nobody attacks our site lol
+def send_email(email):
+    # See snippet on github about sending email
+    # Use that once we are on SDSC cloud. For now, just return a number
+
+    return secrets.token_hex(3)
