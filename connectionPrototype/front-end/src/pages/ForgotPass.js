@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 
-import LoggedInTester from './LoggedInTester';
+import LoggedInTester from '../buttons/LoggedInTester';
 
 
-class Register extends Component {
+class ForgotPass extends Component {
     constructor(props) {
       super(props);
-      this.state = { username: '',
-                     password: '',
-                     email: '',
-                     first_name: '',
-                     last_name: '',
+      this.state = { email: '',
                      auth_server: '',
                      auth_user: '',
                      auth_success: false,
@@ -31,17 +27,15 @@ class Register extends Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', },
-            body: JSON.stringify({ username: this.state.username,
-                                   password: this.state.password,
+            body: JSON.stringify({ password: this.state.password,
                                    email: this.state.email,
-                                   first_name: this.state.first_name,
-                                   last_name: this.state.last_name,})
+                                   })
         };
-    
-        fetch('http://127.0.0.1:8000/account/register/', requestOptions)
+
+        fetch('http://127.0.0.1:8000/account/update_password/', requestOptions)
               .then(response => response.json())
               .then((data) => {
-                this.setState({ }, () => {
+                this.setState({}, () => {
                     window.location.href = 'http://localhost:3000/login';
               })
         })
@@ -55,13 +49,15 @@ class Register extends Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', },
-            body: JSON.stringify({ email: this.state.email, })
+            body: JSON.stringify({ email: this.state.email,
+                                   mode: 'fpwd'})
         };
 
         fetch('http://127.0.0.1:8000/account/gen_auth/', requestOptions)
               .then(response => response.json())
               .then((data) => {
-                    this.setState({ auth_server: data['auth_server'].toString() })
+                    this.setState({ auth_server: data['auth_server'].toString(),
+                                    auth_status: data['status']})
         })
         .catch(console.log)
 
@@ -82,6 +78,7 @@ class Register extends Component {
         return(
         <>
             { this.state.auth_success ? <>Verification Success</> : <this.authForm /> }
+            <br /> <br />
         </>
         )
     }
@@ -99,36 +96,19 @@ class Register extends Component {
 
                 </label> <br />
                 <input type="submit" value="Verify" />
-            </form> <br /> <br />
+            </form>
         </>
         )
     }
+
     regForm() {
         return (
         <>
             <form onSubmit={this.handleSubmitReg}>
                 <label>
-                    Username:
-                    <input type="text" value={this.state.username} onChange={(event) =>
-                                                                                {this.setState({ username: event.target.value })}} />
-                </label> <br />
-
-                <label>
                     Password:
                     <input type="text" value={this.state.password} onChange={(event) =>
                                                                                 {this.setState({ password: event.target.value })}} />
-                </label> <br />
-
-                <label>
-                    First Name:
-                    <input type="text" value={this.state.first_name} onChange={(event) =>
-                                                                                {this.setState({ first_name: event.target.value })}} />
-                </label> <br />
-
-                <label>
-                    Last Name:
-                    <input type="text" value={this.state.last_name} onChange={(event) =>
-                                                                                {this.setState({ last_name: event.target.value })}} />
                 </label> <br />
 
                 {/* More robust error handling here? (Keep disabled until all fields non-empty) */}
@@ -148,7 +128,12 @@ class Register extends Component {
                     E-Mail:
                     <input type="text" value={this.state.email} disabled={this.state.auth_success}
                                         onChange={(event) => {this.setState({ email: event.target.value })}} />
-        </label> <br />
+        </label>
+
+        { this.state.auth_status == 1 ? <> No user associated with this email </> : <></>}
+
+        <br />
+
         {this.state.auth_server ?
             <this.checkAuthCode /> :
             <this.requestAuthCode />}
@@ -160,4 +145,4 @@ class Register extends Component {
     }
   }
 
-  export default Register
+  export default ForgotPass

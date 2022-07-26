@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import LoggedInTester from './LoggedInTester';
+import LoggedInTester from '../buttons/LoggedInTester';
 
 
 class Login extends Component {

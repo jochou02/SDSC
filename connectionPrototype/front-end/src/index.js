@@ -10,10 +10,10 @@ import {
   Route,
 } from "react-router-dom";
 
-import App from './App';
-import Login from './Login';
-import Register from './Register';
-import Profile from './Profile';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import ForgotPass from './pages/ForgotPass';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,6 +22,7 @@ root.render(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="forgot_pass" element={<ForgotPass />} />
     </Routes>
   </BrowserRouter>
 );

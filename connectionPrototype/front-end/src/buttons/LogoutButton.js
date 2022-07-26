@@ -9,7 +9,7 @@ class LogoutButton extends Component {
 
 
     handleSubmit(event) {
-        localStorage.clear();
+        localStorage.removeItem('auth-token');
         window.location.href = 'http://localhost:3000/login';
         
         event.preventDefault();

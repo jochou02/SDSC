@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import LoggedInTester from './LoggedInTester';
+import LoggedInTester from '../buttons/LoggedInTester';
 
 
 class Profile extends Component {
@@ -44,6 +44,9 @@ class Profile extends Component {
               })
         })
         .catch(console.log)
+
+        // User should not be logged in account that's no longer exists
+        localStorage.removeItem('auth-token')
 
         event.preventDefault();
     }

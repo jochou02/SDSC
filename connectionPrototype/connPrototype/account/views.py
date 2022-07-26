@@ -67,12 +67,48 @@ class DeleteUserView(APIView):
 
 
 # Send a random code to the supplied email address.
+# Re-use for both forgot password and register account, by introducing
+# status code to differentiate use case.
 class GenEmailAuth(APIView):
     # No need for authentication here
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
+        temp = User.objects.filter(email=request_content['email'])
 
-        return Response({'auth_server': send_email(request_content['email'])})
+        if (request_content['mode'] == 'reg'):
+            if (temp):
+                return Response({'auth_server': '',
+                                 'status': 1})
+            else:
+                # Put this in a try block. Since we haven't registered, we don't know if email is lit
+                return Response({'auth_server': send_email(request_content['email']),
+                                 'status': 0})
+
+        elif (request_content['mode'] == 'fpwd'):
+            if (temp):
+                return Response({'auth_server': send_email(request_content['email']),
+                                 'status': 0})
+            else:
+                return Response({'auth_server': '',
+                                 'status': 1})
+
+
+class UpdatePassword(APIView):
+    def post(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
+        temp = User.objects.get(email=request_content['email'])
+
+        # No error handling is needed because we have already confirmed
+        # existence of this user in GenEmailAuth.
+
+        # Note here we need to use set_password, because we can't store
+        # password in plain text
+        temp.set_password(request_content['password'])
+        print(temp.password)
+        temp.save()
+
+        return Response({})
+
 
 
 # Use the snippet I had once we are on SDSC
