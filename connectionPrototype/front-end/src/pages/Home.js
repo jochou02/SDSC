@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { useLocation } from 'react-router-dom'
 
 import LoggedInTester from '../buttons/LoggedInTester';
-
 
 
 class Profile extends Component {
@@ -15,7 +13,6 @@ class Profile extends Component {
     }
 
 
-
     componentWillMount() {
         const headers = {"Content-Type": "application/json"};
 
@@ -23,7 +20,7 @@ class Profile extends Component {
             headers["Authorization"] = localStorage.getItem('auth-token');
         }
 
-        fetch('http://127.0.0.1:8000/account/get_user_info/', { headers, }) 
+        fetch('http://127.0.0.1:8000/account/get_user_info/', { headers, })
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
@@ -53,7 +50,7 @@ class Profile extends Component {
 
         event.preventDefault();
     }
-    
+
     ShowProfile = ({ foo }) => {
         return (
             <>
@@ -64,8 +61,9 @@ class Profile extends Component {
             </>
         );
     }
-    
+
     render() {
+        console.log(this.state.foo)
       return (
         <>
             <LoggedInTester />

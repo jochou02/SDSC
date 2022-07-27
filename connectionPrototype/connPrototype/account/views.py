@@ -28,7 +28,7 @@ class foo(APIView):
 class RegisterView(APIView):
     # No need for authentication here
 
-    # Create users in other apps e.g. ConnUser/TutorUser etc.
+    # Don't forget to create user for other app using the same id here.
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
         new_user = User.objects.create_user(request_content['username'],
@@ -39,8 +39,6 @@ class RegisterView(APIView):
         new_user.last_name = request_content['last_name']
 
         new_user.save()
-
-        print(new_user.first_name)
 
         return Response({})
 

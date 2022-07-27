@@ -5,7 +5,6 @@ from django.views import View
 from rest_framework.authentication import TokenAuthentication
 
 from .models import ConnUser
-from .models import User_info_form
 from .models import PendingMatching, FinalizedMatching
 
 from rest_framework.views import APIView
@@ -23,27 +22,14 @@ import random
 '''
 
 
-# Render the connection home page, or redirect to login.
-# Ignore, to be deleted
-def show_profile(request):
-    pending_matching = get_pending_matching(request)
-
-    if (request.user.is_authenticated):
-        cur_user = ConnUser.objects.get(pk=request.user.id)
-        return render(request, 'connection/user_profile.html', {'cur_user': cur_user,
-                                                                'matching_sent': pending_matching[0],
-                                                                'matching_received': pending_matching[1],
-                                                                'matching_finalized': get_finalized_matching(request)})
-    else:
-        return HttpResponseRedirect("account/login.html")
-
-
 '''
     GET: Fetches all Matching that has been sent out.
 '''
 class MatchingSentView(APIView):
-    def get(self, request, u_id):
-        matching_sent = (get_pending_matching(request, u_id))[0]
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        matching_sent = (get_pending_matching(request, request.user.id))[0]
 
         # In case only single is returned
         if not isinstance(matching_sent, list):
@@ -58,8 +44,8 @@ class MatchingSentView(APIView):
     GET: Fetches all Matching that has been received.
 '''
 class MatchingReceivedView(APIView):
-    def get(self, request, u_id):
-        matching_received = (get_pending_matching(request, u_id))[1]
+    def get(self, request):
+        matching_received = (get_pending_matching(request, request.user.id))[1]
 
         # In case only single is returned
         if not isinstance(matching_received, list):
@@ -78,10 +64,10 @@ class GenerateMatchingView(APIView):
     authentication_classes = [TokenAuthentication]
     # If front end makes a GET request to url associated to generate_match,
     # the func below executes
-    def get(self, request, u_id):
+    def get(self, request):
         # Make sure the match is not the user itself
         temp = generate_match()
-        while(temp.id == u_id):
+        while(temp.id == request.user.id):
             temp = generate_match()
 
         # Send the information about the match back to the front end
@@ -90,7 +76,7 @@ class GenerateMatchingView(APIView):
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
-    def post(self, request, u_id):
+    def post(self, request):
         print(request.user)
 
 
@@ -98,7 +84,7 @@ class GenerateMatchingView(APIView):
         request_content = json.loads(request.body.decode("utf-8"))
 
         # Create a new PendingMatching object, where the sender and receivers are as specified by our input
-        m = PendingMatching(id_sender=u_id,
+        m = PendingMatching(id_sender=request.user.id,
                             id_receiver=request_content['id_receiver'])
 
         # Insert the new PendingMatching object into database by calling .save()
@@ -107,6 +93,77 @@ class GenerateMatchingView(APIView):
         # Dummy response, will change to other things depending on what front end needs.
         serializer = ConnUserSerializer(ConnUser.objects.all()[0], many=False)
         return Response(serializer.data)
+
+
+'''
+    GET: Fetches all Matching that has been finalized.
+'''
+class MatchingFinalized(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
+        finalized_matching = []
+
+        temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
+
+        # our user is either user_1 or user_2, so we go through both lists
+        for i in temp:
+            finalized_matching.append(ConnUser.objects.get(pk=i.id_user_2))
+
+        temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
+        for i in temp:
+            finalized_matching.append(ConnUser.objects.get(pk=i.id_user_1))
+
+        serializer = FinalizedMatchingSerializer(finalized_matching, many=True)
+
+        return Response(serializer.data)
+
+
+
+'''
+    POST: Modify a pending matching by either:
+        1. Accepting it and pushing it to the finalized table (mode: 'y')
+        2. Denying it and marking it as denied (mode: 'n')
+        3. Pulling it back / removing it at the user's discretion e.g. already denied (mode: 'd')
+'''
+class ModifyPending():
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
+
+        # If yes, push the matching into finalized matching
+        # Only receiver could make this call, so request.user.id = id_receiver
+        if(request_content['mode'] == 'y'):
+            FinalizedMatching(id_user_1=request_content['id_sender'],
+                              id_user_2=request.user.id).save()
+
+            PendingMatching.objects.get(id_sender=request_content['id_sender'],
+                                        id_receiver=request.user.id).delete()
+
+        # If no, mark as denied. Only show to sender.
+        # Only receiver could make this call, so request.user.id = id_receiver
+        elif(request_content['mode'] == 'n'):
+            p = PendingMatching.objects.get(id_sender=request_content['id_sender'],
+                                            id_receiver=request.user.id)
+            p.isDenied = True
+            p.save()
+
+        # Should we allow people to pullback pending matching?
+        # Assuming we do, then this is visible to both sender and receiver
+        # So we need to determine what request.user.id is.
+        elif(request_content['mode'] == 'd'):
+            # Let front end supply only one id, and we can guess the other
+            if (request_content['id_sender']):
+                PendingMatching.objects.get(id_sender=request_content['id_sender'],
+                                            id_receiver=request.user.id).delete()
+            else:
+                PendingMatching.objects.get(id_sender=request.user.id,
+                                            id_receiver=request_content['id_receiver']).delete()
+
+        return Response({})
+
 
 
 # Placeholder before we have a real matching algo
@@ -162,42 +219,3 @@ def get_pending_matching(request, u_id):
 
     return matching_sent, matching_received
 
-
-# Helper function that retrieves user's all completed matching
-def get_finalized_matching(request):
-    finalized_matching = []
-    temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
-    for i in temp:
-        finalized_matching.append(ConnUser.objects.get(pk=i.id_user_2))
-
-    temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
-    for i in temp:
-        finalized_matching.append(ConnUser.objects.get(pk=i.id_user_1))
-
-    return finalized_matching
-
-
-# TODO: Get this stuff working
-def get_info(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = User_info_form(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            data = form.cleaned_data
-
-            print(request.user.id)
-            for i in data.keys():
-                print(data[i])
-
-            return HttpResponse("Success")
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = User_info_form()
-
-    return render(request, 'connection/get_info.html', {'form': form})

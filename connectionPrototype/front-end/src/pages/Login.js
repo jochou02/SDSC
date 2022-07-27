@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester';
 
@@ -42,8 +43,9 @@ class Login extends Component {
     foo() {
         if (this.state.token) {
             localStorage.setItem('auth-token', 'Token ' + this.state.token );
+
             //route
-            window.location.href = 'http://localhost:3000/profile';
+            //window.location.href = 'http://localhost:3000/profile';
         } else {
             this.setState({ failed: true })
         }
@@ -72,6 +74,10 @@ class Login extends Component {
         </label>  
           <input type="submit" value="Submit" />
         </form>
+
+        <Link to="profile" state={{ from: "occupation" }}>
+          Next Step
+        </Link>
 
         </>
       );

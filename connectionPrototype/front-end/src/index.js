@@ -15,10 +15,13 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ForgotPass from './pages/ForgotPass';
 
+import Home from './pages/Home';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
+      <Route path="" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="profile" element={<Profile />} />
