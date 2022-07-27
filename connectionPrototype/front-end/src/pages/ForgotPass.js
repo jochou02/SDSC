@@ -43,6 +43,22 @@ import LoggedInTester from '../buttons/LoggedInTester';
 class ForgotPass extends Component {
     constructor(props) {
       super(props);
+      /*
+                     email: User's input in the email box
+
+                     auth_server: Auth code from server, keep this as empty string until
+                                  server confirms the email
+
+                     auth_user: User's input in the box for auth code
+
+                     auth_status: Whether the request for auth code is successful
+                                  (0 is success, 1 is fail)
+
+                     auth_success: Whether the user has successfully authenticated against
+                                   the code from server. Lock email box upon success so
+                                   the user couldn't swap the email after auth and change
+                                   someone else's password.
+      */
       this.state = { email: '',
                      auth_server: '',
                      auth_user: '',
@@ -50,6 +66,7 @@ class ForgotPass extends Component {
                      auth_success: false,
                     };
 
+      // this binding for functions
       this.handleSubmitReg = this.handleSubmitReg.bind(this);
       this.handleSubmitAuth = this.handleSubmitAuth.bind(this);
 
@@ -60,11 +77,15 @@ class ForgotPass extends Component {
       this.authForm = this.authForm.bind(this);
     }
 
-
+    /*
+        Makes a POST request to UpdatePassword API. Unless we introduce some restriction on password,
+        there's no way this function / API call can fail, so we just re-direct user to login page.
+    */
     handleSubmitReg(event) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', },
+            // Note the body here contains user's email and new password
             body: JSON.stringify({ password: this.state.password,
                                    email: this.state.email,
                                    })
@@ -74,6 +95,8 @@ class ForgotPass extends Component {
               .then(response => response.json())
               .then((data) => {
                 this.setState({}, () => {
+                    // This setState({?} (?) => {???}) thing seems to be a trick to wait till fetch is finished
+                    // before executing the arrow function? I'm not sure but it works.
                     window.location.href = 'http://localhost:3000/login';
               })
         })
@@ -82,6 +105,10 @@ class ForgotPass extends Component {
         event.preventDefault();
     }
 
+    /*
+        Makes a POST request to GenEmailAuth API, and stores the response (server-generated auth code, and status code)
+        in auth_server and auth_status.
+    */
     handleSubmitAuth(event) {
 //        console.log("Yay");
         const requestOptions = {
@@ -102,9 +129,14 @@ class ForgotPass extends Component {
         event.preventDefault();
     }
 
+    /*
+        Shows the button for requesting an auth code. If email is not associated with any account, show err msg here.
+    */
     requestAuthCode() {
         return(
         <>
+            { this.state.auth_status == 1 ? <> No user associated with this email </> : <></>}
+            <br />
             <form onSubmit = {this.handleSubmitAuth}>
                 <input type="submit" value="Send Code" />
             </form> <br /> <br />
@@ -112,6 +144,11 @@ class ForgotPass extends Component {
         )
     }
 
+    /*
+        If auth_success is True, meaning the user has successfully authenticated against the server-generated code,
+        then display "Verification Success". Otherwise, render the authForm, which would ask user to enter
+        the auth code they received.
+    */
     checkAuthCode() {
         return(
         <>
@@ -121,6 +158,10 @@ class ForgotPass extends Component {
         )
     }
 
+    /*
+        Renders a textbox that records user's input for auth code, and a button which sets auth_success to True if
+        the code user inputs matches the one from the server, or False otherwise.
+    */
     authForm() {
         return(
         <>
@@ -139,6 +180,11 @@ class ForgotPass extends Component {
         )
     }
 
+    /*
+        Renders a textbox that records user's input for password, and a box for submitting that.
+
+        Note that the submit button is disabled until auth_success becomes True.
+    */
     regForm() {
         return (
         <>
@@ -159,19 +205,25 @@ class ForgotPass extends Component {
     render() {
       return (
         <>
-
+        {/* Shows Login status / link to login/out */}
         <LoggedInTester />
 
         <label>
+                    {/* Textbox for email. Note we disable this box upon auth success*/}
                     E-Mail:
                     <input type="text" value={this.state.email} disabled={this.state.auth_success}
                                         onChange={(event) => {this.setState({ email: event.target.value })}} />
         </label>
 
-        { this.state.auth_status == 1 ? <> No user associated with this email </> : <></>}
+        {/* */}
+
 
         <br />
 
+        {/*
+            If server has sent a non-empty code, show interface for verifying that code.
+            Otherwise, show interface for sending a code
+         */}
         {this.state.auth_server ?
             <this.checkAuthCode /> :
             <this.requestAuthCode />}
