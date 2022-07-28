@@ -23,7 +23,7 @@ class Profile extends Component {
 
             <GenerateMatching />
             <MatchingReceived />
-            <MatchingFinished />
+
 
         </>
       );

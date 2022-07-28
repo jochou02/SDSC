@@ -15,7 +15,6 @@ class Login extends Component {
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     handleSubmit(event) {
         const requestOptions = {
             method: 'POST',
@@ -26,7 +25,7 @@ class Login extends Component {
 
         this.setState({ username: '' ,
                         password: ''})
-    
+
         fetch('http://127.0.0.1:8000/account/token_auth/', requestOptions)
               .then(response => response.json())
               .then((data) => {
