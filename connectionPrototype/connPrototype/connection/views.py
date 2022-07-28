@@ -1,6 +1,7 @@
 import string
 
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
@@ -16,7 +17,7 @@ from rest_framework.response import Response
 import json
 
 from .serializers import *
-
+from . import helpers
 from .LISTS import *
 
 # Placeholder before we have a real matching algo
@@ -26,64 +27,72 @@ import random
     Tons of room for optimization, but will do for now.
 '''
 
-
 '''
     GET: Fetches all Matching that has been sent out.
 '''
+
+
 class MatchingSentView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        matching_sent = (get_pending_matching(request, request.user.id))[0]
+        matching_sent = (get_pending_matching(request))[0]
 
         # In case only single is returned
         if not isinstance(matching_sent, list):
             matching_sent = [matching_sent]
 
-        serializer = ConnUserSerializer(matching_sent, many=True)
+        toReturn = []
+        for i in matching_sent:
+            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
 
-        return Response(serializer.data)
+        return Response(toReturn)
 
 
 '''
     GET: Fetches all Matching that has been received.
 '''
+
+
 class MatchingReceivedView(APIView):
+    authentication_classes = [TokenAuthentication]
+
     def get(self, request):
-        matching_received = (get_pending_matching(request, request.user.id))[1]
+        matching_received = (get_pending_matching(request))[1]
 
         # In case only single is returned
         if not isinstance(matching_received, list):
             matching_received = [matching_received]
 
-        serializer = ConnUserSerializer(matching_received, many=True)
+        toReturn = []
+        for i in matching_received:
+            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
 
-        return Response(serializer.data)
+        return Response(toReturn)
 
 
 '''
     GET: Fetches all Matching that has been sent out.
     POST: Sends out a request for the matching generated
 '''
+
+
 class GenerateMatchingView(APIView):
     authentication_classes = [TokenAuthentication]
+
     # If front end makes a GET request to url associated to generate_match,
     # the func below executes
     def get(self, request):
         # Make sure the match is not the user itself
-        temp = generate_match()
-        while(temp.id == request.user.id):
-            temp = generate_match()
+        temp = generate_match(request)
 
         # Send the information about the match back to the front end
-        serializer = ConnUserSerializer(temp, many = False)
-        return Response(serializer.data)
+        return Response(helpers.conn_wrapper(User.objects.get(pk=temp.id), temp))
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
     def post(self, request):
         print(request.user)
-
 
         # Extract
         request_content = json.loads(request.body.decode("utf-8"))
@@ -95,19 +104,18 @@ class GenerateMatchingView(APIView):
         # Insert the new PendingMatching object into database by calling .save()
         m.save()
 
-        # Dummy response, will change to other things depending on what front end needs.
-        serializer = ConnUserSerializer(ConnUser.objects.all()[0], many=False)
-        return Response(serializer.data)
+        return Response({})
 
 
 '''
     GET: Fetches all Matching that has been finalized.
 '''
+
+
 class MatchingFinalized(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
         finalized_matching = []
 
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
@@ -120,10 +128,11 @@ class MatchingFinalized(APIView):
         for i in temp:
             finalized_matching.append(ConnUser.objects.get(pk=i.id_user_1))
 
-        serializer = FinalizedMatchingSerializer(finalized_matching, many=True)
+        toReturn = []
+        for i in finalized_matching:
+            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
 
-        return Response(serializer.data)
-
+        return Response(toReturn)
 
 
 '''
@@ -132,6 +141,8 @@ class MatchingFinalized(APIView):
         2. Denying it and marking it as denied (mode: 'n')
         3. Pulling it back / removing it at the user's discretion e.g. already denied (mode: 'd')
 '''
+
+
 class ModifyPending(APIView):
     authentication_classes = [TokenAuthentication]
 
@@ -140,7 +151,7 @@ class ModifyPending(APIView):
 
         # If yes, push the matching into finalized matching
         # Only receiver could make this call, so request.user.id = id_receiver
-        if(request_content['mode'] == 'y'):
+        if (request_content['mode'] == 'y'):
             FinalizedMatching(id_user_1=request_content['id_sender'],
                               id_user_2=request.user.id).save()
 
@@ -149,7 +160,7 @@ class ModifyPending(APIView):
 
         # If no, mark as denied. Only show to sender.
         # Only receiver could make this call, so request.user.id = id_receiver
-        elif(request_content['mode'] == 'n'):
+        elif (request_content['mode'] == 'n'):
             p = PendingMatching.objects.get(id_sender=request_content['id_sender'],
                                             id_receiver=request.user.id)
             p.isDenied = True
@@ -158,7 +169,7 @@ class ModifyPending(APIView):
         # Should we allow people to pullback pending matching?
         # Assuming we do, then this is visible to both sender and receiver
         # So we need to determine what request.user.id is.
-        elif(request_content['mode'] == 'd'):
+        elif (request_content['mode'] == 'd'):
             # Let front end supply only one id, and we can guess the other
             if (request_content['id_sender']):
                 PendingMatching.objects.get(id_sender=request_content['id_sender'],
@@ -170,54 +181,49 @@ class ModifyPending(APIView):
         return Response({})
 
 
+'''
+    GET: Fetches the information of the user who is currently logged in
+'''
+
+
+class GetInfo(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        if (request.user.is_authenticated):
+            return Response(helpers.conn_wrapper(request.user, ConnUser(pk=request.user.id)))
+        else:
+            return Response({})
+
 
 # Placeholder before we have a real matching algo
 # TODO: Conditions for matching
-def generate_match():
-    tot_users = ConnUser.objects.all().count()
-    matched_user_pos = random.randint(0, tot_users - 1)
+def generate_match(request):
+    pending_matching = get_pending_matching_id(request)
+    print(pending_matching)
 
-    return (ConnUser.objects.all()[matched_user_pos: matched_user_pos + 1])[0]
+    tot_users = ConnUser.objects.exclude(pk__in=pending_matching)
 
+    for i in tot_users:
+        print(i.id)
 
-### Ignore everything below
+    matched_user = random.choice(tot_users)
+    while (matched_user.id == request.user.id):
+        matched_user = random.choice(tot_users)
 
-
-# Send out a matching to another user. Ensures no duplications
-def insert_pending_matching(request):
-    # So no duplicates are added when user refreshes after sending a match request
-    if (not PendingMatching.objects.filter(id_sender=request.user.id,
-                                            id_receiver=request.POST['request_match'])):
-        m = PendingMatching(id_sender=request.user.id,
-                             id_receiver=request.POST['request_match'])
-
-        m.save()
+    return matched_user
 
 
-# Pushes a pending matching into the finalized matching table.
-# Since there are no duplications in pending matching, there
-# would be no duplications in the finalized matching.
+# Helper functions
 
-# TODO: Delete from pending matching upon acceptation
-def insert_finalized_matching(request):
-    user_1_id = request.user.id
-
-    for i in request.POST.getlist('match_id'):
-        m = FinalizedMatching(id_user_1=user_1_id,
-                               id_user_2=int(i))
-
-        m.save()
-
-
-# Helper function that retrieves all pending matches
 # returns tuple of the form (matching_sent, matching_received)
-def get_pending_matching(request, u_id):
-    matching_sent_id = PendingMatching.objects.filter(id_sender=u_id)
+def get_pending_matching(request):
+    matching_sent_id = PendingMatching.objects.filter(id_sender=request.user.id)
     matching_sent = []
     for i in matching_sent_id:
         matching_sent.append(ConnUser.objects.get(pk=i.id_receiver))
 
-    matching_received_id = PendingMatching.objects.filter(id_receiver=u_id)
+    matching_received_id = PendingMatching.objects.filter(id_receiver=request.user.id)
     matching_received = []
     for i in matching_received_id:
         matching_received.append(ConnUser.objects.get(pk=i.id_sender))
@@ -225,6 +231,17 @@ def get_pending_matching(request, u_id):
     return matching_sent, matching_received
 
 
+# returns id of all pending matching a user has
+def get_pending_matching_id(request):
+    temp = []
+
+    for i in PendingMatching.objects.filter(id_sender=request.user.id):
+        temp.append(i.id_receiver)
+
+    for i in PendingMatching.objects.filter(id_receiver=request.user.id):
+        temp.append(i.id_sender)
+
+    return temp
 
 '''
     Helper that generates either:
@@ -234,6 +251,8 @@ def get_pending_matching(request, u_id):
     
     For testing purposes before their respective UIs are up online.
 '''
+
+
 def generate_props(request):
     #   Courses
 
@@ -270,25 +289,25 @@ def generate_props(request):
 
     #   ConnUser (u_id 13 - 38)
 
-    c = list(Course.objects.all())
-
-    for i in range(13, 39):
-        temp = ConnUser(id = i)
-        temp.user_major = random.choice(MAJOR_LIST)[0]
-        temp.user_college = random.choice(COLLEGE_LIST)[0]
-
-        interests = random.choices(INTEREST_LIST, k=3)
-
-        temp.user_interest1 = interests[0][0]
-        temp.user_interest2 = interests[1][0]
-        temp.user_interest3 = interests[2][0]
-
-        temp.save()
-
-        courses = random.choices(c, k=3)
-        for j in courses:
-            temp.user_courses.add(j)
-
-        temp.save()
+    # c = list(Course.objects.all())
+    #
+    # for i in range(13, 39):
+    #     temp = ConnUser(id = i)
+    #     temp.user_major = random.choice(MAJOR_LIST)[0]
+    #     temp.user_college = random.choice(COLLEGE_LIST)[0]
+    #
+    #     interests = random.choices(INTEREST_LIST, k=3)
+    #
+    #     temp.user_interest1 = interests[0][0]
+    #     temp.user_interest2 = interests[1][0]
+    #     temp.user_interest3 = interests[2][0]
+    #
+    #     temp.save()
+    #
+    #     courses = random.choices(c, k=3)
+    #     for j in courses:
+    #         temp.user_courses.add(j)
+    #
+    #     temp.save()
 
     return HttpResponse("Done")

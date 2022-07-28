@@ -29,12 +29,6 @@ class ConnUser(models.Model):
 
     user_courses = models.ManyToManyField(Course)
 
-    def __str__(self):
-        to_return = "Name: " + str(self.user_fname) + \
-                    " " + str(self.user_lname)
-
-        return to_return
-
 
 # Stores pending matchings. Once a matching is approved, move to All_matching
 class PendingMatching(models.Model):

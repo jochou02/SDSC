@@ -25,12 +25,13 @@ try:
 
     print("1. Show all tables")
     print("2. Dump a table")
+    print("3. Clear a table")
 
-    print("3. Quit")
+    print("4. Quit")
 
     opt = input("Enter number without dot: ")
 
-    while(opt != "3"):
+    while(opt != "4"):
         if (opt == "1"):
             cur.execute("SHOW TABLES")
             for i in cur:
@@ -41,6 +42,11 @@ try:
             cur.execute(f"SELECT * FROM {temp}")
             for i in cur:
                 print(i)
+
+        elif (opt == "3"):
+            temp = input("Which table would you like to clear:")
+            cur.execute(f"DELETE FROM {temp}")
+            conn.commit()
 
         opt = input("Enter number without dot: ")
 

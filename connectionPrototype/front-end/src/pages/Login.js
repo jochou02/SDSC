@@ -45,7 +45,7 @@ class Login extends Component {
             localStorage.setItem('auth-token', 'Token ' + this.state.token );
 
             //route
-            //window.location.href = 'http://localhost:3000/profile';
+            window.location.href = 'http://localhost:3000/';
         } else {
             this.setState({ failed: true })
         }
@@ -75,8 +75,9 @@ class Login extends Component {
           <input type="submit" value="Submit" />
         </form>
 
+
         <Link to="profile" state={{ from: "occupation" }}>
-          Next Step
+          Test pass variable between pages.
         </Link>
 
         </>

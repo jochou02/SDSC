@@ -23,7 +23,7 @@ class Profile extends Component {
             headers["Authorization"] = localStorage.getItem('auth-token');
         }
 
-        fetch('http://127.0.0.1:8000/account/get_user_info/', { headers, }) 
+        fetch('http://127.0.0.1:8000/connect/get_info/', { headers, })
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
@@ -58,9 +58,9 @@ class Profile extends Component {
         return (
             <>
                 ID: {foo['id']} <br />
-                Username: {foo['username']} <br />
                 Name: {foo['first_name']} {foo['last_name']} <br />
-                E-Mail: {foo['email']}
+                E-Mail: {foo['email']} <br />
+                College: {foo['user_college']}
             </>
         );
     }
