@@ -47,7 +47,7 @@ class MatchingReceived extends Component {
                 fetch('http://127.0.0.1:8000/connect/modify_pending/', requestOptions)
                       .then(response => response.json())
                       .then((data) => {
-                            this.setState({})
+                            this.setState({}, () => {this.foo()})
                 })
                 .catch(console.log)
     }
@@ -65,7 +65,7 @@ class MatchingReceived extends Component {
                 fetch('http://127.0.0.1:8000/connect/modify_pending/', requestOptions)
                       .then(response => response.json())
                       .then((data) => {
-                            this.setState({})
+                            this.setState({}, () => {this.foo()})
                 })
                 .catch(console.log)
     }
@@ -83,12 +83,28 @@ class MatchingReceived extends Component {
             fetch('http://127.0.0.1:8000/connect/modify_pending/', requestOptions)
                   .then(response => response.json())
                   .then((data) => {
-                        this.setState({})
+                        this.setState({}, () => {this.foo()})
             })
             .catch(console.log)
     }
 
-    foo() {;}
+    foo(target) {
+
+        const headers = {"Content-Type": "application/json"};
+
+        if (localStorage.getItem('auth-token')) {
+            headers["Authorization"] = localStorage.getItem('auth-token');
+        }
+
+        fetch('http://127.0.0.1:8000/connect/match_received/', {headers, })
+        .then(res => res.json())
+        .then((data) => {
+            this.setState({ matching_received: data })
+        })
+
+        .catch(console.log)
+
+    }
 
     ShowReceived = ({ received }) => {
         return (
@@ -105,12 +121,14 @@ class MatchingReceived extends Component {
                                 Accept
                         </button>
 
+                        {/*
                         <button onClick={() => this.handleRequestDeny(match)}>
                                 Deny
                         </button>
+                        */}
 
                         <button onClick={() => this.handleRequestDelete(match)}>
-                                Cancel Request
+                                Deny
                         </button>
 
                         <hr />

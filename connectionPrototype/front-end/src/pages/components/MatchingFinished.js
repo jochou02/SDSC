@@ -5,8 +5,6 @@ class MatchingReceived extends Component {
             super(props);
 
             this.ShowFinalized = this.ShowFinalized.bind(this);
-
-            this.foo = this.foo.bind(this);
     }
 
 
@@ -29,8 +27,6 @@ class MatchingReceived extends Component {
 
         .catch(console.log)
     }
-
-    foo() {;}
 
     ShowFinalized = ({ finalized }) => {
         return (
