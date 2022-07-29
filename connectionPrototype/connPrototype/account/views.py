@@ -9,6 +9,9 @@ from rest_framework.authentication import TokenAuthentication
 
 from .serializers import *
 
+import smtplib
+from email.message import EmailMessage
+
 '''
     Test things out 
 '''
@@ -117,4 +120,21 @@ def send_email(email):
     # See snippet on github about sending email
     # Use that once we are on SDSC cloud. For now, just return a number
 
+    content_template = f"Your verification code is: {str(secrets.token_hex(3))}"
+
+    # Create a text/plain message
+    msg = EmailMessage()
+
+    msg.set_content(content_template)
+    mgs['Subject'] = "UC Socially Undead - Verification Code"
+
+    # Only enter the part before @. e.g. jis029, not jis029@ucsd.edu
+    mgs['From'] = "admin"
+    msg['To'] = "kfrd2022@gmail.com"
+
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+
     return secrets.token_hex(3)
+

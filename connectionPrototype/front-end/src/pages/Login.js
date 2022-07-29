@@ -75,8 +75,8 @@ class Login extends Component {
         </form>
 
 
-        <Link to="profile" state={{ from: "occupation" }}>
-          Test pass variable between pages.
+        <Link to="../forgot_pass">
+          Forgot Password
         </Link>
 
         </>
