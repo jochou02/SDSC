@@ -120,7 +120,8 @@ def send_email(email):
     # See snippet on github about sending email
     # Use that once we are on SDSC cloud. For now, just return a number
 
-    content_template = f"Your verification code is: {str(secrets.token_hex(3))}"
+    temp = str(secrets.token_hex(3))
+    content_template = f"Your verification code is: {temp}"
 
     # Create a text/plain message
     msg = EmailMessage()
@@ -136,5 +137,5 @@ def send_email(email):
     s.send_message(msg)
     s.quit()
 
-    return secrets.token_hex(3)
+    return temp
 
