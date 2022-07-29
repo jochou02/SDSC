@@ -126,10 +126,10 @@ def send_email(email):
     msg = EmailMessage()
 
     msg.set_content(content_template)
-    mgs['Subject'] = "UC Socially Undead - Verification Code"
+    msg['Subject'] = "UC Socially Undead - Verification Code"
 
     # Only enter the part before @. e.g. jis029, not jis029@ucsd.edu
-    mgs['From'] = "admin"
+    msg['From'] = "admin"
     msg['To'] = "kfrd2022@gmail.com"
 
     s = smtplib.SMTP('localhost')
