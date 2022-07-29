@@ -119,7 +119,12 @@ class GenerateMatching extends Component {
                     <ul>
                     
                         <li>Name : {match.first_name} {match.last_name}</li>
-                        <div>College: {match.user_college} Major: {match.user_major}</div>
+                        <div>
+                            College: {match.user_college} Major: {match.user_major}
+                            &emsp;&emsp;&emsp; {match.isDenied ? <> Denied </> : <> Pending </>}
+                        </div>
+
+
 
                         <button onClick={() => this.handleRequestDelete(match)}>
                             Cancel Request
@@ -183,7 +188,7 @@ class GenerateMatching extends Component {
             </button>
             <this.ShowSent sent={this.state.matching_sent} />
 
-            <hr />
+            <br />
             </>
         )
     }

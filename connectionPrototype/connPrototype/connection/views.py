@@ -31,20 +31,23 @@ import random
     GET: Fetches all Matching that has been sent out.
 '''
 
-
+import time
 class MatchingSentView(APIView):
+
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        matching_sent = (get_pending_matching(request))[0]
-
-        # In case only single is returned
-        if not isinstance(matching_sent, list):
-            matching_sent = [matching_sent]
+        start_time = time.time()
+        matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
         for i in matching_sent:
-            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
+            temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), ConnUser.objects.get(pk=i.id_receiver))
+            temp.update({'isDenied': i.isDenied})
+
+            toReturn.append(temp)
+
+        print("--- %s seconds ---" % (time.time() - start_time))
 
         return Response(toReturn)
 
@@ -58,15 +61,14 @@ class MatchingReceivedView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        matching_received = (get_pending_matching(request))[1]
-
-        # In case only single is returned
-        if not isinstance(matching_received, list):
-            matching_received = [matching_received]
+        matching_sent = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
         toReturn = []
-        for i in matching_received:
-            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
+        for i in matching_sent:
+            temp = helpers.conn_wrapper(User.objects.get(pk=i.id_sender), ConnUser.objects.get(pk=i.id_sender))
+            temp.update({'isDenied': i.isDenied})
+
+            toReturn.append(temp)
 
         return Response(toReturn)
 

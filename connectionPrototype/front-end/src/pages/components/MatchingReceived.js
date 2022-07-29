@@ -117,29 +117,24 @@ class MatchingReceived extends Component {
             <div className="col">
             <h1>Matchings Received</h1>
                 {received.map(match => <>
-                    <ul>
+                    {match.isDenied ? <></> : <>
+                        <ul>
 
-                        <li>{match.first_name} {match.last_name}</li>
-                        <div>{match.user_college}</div>
+                            <li>{match.first_name} {match.last_name}</li>
+                            <div>{match.user_college}</div>
 
-                        <button onClick={() => this.handleRequestAccept(match)}>
-                                Accept
-                        </button>
+                            <button onClick={() => this.handleRequestAccept(match)}>
+                                    Accept
+                            </button>
 
-                        {/*
-                        <button onClick={() => this.handleRequestDeny(match)}>
-                                Deny
-                        </button>
-                        */}
+                            <button onClick={() => this.handleRequestDeny(match)}>
+                                    Deny
+                            </button>
 
-                        <button onClick={() => this.handleRequestDelete(match)}>
-                                Deny
-                        </button>
+                            <hr />
 
-                        <hr />
-
-
-                     </ul>
+                        </ul>
+                    </>}
                     </>
                 )}
             </div>
