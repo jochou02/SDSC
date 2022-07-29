@@ -193,7 +193,7 @@ class GetInfo(APIView):
 
     def get(self, request):
         if (request.user.is_authenticated):
-            return Response(helpers.conn_wrapper(request.user, ConnUser(pk=request.user.id)))
+            return Response(helpers.conn_wrapper(request.user, ConnUser.objects.get(pk=request.user.id)))
         else:
             return Response({})
 
