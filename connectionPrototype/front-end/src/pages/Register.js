@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import LoggedInTester from '../buttons/LoggedInTester';
+import '../styles/Register.css';
 
 
 class Register extends Component {
@@ -75,7 +76,9 @@ class Register extends Component {
         return(
         <>
             <form onSubmit = {this.handleSubmitAuth}>
-                <input type="submit" value="Send Code" />
+                <input type="submit" value="Send Code" 
+                className="button"
+                style={{marginTop: 20}}/>
             </form> <br /> <br />
         </>
         )
@@ -91,54 +94,84 @@ class Register extends Component {
     }
 
     authForm() {
-        return(
-        <>
-            <>A Code Has Been Sent</>
-            <form onSubmit = {(event) => { this.setState({ auth_success: (this.state.auth_user === this.state.auth_server) }); event.preventDefault();}}>
-                <label>
-
-                    Enter Your Verification Code Here:
-                    <input type="text" value={this.state.auth_user} onChange={(event) =>
-                                                                                {this.setState({ auth_user: event.target.value })}} />
-
-                </label> <br />
-                <input type="submit" value="Verify" />
-            </form>
-        </>
-        )
+      return(<>
+        <>A Code Has Been Sent</>
+        <form 
+        onSubmit = {(event) => { 
+          this.setState({ 
+            auth_success: (this.state.auth_user === this.state.auth_server) });
+          event.preventDefault();
+        }}>
+        <label>
+          Enter Your Verification Code Here:
+          <input 
+            type="text" 
+            value={this.state.auth_user} 
+            onChange={(event) => {
+              this.setState({ 
+                auth_user: event.target.value })
+              }} />
+        </label> <br />
+        <input type="submit" value="Verify" />
+        </form>
+      </>)
     }
 
     regForm() {
         return (
         <>
-            <form onSubmit={this.handleSubmitReg}>
-                <label>
-                    Username:
-                    <input type="text" value={this.state.username} onChange={(event) =>
-                                                                                {this.setState({ username: event.target.value })}} />
-                </label> <br />
+          <div className="wrapper">
+          <p className="form-title">Register</p>
+          <form onSubmit={this.handleSubmitReg} className="form-wrapper">       
+            <input 
+              type="text" 
+              value={this.state.username}
+              placeholder="Username" 
+              className="field"
+              onChange={(event) => {
+                this.setState({ username: event.target.value })
+              }}
+            /> <br />
 
-                <label>
-                    Password:
-                    <input type="text" value={this.state.password} onChange={(event) =>
-                                                                                {this.setState({ password: event.target.value })}} />
-                </label> <br />
+            <input 
+              type="text" 
+              value={this.state.password}
+              placeholder="Password"
+              className="field"
+              onChange={(event) => {
+                this.setState({ password: event.target.value })
+              }} 
+            /> <br />
 
-                <label>
-                    First Name:
-                    <input type="text" value={this.state.first_name} onChange={(event) =>
-                                                                                {this.setState({ first_name: event.target.value })}} />
-                </label> <br />
+            <input 
+              type="text" 
+              value={this.state.first_name} 
+              placeholder="First Name"
+              className="field"
+              onChange={(event) => {
+                this.setState({ first_name: event.target.value })
+              }} 
+            /> <br />
 
-                <label>
-                    Last Name:
-                    <input type="text" value={this.state.last_name} onChange={(event) =>
-                                                                                {this.setState({ last_name: event.target.value })}} />
-                </label> <br />
+            <input 
+              type="text" 
+              value={this.state.last_name} 
+              placeholder="Last Name"
+              className="field"
+              onChange={(event) => {
+                this.setState({ last_name: event.target.value })
+              }} 
+            /> <br />
 
-                {/* More robust error handling here? (Keep disabled until all fields non-empty) */}
-                <input type="submit" value="Submit" disabled= {!this.state.auth_success} />
-            </form>
+            {/* More robust error handling here? (Keep disabled until all fields non-empty) */}
+            <input 
+              type="submit" 
+              value="Submit" 
+              disabled= {!this.state.auth_success}
+              className="button"
+            />
+          </form>
+          </div>
         </>
         )
     }
@@ -149,23 +182,67 @@ class Register extends Component {
 
         <LoggedInTester />
 
-        <label>
-                    E-Mail:
-                    <input type="text" value={this.state.email} disabled={this.state.auth_success}
-                                        onChange={(event) => {this.setState({ email: event.target.value })}} />
-        </label>
+        <div className="email-wrapper">
+        <input 
+          className="field" 
+          type="text" 
+          value={this.state.email} 
+          disabled={this.state.auth_success}
+          placeholder="Email"
+          style={{ marginTop: 20 }}
 
-        { this.state.auth_status == 1 ? <> Email already exist </> : <></>}
+          onChange={(event) => { 
+            this.setState({ email: event.target.value }) 
+            //Border color will change as user types
+            checkEmail(event)
+          }}
 
-        <br />
-        {this.state.auth_server ?
-            <this.checkAuthCode /> :
-            <this.requestAuthCode />}
+          onFocus={(event) => {
+            checkEmail(event)
+          }}
+
+          onBlur={(event) => {
+            //If email is invalid, keep red border
+            //Else, reset to default border
+            if(!checkEmail(event)) {
+              checkEmail(event)
+            } else {
+              event.target.className = "email";
+            }
+          }}
+        />
+
+        { this.state.auth_status === 1 ? <p className="message">Email already exists</p> : <></>}
+
+        {this.state.auth_server ? <this.checkAuthCode /> : <this.requestAuthCode />}
+        </div>
 
         <this.regForm />
 
         </>
       );
+    }
+  }
+
+  const checkEmail = (event) => {
+    const email = event.target.value;
+    //Regular expression to check if email ends in ucsd.edu
+    let regExp =  /^[a-z]+@+ucsd.edu$/;
+    if(email.match(regExp)) {
+      event.target.className = "email-success";
+        //alert('email valid');
+        return true;
+    } else {
+        //If field is empty, reset to default grey border
+        if(email === "") {
+            event.target.className = "email";
+            //alert('email empty');
+            return true;
+        }
+        //If input is invalid
+        event.target.className = "email-error";
+        //alert('email invalid');
+        return false;
     }
   }
 

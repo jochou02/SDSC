@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line
+import { Link } from 'react-router-dom';
 
 import LogoutButton from './LogoutButton';
 import LoginButton from './LoginButton';
 
 
 class LoggedInTester extends Component {
+// eslint-disable-next-line
     constructor(props) {
       super(props);
     }
@@ -14,12 +17,15 @@ class LoggedInTester extends Component {
         <>
 
         { localStorage.getItem('auth-token') ? 
-        <><div> Logged In </div> <LogoutButton /></> : 
-        <><div> Not Logged In </div> <LoginButton /> </>}
-
-        <br /><br /><br />
-
-        </>
+        <><div>
+          Logged In
+          <LogoutButton/>
+        </div></> : 
+        <><div>
+          Not Logged In
+          <LoginButton/>
+          </div></>
+        }</>
       );
     }
   }
