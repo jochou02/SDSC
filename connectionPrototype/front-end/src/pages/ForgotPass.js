@@ -135,7 +135,7 @@ class ForgotPass extends Component {
     requestAuthCode() {
         return(
         <>
-            { this.state.auth_status == 1 ? <> No user associated with this email </> : <></>}
+            { this.state.auth_status === 1 ? <> No user associated with this email </> : <></>}
             <br />
             <form onSubmit = {this.handleSubmitAuth}>
                 <input type="submit" value="Send Code" />

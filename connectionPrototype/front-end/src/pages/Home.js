@@ -5,7 +5,7 @@ import LoggedInTester from '../buttons/LoggedInTester';
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
 
-import Profile from './Profile'
+/* import Profile from './Profile' */
 
 /*
     GenerateMatching takes care of generating a matching, as well as displaying
