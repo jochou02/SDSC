@@ -121,21 +121,21 @@ def send_email(email):
     # Use that once we are on SDSC cloud. For now, just return a number
 
     temp = str(secrets.token_hex(3))
-    content_template = f"Your verification code is: {temp}"
+#     content_template = f"Your verification code is: {temp}"
 
-    # Create a text/plain message
-    msg = EmailMessage()
+#     # Create a text/plain message
+#     msg = EmailMessage()
 
-    msg.set_content(content_template)
-    msg['Subject'] = "UC Socially Undead - Verification Code"
+#     msg.set_content(content_template)
+#     msg['Subject'] = "UC Socially Undead - Verification Code"
 
-    # Only enter the part before @. e.g. jis029, not jis029@ucsd.edu
-    msg['From'] = "admin"
-    msg['To'] = "kfrd2022@gmail.com"
+#     # Only enter the part before @. e.g. jis029, not jis029@ucsd.edu
+#     msg['From'] = "admin"
+#     msg['To'] = "kfrd2022@gmail.com"
 
-    s = smtplib.SMTP('localhost')
-    s.send_message(msg)
-    s.quit()
+#     s = smtplib.SMTP('localhost')
+#     s.send_message(msg)
+#     s.quit()
 
     return temp
 
