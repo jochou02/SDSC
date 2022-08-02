@@ -1,0 +1,14 @@
+
+{% block content %}
+
+<p>Are you sure you want to tutor for "{{course}}"?</p>
+
+<form action="{% url 'become_tutor' course.id %}" method="POST">
+
+    {% csrf_token %}
+    <a href="{% url 'home' %}">Cancel</a>
+
+    <input type="submit" name="Confirm">
+</form>
+
+{% endblock %}

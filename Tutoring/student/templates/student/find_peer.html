@@ -1,0 +1,13 @@
+
+{% block content %}
+<h1>Peers also taking {{course}}</h1>
+<a href="{% url 'home' %}">Back</a>
+<hr>
+
+{% for i in students %}
+<p>{{i}}</p>
+<p>Email: {{i.email}}</p>
+<p>Courses in common: CSE 12, CSE 21, CSE 30</p>
+{% endfor %}
+
+{% endblock %}
