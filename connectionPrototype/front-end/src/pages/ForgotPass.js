@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import LoggedInTester from '../buttons/LoggedInTester';
+import '../styles/ForgotPass.css'
 
 /*
     Basically the workflow of this page goes like this.
@@ -138,7 +139,7 @@ class ForgotPass extends Component {
             { this.state.auth_status === 1 ? <> No user associated with this email </> : <></>}
             <br />
             <form onSubmit = {this.handleSubmitAuth}>
-                <input type="submit" value="Send Code" />
+                <input type="submit" value="Send Code" className="button"/>
             </form> <br /> <br />
         </>
         )
@@ -150,31 +151,35 @@ class ForgotPass extends Component {
         the auth code they received.
     */
     checkAuthCode() {
-        return(
-        <>
-            { this.state.auth_success ? <>Verification Success</> : <this.authForm /> }
-            <br /> <br />
-        </>
-        )
+        return(<>
+        { this.state.auth_success ? <p className="success-message">Verification Success</p> : <this.authForm /> }
+        <br /> <br />
+        </>)
     }
 
     /*
-        Renders a textbox that records user's input for auth code, and a button which sets auth_success to True if
-        the code user inputs matches the one from the server, or False otherwise.
+        Renders a textbox that records user's input for auth code, and a button which sets auth_success to True if the code user inputs matches the one from the server, or False otherwise.
     */
     authForm() {
         return(
         <>
             <>A Code Has Been Sent</>
-            <form onSubmit = {(event) => { this.setState({ auth_success: (this.state.auth_user === this.state.auth_server) }); event.preventDefault();}}>
-                <label>
-
-                    Enter Your Verification Code Here:
-                    <input type="text" value={this.state.auth_user} onChange={(event) =>
-                                                                                {this.setState({ auth_user: event.target.value })}} />
-
-                </label> <br />
-                <input type="submit" value="Verify" />
+            <form 
+                onSubmit = {(event) => { 
+                    this.setState({ auth_success: (this.state.auth_user === this.state.auth_server) 
+                    });
+                    event.preventDefault();
+                }}
+                className="form-wrapper" >
+                <input 
+                type="text" 
+                value={this.state.auth_user} 
+                className="field"
+                placeholder="Verification Code"
+                onChange={(event) => {
+                    this.setState({ auth_user: event.target.value })
+                }} /> <br />
+                <input type="submit" value="Verify" className="button"/>
             </form>
         </>
         )
@@ -188,16 +193,29 @@ class ForgotPass extends Component {
     regForm() {
         return (
         <>
-            <form onSubmit={this.handleSubmitReg}>
-                <label>
-                    Password:
-                    <input type="text" value={this.state.password} onChange={(event) =>
-                                                                                {this.setState({ password: event.target.value })}} />
-                </label> <br />
+            <div className="wrapper">
+            <p className="form-title">Create a new password</p>
+            <form onSubmit={this.handleSubmitReg}
+            className="form-wrapper">
+            <input 
+                type="text" 
+                value={this.state.password} 
+                className="field"
+                placeholder="Password"
+                onChange={(event) => {
+                    this.setState({ password: event.target.value })
+                }} /> 
+            <br />
 
-                {/* More robust error handling here? (Keep disabled until all fields non-empty) */}
-                <input type="submit" value="Submit" disabled= {!this.state.auth_success} />
+            {/* More robust error handling here? (Keep disabled until all fields non-empty) */}
+            <input 
+                type="submit" 
+                value="Submit" 
+                className="button" 
+                disabled= {!this.state.auth_success} 
+            />
             </form>
+            </div>
         </>
         )
     }
@@ -208,12 +226,18 @@ class ForgotPass extends Component {
         {/* Shows Login status / link to login/out */}
         <LoggedInTester />
 
-        <label>
-                    {/* Textbox for email. Note we disable this box upon auth success*/}
-                    E-Mail:
-                    <input type="text" value={this.state.email} disabled={this.state.auth_success}
-                                        onChange={(event) => {this.setState({ email: event.target.value })}} />
-        </label>
+        {/* Textbox for email. Note we disable this box upon auth success*/}
+        <div className="wrapper">
+        <p className="form-title">Email verification</p>
+        <input 
+        type="text" 
+        value={this.state.email} 
+        className="field"
+        disabled={this.state.auth_success}
+        placeholder="Email"
+        onChange={(event) => {
+            this.setState({ email: event.target.value })
+        }} />
 
         {/* */}
 
@@ -228,7 +252,11 @@ class ForgotPass extends Component {
             <this.checkAuthCode /> :
             <this.requestAuthCode />}
 
+        </div>
+        <br />
+
         <this.regForm />
+        
 
         </>
       );

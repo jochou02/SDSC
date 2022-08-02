@@ -183,6 +183,7 @@ class Register extends Component {
         <LoggedInTester />
 
         <div className="email-wrapper">
+        <p className="form-title">Email Verification</p>
         <input 
           className="field" 
           type="text" 

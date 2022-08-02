@@ -19,6 +19,7 @@ input, button, link {
 .login-error {
   color: var(--color-error);
   font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .logo {

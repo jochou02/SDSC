@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { useLocation } from 'react-router-dom'
 
 import LoggedInTester from '../buttons/LoggedInTester';
-
-
+import "../styles/Profile.css"
 
 class Profile extends Component {
     constructor(props) {
@@ -14,8 +13,6 @@ class Profile extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-
 
     componentWillMount() {
         const headers = {"Content-Type": "application/json"};
@@ -56,14 +53,16 @@ class Profile extends Component {
     }
     
     ShowProfile = ({ foo }) => {
-        return (
-            <>
-                ID: {foo['id']} <br />
-                Name: {foo['first_name']} {foo['last_name']} <br />
-                E-Mail: {foo['email']} <br />
-                College: {foo['user_college']}
-            </>
-        );
+        return (<>
+        <p>ID: {foo['id']}</p>
+        <p className="name">
+            {foo['first_name']}
+            {' '}
+            {foo['last_name']}
+        </p>
+        <p>Email: {foo['email']}</p> 
+        <p>College: {foo['user_college']}</p>
+        </>);
     }
     
     render() {
@@ -75,17 +74,18 @@ class Profile extends Component {
             { localStorage.getItem('auth-token') } <br /><br /><br />
 
             {/* Example of showing user's information */}
+            <div className="wrapper">
             <this.ShowProfile foo={this.state.foo} />
 
             {/* Delete user. Only show when user is logged in */}
             { localStorage.getItem('auth-token') ?
                 <form onSubmit={this.handleSubmit}>
-                    <input type="submit" value="Delete My Account" />
+                    <input type="submit" value="Delete My Account" className="button"/>
                 </form> :
 
                 <></>
             }
-
+            </div>
         </>
       );
     }
