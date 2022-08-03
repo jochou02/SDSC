@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import LoggedInTester from '../buttons/LoggedInTester';
-import '../styles/Register.css';
-
+import styles from '../styles/Register.module.css';
 
 class Register extends Component {
     constructor(props) {
@@ -77,9 +76,9 @@ class Register extends Component {
         <>
             <form onSubmit = {this.handleSubmitAuth}>
                 <input type="submit" value="Send Code" 
-                className="button"
+                className={styles.button}
                 style={{marginTop: 20}}/>
-            </form> <br /> <br />
+            </form>
         </>
         )
     }
@@ -87,8 +86,7 @@ class Register extends Component {
     checkAuthCode() {
         return(
         <>
-            { this.state.auth_success ? <>Verification Success</> : <this.authForm /> }
-            <br /> <br />
+            { this.state.auth_success ? <p className={styles.successMessage}>Verification Success</p> : <this.authForm /> }
         </>
         )
     }
@@ -101,18 +99,20 @@ class Register extends Component {
           this.setState({ 
             auth_success: (this.state.auth_user === this.state.auth_server) });
           event.preventDefault();
-        }}>
-        <label>
-          Enter Your Verification Code Here:
-          <input 
-            type="text" 
-            value={this.state.auth_user} 
-            onChange={(event) => {
-              this.setState({ 
-                auth_user: event.target.value })
-              }} />
-        </label> <br />
-        <input type="submit" value="Verify" />
+        }}
+        className="formWrapper">
+        <p>Enter Your Verification Code Here:</p>
+        <input 
+          type="text" 
+          value={this.state.auth_user} 
+          onChange={(event) => {
+            this.setState({ 
+              auth_user: event.target.value })
+          }}
+          className="field"
+          style={{width: "100px"}} />
+        <br />
+        <input type="submit" value="Verify" className={styles.button}/>
         </form>
       </>)
     }
@@ -120,9 +120,9 @@ class Register extends Component {
     regForm() {
         return (
         <>
-          <div className="wrapper">
-          <p className="form-title">Register</p>
-          <form onSubmit={this.handleSubmitReg} className="form-wrapper">       
+          <div className={styles.wrapper}>
+          <p className="formTitle">Register</p>
+          <form onSubmit={this.handleSubmitReg} className="formWrapper">       
             <input 
               type="text" 
               value={this.state.username}
@@ -168,7 +168,7 @@ class Register extends Component {
               type="submit" 
               value="Submit" 
               disabled= {!this.state.auth_success}
-              className="button"
+              className={styles.button}
             />
           </form>
           </div>
@@ -182,15 +182,14 @@ class Register extends Component {
 
         <LoggedInTester />
 
-        <div className="email-wrapper">
-        <p className="form-title">Email Verification</p>
+        <div className={styles.emailWrapper}>
+        <p className="formTitle">Email Verification</p>
         <input 
-          className="field" 
+          className={styles.email}
           type="text" 
           value={this.state.email} 
           disabled={this.state.auth_success}
           placeholder="Email"
-          style={{ marginTop: 20 }}
 
           onChange={(event) => { 
             this.setState({ email: event.target.value }) 
@@ -208,12 +207,12 @@ class Register extends Component {
             if(!checkEmail(event)) {
               checkEmail(event)
             } else {
-              event.target.className = "email";
+              event.target.className=styles.email;
             }
           }}
         />
 
-        { this.state.auth_status === 1 ? <p className="message">Email already exists</p> : <></>}
+        { this.state.auth_status === 1 ? <p className={styles.errorMessage}>Email already exists</p> : <></>}
 
         {this.state.auth_server ? <this.checkAuthCode /> : <this.requestAuthCode />}
         </div>
@@ -230,19 +229,19 @@ class Register extends Component {
     //Regular expression to check if email ends in ucsd.edu
     let regExp =  /^[a-z]+@+ucsd.edu$/;
     if(email.match(regExp)) {
-      event.target.className = "email-success";
-        //alert('email valid');
+      event.target.className = styles.emailSuccess;
+      console.log('email valid');
         return true;
     } else {
         //If field is empty, reset to default grey border
         if(email === "") {
-            event.target.className = "email";
-            //alert('email empty');
+            event.target.className = styles.email;
+            console.log('email empty');
             return true;
         }
         //If input is invalid
-        event.target.className = "email-error";
-        //alert('email invalid');
+        event.target.className = styles.emailError;
+        console.log('email invalid');
         return false;
     }
   }

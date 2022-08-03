@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { useLocation } from 'react-router-dom'
 
 import LoggedInTester from '../buttons/LoggedInTester';
-import "../styles/Profile.css"
+import styles from "../styles/Profile.module.css"
 
 class Profile extends Component {
     constructor(props) {
@@ -55,7 +55,7 @@ class Profile extends Component {
     ShowProfile = ({ foo }) => {
         return (<>
         <p>ID: {foo['id']}</p>
-        <p className="name">
+        <p className={styles.name}>
             {foo['first_name']}
             {' '}
             {foo['last_name']}
@@ -68,19 +68,20 @@ class Profile extends Component {
     render() {
       return (
         <>
+            <div className={styles.componentWrapper}>
             <LoggedInTester />
-
             {/* Sufficient to get whatever info we need from user */}
             { localStorage.getItem('auth-token') } <br /><br /><br />
+            </div>
 
             {/* Example of showing user's information */}
-            <div className="wrapper">
+            <div className={styles.profileWrapper}>
             <this.ShowProfile foo={this.state.foo} />
 
             {/* Delete user. Only show when user is logged in */}
             { localStorage.getItem('auth-token') ?
                 <form onSubmit={this.handleSubmit}>
-                    <input type="submit" value="Delete My Account" className="button"/>
+                    <input type="submit" value="Delete My Account" className={styles.button}/>
                 </form> :
 
                 <></>

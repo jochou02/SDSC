@@ -1,16 +1,22 @@
-.email-wrapper {
+.emailWrapper {
   background-color: whitesmoke;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 20px 0 20px 0;
-  padding: 30px 0 0 0;
+  padding: 30px;
   border-radius: 20px;
 }
 
-.message {
+.erorrMessage {
   color: var(--color-error);
+  margin: 10px 0 0 0;
+  font-weight: 700;
+}
+
+.successMessage {
+  color: var(--color-success);
   margin: 10px 0 0 0;
   font-weight: 700;
 }
@@ -21,7 +27,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 30px 30px 30px;
+  padding: 30px;
   border-radius: 20px;
 }
 
@@ -40,9 +46,10 @@
   outline: none;
   padding: 10px;
   background-color: rgb(230,230,230);
+  margin-bottom: 10px;
 }
 
-.email-error {
+.emailError {
   font-size: 18px;
   font-weight: 700;
   border-style: solid;
@@ -55,11 +62,11 @@
   background-color: rgb(230,230,230);
 }
 
-.email-error:focus-visible {
+.emailError:focus-visible {
   outline: none;
 }
 
-.email-success {
+.emailSuccess {
   font-size: 18px;
   font-weight: 700;
   border-style: solid;
@@ -72,7 +79,7 @@
   background-color: rgb(230,230,230);
 }
 
-.email-success:focus-visible {
+.emailSuccess:focus-visible {
   outline: none;
 }
 
@@ -99,8 +106,4 @@
 
 .button:disabled {
   opacity: 0.1;
-}
-
-.field {
-  margin: 0;
 }

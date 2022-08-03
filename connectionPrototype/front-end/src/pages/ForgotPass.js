@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import LoggedInTester from '../buttons/LoggedInTester';
-import '../styles/ForgotPass.css'
+import styles from '../styles/ForgotPass.module.css'
 
 /*
     Basically the workflow of this page goes like this.
@@ -136,11 +136,15 @@ class ForgotPass extends Component {
     requestAuthCode() {
         return(
         <>
-            { this.state.auth_status === 1 ? <> No user associated with this email </> : <></>}
+            { this.state.auth_status === 1 ? <p className={styles.errorMessage}> No user associated with this email </p> : <></>}
             <br />
             <form onSubmit = {this.handleSubmitAuth}>
-                <input type="submit" value="Send Code" className="button"/>
-            </form> <br /> <br />
+                <input 
+                    type="submit" 
+                    value="Send Code" 
+                    className={styles.button}
+                />
+            </form>
         </>
         )
     }
@@ -152,8 +156,7 @@ class ForgotPass extends Component {
     */
     checkAuthCode() {
         return(<>
-        { this.state.auth_success ? <p className="success-message">Verification Success</p> : <this.authForm /> }
-        <br /> <br />
+        { this.state.auth_success ? <p className={styles.successMessage}>Verification Success</p> : <this.authForm /> }
         </>)
     }
 
@@ -170,16 +173,18 @@ class ForgotPass extends Component {
                     });
                     event.preventDefault();
                 }}
-                className="form-wrapper" >
+                className={styles.formWrapper}>
+                <p>Enter your verification code here:</p>
                 <input 
-                type="text" 
-                value={this.state.auth_user} 
-                className="field"
-                placeholder="Verification Code"
-                onChange={(event) => {
-                    this.setState({ auth_user: event.target.value })
-                }} /> <br />
-                <input type="submit" value="Verify" className="button"/>
+                    type="text" 
+                    value={this.state.auth_user} 
+                    className="field"
+                    style={{width: "100px"}}
+                    onChange={(event) => {
+                        this.setState({ auth_user: event.target.value })
+                    }} /> 
+                <br />
+                <input type="submit" value="Verify" className={styles.button}/>
             </form>
         </>
         )
@@ -193,10 +198,10 @@ class ForgotPass extends Component {
     regForm() {
         return (
         <>
-            <div className="wrapper">
-            <p className="form-title">Create a new password</p>
+            <div className={styles.wrapper}>
+            <p className="formTitle">Create a new password</p>
             <form onSubmit={this.handleSubmitReg}
-            className="form-wrapper">
+            className={styles.formWrapper}>
             <input 
                 type="text" 
                 value={this.state.password} 
@@ -211,8 +216,8 @@ class ForgotPass extends Component {
             <input 
                 type="submit" 
                 value="Submit" 
-                className="button" 
-                disabled= {!this.state.auth_success} 
+                className={styles.button}
+                disabled= {!this.state.auth_success}
             />
             </form>
             </div>
@@ -227,8 +232,8 @@ class ForgotPass extends Component {
         <LoggedInTester />
 
         {/* Textbox for email. Note we disable this box upon auth success*/}
-        <div className="wrapper">
-        <p className="form-title">Email verification</p>
+        <div className={styles.wrapper}>
+        <p className="formTitle">Email verification</p>
         <input 
         type="text" 
         value={this.state.email} 
@@ -239,11 +244,6 @@ class ForgotPass extends Component {
             this.setState({ email: event.target.value })
         }} />
 
-        {/* */}
-
-
-        <br />
-
         {/*
             If server has sent a non-empty code, show interface for verifying that code.
             Otherwise, show interface for sending a code
@@ -251,13 +251,10 @@ class ForgotPass extends Component {
         {this.state.auth_server ?
             <this.checkAuthCode /> :
             <this.requestAuthCode />}
-
         </div>
-        <br />
 
         <this.regForm />
         
-
         </>
       );
     }
