@@ -39,6 +39,7 @@ input, button, link {
   justify-content: center;
   padding: 30px 20px 30px 20px;
   border-radius: 20px;
+  min-width: 550px;
 }
 
 .link {

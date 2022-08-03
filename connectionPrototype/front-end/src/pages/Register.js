@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester';
 import styles from '../styles/Register.module.css';
@@ -123,47 +124,47 @@ class Register extends Component {
         return (
         <>
           <div className={styles.wrapper}>
-          <p className="formTitle">Register</p>
-          <form onSubmit={this.handleSubmitReg} className="formWrapper">       
-            <input 
-              type="text" 
-              value={this.state.username}
-              placeholder="Username" 
-              className="field"
-              onChange={(event) => {
-                this.setState({ username: event.target.value })
-              }}
-            /> <br />
+          <p className="formTitle">Create Account</p>
+          <form onSubmit={this.handleSubmitReg} className="formWrapper"><input 
+            type="text" 
+            value={this.state.first_name} 
+            placeholder="First Name"
+            className="field"
+            onChange={(event) => {
+              this.setState({ first_name: event.target.value })
+            }} 
+          /> <br />
 
-            <input 
-              type="text" 
-              value={this.state.password}
-              placeholder="Password"
-              className="field"
-              onChange={(event) => {
-                this.setState({ password: event.target.value })
-              }} 
-            /> <br />
+          <input 
+            type="text" 
+            value={this.state.last_name} 
+            placeholder="Last Name"
+            className="field"
+            onChange={(event) => {
+              this.setState({ last_name: event.target.value })
+            }} 
+          /> <br />
 
-            <input 
-              type="text" 
-              value={this.state.first_name} 
-              placeholder="First Name"
-              className="field"
-              onChange={(event) => {
-                this.setState({ first_name: event.target.value })
-              }} 
-            /> <br />
 
-            <input 
-              type="text" 
-              value={this.state.last_name} 
-              placeholder="Last Name"
-              className="field"
-              onChange={(event) => {
-                this.setState({ last_name: event.target.value })
-              }} 
-            /> <br />
+          <input 
+            type="text" 
+            value={this.state.username}
+            placeholder="Username" 
+            className="field"
+            onChange={(event) => {
+              this.setState({ username: event.target.value })
+            }}
+          /> <br />
+
+          <input 
+            type="text" 
+            value={this.state.password}
+            placeholder="Password"
+            className="field"
+            onChange={(event) => {
+              this.setState({ password: event.target.value })
+            }} 
+          /> <br />
 
             {/* More robust error handling here? (Keep disabled until all fields non-empty) */}
             <input 
@@ -172,6 +173,11 @@ class Register extends Component {
               disabled= {!this.state.auth_success}
               className={styles.button}
             />
+
+            <Link to="/login" state={{ from: "occupation" }}
+            className={styles.link}>
+            Already have an account? Sign in
+            </Link>
           </form>
           </div>
         </>
@@ -220,7 +226,6 @@ class Register extends Component {
         </div>
 
         <this.regForm />
-
         </>
       );
     }

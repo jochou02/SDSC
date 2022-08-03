@@ -6,6 +6,7 @@
   padding: 30px;
   border-radius: 20px;
   margin-top: 20px;
+  min-width: 500px;
 }
 
 .formWrapper {
