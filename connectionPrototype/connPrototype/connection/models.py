@@ -23,11 +23,17 @@ class ConnUser(models.Model):
     user_college = models.CharField(max_length=10, choices=COLLEGE_LIST)
 
     user_major = models.CharField(max_length=25, choices=MAJOR_LIST)
+
     user_interest1 = models.CharField(max_length=40, choices=INTEREST_LIST)
+
     user_interest2 = models.CharField(max_length=40, choices=INTEREST_LIST)
+
     user_interest3 = models.CharField(max_length=40, choices=INTEREST_LIST)
 
     user_courses = models.ManyToManyField(Course)
+
+    # Is this where we set the karma?
+    user_karma = 0
 
 
 # Stores pending matchings. Once a matching is approved, move to All_matching

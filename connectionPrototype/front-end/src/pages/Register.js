@@ -35,11 +35,9 @@ class Register extends Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', },
-            body: JSON.stringify({ username: this.state.username,
-                                   password: this.state.password,
-                                   email: this.state.email,
-                                   first_name: this.state.first_name,
-                                   last_name: this.state.last_name,})
+            body: JSON.stringify({ 
+              username: this.state.username,password: this.state.password, email: this.state.email,
+              first_name: this.state.first_name,last_name: this.state.last_name,})
         };
     
         fetch('http://127.0.0.1:8000/account/register/', requestOptions)
