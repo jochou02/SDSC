@@ -140,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'conn_prototype',
+        'NAME': 'merge_test',
         'USER': 'kfrd22',
         'PASSWORD': 'sungod123',
         'HOST': '132.249.242.127',
