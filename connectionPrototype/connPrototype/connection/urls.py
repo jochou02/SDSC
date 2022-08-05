@@ -11,5 +11,8 @@ urlpatterns = [
     path('match_finalized/', views.MatchingFinalized.as_view(), name='match_finalized'),
     path('modify_pending/', views.ModifyPending.as_view(), name='modify_pending'),
     path('get_info/', views.GetInfo.as_view(), name='get_info'),
-    path('gen_prop/', views.generate_props, name='gen_prop')
+    path('gen_prop/', views.generate_props, name='gen_prop'),
+
+    #地図: add_karma path
+    path('add_karma/', views.AddKarmaView.as_view(), name='add_karma'),
 ]

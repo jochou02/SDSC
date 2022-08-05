@@ -32,12 +32,27 @@ class ConnUser(models.Model):
 
     user_courses = models.ManyToManyField(Course)
 
-    # 地図: This is where we set karma
+    # 地図: Set initial karma for each user
     user_karma = 0
+    
 
+    #地図: Def set_karma, I don't think this is the right place to put it but it'll work for now
     def set_karma(self, new_karma):
-        self.user_karma = 69
+        print("！！\nset_karma has been called\n")
 
+        print("Self: ")
+        print(self)
+
+        print("new_karma: ")
+        print(new_karma)
+
+        print("self.user_karma before: ")
+        print(self.user_karma)
+
+        self.user_karma = new_karma
+        print("self.user_karma after: ")
+        print(self.user_karma)
+        print("！！\n")
 
 # Stores pending matchings. Once a matching is approved, move to All_matching
 class PendingMatching(models.Model):
@@ -47,9 +62,10 @@ class PendingMatching(models.Model):
     isDenied = models.BooleanField(default=False)
 
     # Do we need a timestamp?
+    # Hopefully I didn't mess anything up but isDenied was missing the self.
 
     def __str__(self):
-        return str(self.id_sender) + "-->" + str(self.id_receiver) + " isDenied: " + str(isDenied)
+        return str(self.id_sender) + "-->" + str(self.id_receiver) + " isDenied: " + str(self.isDenied)
 
 
 # Stores matchings that have been approved by both parties.

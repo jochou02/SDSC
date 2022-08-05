@@ -187,6 +187,36 @@ class ModifyPending(APIView):
     GET: Fetches the information of the user who is currently logged in
 '''
 
+#地図: AddKarmaView API
+class AddKarmaView(APIView):
+    def post(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
+
+        print("**\nAddKarmaView has been called\n")
+
+        print("request_content:")
+        print(request_content)
+
+        temp = ConnUser.objects.get(id=14)
+        
+        print("test to see if we got the right user, user_college:")
+        print(temp.user_college)
+
+        print("user_karma before set:")
+        print(temp.user_karma)
+        print("\n")
+
+        temp.set_karma(request_content['user_karma'])
+        print("user_karma after set: ")
+        print(temp.user_karma)
+
+        print(temp.save())
+        temp.save()
+
+        print("**\n")
+
+        return Response({})
+
 
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
@@ -254,62 +284,65 @@ def get_pending_matching_id(request):
     For testing purposes before their respective UIs are up online.
 '''
 
-#地図: This is where users are generated
+#地図: Generate test users
 def generate_props(request):
+    '''
     #   Courses
 
-    # a = [i for i in range(1, 100)]
-    #
-    # cd = random.choices(DEPT_LIST, k=10)
-    #
-    # cn = random.choices(a, k=10)
-    #
-    # for i in range(10):
-    #    c =  Course(course_dept = cd[i][0], course_num = cn[i], course_description = "Fake Course For Testing Only")
-    #    c.save()
-    #    print(c)
-    #
+     a = [i for i in range(1, 100)]
+    
+     cd = random.choices(DEPT_LIST, k=10)
+    
+     cn = random.choices(a, k=10)
+    
+     for i in range(10):
+        c =  Course(course_dept = cd[i][0], course_num = cn[i], course_description = "Fake Course For Testing Only")
+        c.save()
+        print(c)
 
     #   auth_user (u_id 13 - 38)
 
-    # usernames = string.ascii_lowercase
-    # lastnames = string.ascii_lowercase
-    #
-    # firstnames = ['Alice', 'Bob', 'Eve', 'Trent', 'Mallory', 'John', 'Tan', 'Caleb',
-    #               'Andrew', 'Emily', 'Evelyn', 'Jiting', 'Keystone', 'Corona', 'BudLight',
-    #               'Kirin', 'Sapporo', 'Ebisu', 'Shifu', 'Tigress', 'Mantis', 'PandaHimself', 'Monkey',
-    #               'Crane', 'Viper', 'Oogway']
-    #
-    # pword = "abc"
-    #
-    # for i in range(26):
-    #     temp = User.objects.create_user(username=usernames[i], password=pword)
-    #     temp.email = usernames[i] + "@ucsd.edu"
-    #     temp.first_name = firstnames[i]
-    #     temp.last_name = lastnames[i]
-    #     temp.save()
+     usernames = string.ascii_lowercase
+     lastnames = string.ascii_lowercase
+    
+     firstnames = ['Alice', 'Bob', 'Eve', 'Trent', 'Mallory', 'John', 'Tan', 'Caleb',
+                   'Andrew', 'Emily', 'Evelyn', 'Jiting', 'Keystone', 'Corona', 'BudLight',
+                   'Kirin', 'Sapporo', 'Ebisu', 'Shifu', 'Tigress', 'Mantis', 'PandaHimself', 'Monkey',
+                   'Crane', 'Viper', 'Oogway']
+    
+     pword = "abc"
+    
+     for i in range(26):
+         temp = User.objects.create_user(username=usernames[i], password=pword)
+         temp.email = usernames[i] + "@ucsd.edu"
+         temp.first_name = firstnames[i]
+         temp.last_name = lastnames[i]
+         temp.save()
 
     #   ConnUser (u_id 13 - 38)
 
-    # c = list(Course.objects.all())
-    #
-    # for i in range(13, 39):
-    #     temp = ConnUser(id = i)
-    #     temp.user_major = random.choice(MAJOR_LIST)[0]
-    #     temp.user_college = random.choice(COLLEGE_LIST)[0]
-    #
-    #     interests = random.choices(INTEREST_LIST, k=3)
-    #
-    #     temp.user_interest1 = interests[0][0]
-    #     temp.user_interest2 = interests[1][0]
-    #     temp.user_interest3 = interests[2][0]
-    #
-    #     temp.save()
-    #
-    #     courses = random.choices(c, k=3)
-    #     for j in courses:
-    #         temp.user_courses.add(j)
-    #
-    #     temp.save()
+     c = list(Course.objects.all())
+     
+     for i in range(13, 39):
+         temp = ConnUser(id = i)
+         temp.user_major = random.choice(MAJOR_LIST)[0]
+         temp.user_college = random.choice(COLLEGE_LIST)[0]
+    
+         interests = random.choices(INTEREST_LIST, k=3)
+    
+         temp.user_interest1 = interests[0][0]
+         temp.user_interest2 = interests[1][0]
+         temp.user_interest3 = interests[2][0]
+    
+         temp.save()
+    
+         courses = random.choices(c, k=3)
+         for j in courses:
+             temp.user_courses.add(j)
+    
+         temp.save()
+         
+     return HttpResponse("Done")
+    '''
+    
 
-    return HttpResponse("Done")

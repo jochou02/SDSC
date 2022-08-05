@@ -66,20 +66,6 @@ class DeleteUserView(APIView):
 
         return Response({})
 
-class AddKarmaView(APIView):
-    def post(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
-        print(request_content)
-        print("you've got mail")
-
-        temp = User.objects.get(email='b@ucsd.edu')
-        temp.set_karma(request_content['user_karma'])
-        print(temp.user_karma)
-        temp.save()
-
-        return Response({})
-
-
 # Send a random code to the supplied email address.
 # Re-use for both forgot password and register account, by introducing
 # status code to differentiate use case.

@@ -20,7 +20,7 @@ import Home from './pages/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  //地図: Use this to add new routes
+  //地図: Add new routes
   <BrowserRouter>
     <Routes>
       <Route path="" element={<Home />} />

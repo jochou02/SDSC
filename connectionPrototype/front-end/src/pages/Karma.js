@@ -36,11 +36,11 @@ class Karma extends Component {
       },
       body: JSON.stringify({user_karma: this.state.user_karma})
     };
-    fetch('http://127.0.0.1:8000/account/add_karma/', requestOptions)
+    fetch('http://127.0.0.1:8000/connect/add_karma/', requestOptions)
     .then(response => {response.json()})
       .then((data) => {
         this.setState({ }, () => {
-          console.log("mail has been sent");
+          console.log("mail has been sent\n\n");
         })
       })
       .catch(console.log)
