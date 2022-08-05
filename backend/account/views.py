@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import *
+from api.serializers import *
 
 import smtplib
 from email.message import EmailMessage

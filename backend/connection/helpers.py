@@ -1,4 +1,5 @@
-from ../account/serializers import ConnUserSerializer
+from account.serializers import StudentSerializer
+from account.models import Student
 
 from django.apps import apps
 userModel = apps.get_model('account', 'Student')
