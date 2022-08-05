@@ -11,6 +11,11 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('get_user_info/', views.GetUserInfoView.as_view(), name='get_info'),
     path('delete_user/', views.DeleteUserView.as_view(), name='delete'),
+
+    #地図: test
+    path('add_karma/', views.AddKarmaView.as_view(),
+    name='karma'),
+
     path('gen_auth/', views.GenEmailAuth.as_view(), name='gen_auth'),
     path('update_password/', views.UpdatePassword.as_view(), name='update_pword'),
 ]

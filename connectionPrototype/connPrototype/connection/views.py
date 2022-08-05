@@ -254,7 +254,7 @@ def get_pending_matching_id(request):
     For testing purposes before their respective UIs are up online.
 '''
 
-
+#地図: This is where users are generated
 def generate_props(request):
     #   Courses
 

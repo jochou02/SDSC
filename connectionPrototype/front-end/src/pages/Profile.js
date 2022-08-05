@@ -84,7 +84,6 @@ class Profile extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <input type="submit" value="Delete My Account" className={styles.button}/>
                 </form> :
-
                 <></>
             }
             </div>

@@ -32,8 +32,11 @@ class ConnUser(models.Model):
 
     user_courses = models.ManyToManyField(Course)
 
-    # This is where we set karma
+    # 地図: This is where we set karma
     user_karma = 0
+
+    def set_karma(self, new_karma):
+        self.user_karma = 69
 
 
 # Stores pending matchings. Once a matching is approved, move to All_matching
