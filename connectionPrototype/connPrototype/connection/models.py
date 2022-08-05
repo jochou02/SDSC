@@ -32,7 +32,7 @@ class ConnUser(models.Model):
 
     user_courses = models.ManyToManyField(Course)
 
-    # Is this where we set the karma?
+    # This is where we set karma
     user_karma = 0
 
 

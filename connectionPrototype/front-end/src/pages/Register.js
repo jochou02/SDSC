@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import LoggedInTester from '../buttons/LoggedInTester';
 import styles from '../styles/Register.module.css';
 
-/*test to see if github hates me*/
-
 class Register extends Component {
     constructor(props) {
       super(props);

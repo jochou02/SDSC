@@ -62,7 +62,7 @@ class Profile extends Component {
         </p>
         <p>Email: {foo['email']}</p> 
         <p>College: {foo['user_college']}</p>
-        <p>Karma: {foo ['user_karma']}</p>
+        <p>Karma: {foo['user_karma']}</p>
         </>);
     }
     
