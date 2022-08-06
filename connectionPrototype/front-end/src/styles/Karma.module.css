@@ -5,13 +5,6 @@ p {
   margin: 5px;
 }
 
-.name {
-  color: black;
-  font-size: 30px;
-  font-weight: 700;
-  margin: 5px;
-}
-
 .profileWrapper {
   background-color: whitesmoke;
   display: flex;

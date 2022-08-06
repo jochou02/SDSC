@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 // eslint-disable-next-line
 import { useLocation } from 'react-router-dom'
 
-import LoggedInTester from '../buttons/LoggedInTester';
+import LoggedInTester from '../buttons/LoggedInTester'
+import Karma from '../pages/Karma'
 import styles from "../styles/Profile.module.css"
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { foo: [],
-                     };
-
+        this.state = { foo: [], };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const headers = {"Content-Type": "application/json"};
 
         if (localStorage.getItem('auth-token')) {
@@ -69,24 +68,26 @@ class Profile extends Component {
     render() {
       return (
         <>
-            <div className={styles.componentWrapper}>
-            <LoggedInTester />
-            {/* Sufficient to get whatever info we need from user */}
-            { localStorage.getItem('auth-token') } <br /><br /><br />
-            </div>
+        <div className={styles.componentWrapper}>
+        <LoggedInTester />
+        {/* Sufficient to get whatever info we need from user */}
+        { localStorage.getItem('auth-token') } <br /><br /><br />
+        </div>
 
-            {/* Example of showing user's information */}
-            <div className={styles.profileWrapper}>
-            <this.ShowProfile foo={this.state.foo} />
+        {/* Example of showing user's information */}
+        <div className={styles.profileWrapper}>
+        <this.ShowProfile foo={this.state.foo} />
 
-            {/* Delete user. Only show when user is logged in */}
-            { localStorage.getItem('auth-token') ?
-                <form onSubmit={this.handleSubmit}>
-                    <input type="submit" value="Delete My Account" className={styles.button}/>
-                </form> :
-                <></>
-            }
-            </div>
+        {/* Delete user. Only show when user is logged in */}
+        { localStorage.getItem('auth-token') ?
+        <form onSubmit={this.handleSubmit}>
+            <input type="submit" value="Delete My Account" className={styles.button}/>
+            </form> :
+            <>
+        </>}
+        </div>
+        <br />
+        <Karma />
         </>
       );
     }

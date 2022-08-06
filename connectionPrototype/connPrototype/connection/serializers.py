@@ -5,7 +5,7 @@ class ConnUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConnUser
         fields = ['id', 'user_college', 'user_major', 'user_interest1',
-                  'user_interest2', 'user_interest3', 'user_courses','user_karma']
+                  'user_interest2','user_interest3', 'user_courses','user_karma']
 
 
 class PendingMatchingSerializer(serializers.ModelSerializer):

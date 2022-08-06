@@ -191,29 +191,34 @@ class ModifyPending(APIView):
 class AddKarmaView(APIView):
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
+        request_user_id = 0
 
-        print("**\nAddKarmaView has been called\n")
+        #print("**\nAddKarmaView has been called\n")
 
-        print("request_content:")
-        print(request_content)
+        # Get the user id so we can use to find the User object 
+        request_user_id = request_content["user_id"]
+        #print("request user id:")
+        #print(request_content["user_id"])
 
-        temp = ConnUser.objects.get(id=14)
+        #Find ConnUser with specified request_user_id
+        temp = ConnUser.objects.get(id=(request_user_id))
         
-        print("test to see if we got the right user, user_college:")
-        print(temp.user_college)
+        #print("test to see if we got the right user, user_college:")
+        #print(temp.user_college)
 
-        print("user_karma before set:")
-        print(temp.user_karma)
-        print("\n")
+        #print("user_karma before set:")
+        #print(temp.user_karma)
+        #print("\n")
 
-        temp.set_karma(request_content['user_karma'])
-        print("user_karma after set: ")
-        print(temp.user_karma)
+        #Call set_karma and pass in amnt of karma to be added
+        temp.set_karma(request_content['add_karma'])
+        #print("user_karma after set: ")
+        #print(temp.user_karma)
+        #print("\n")
 
-        print(temp.save())
         temp.save()
 
-        print("**\n")
+        #print("**\n")
 
         return Response({})
 

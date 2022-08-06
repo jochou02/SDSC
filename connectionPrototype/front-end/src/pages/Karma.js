@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 
 import LoggedInTester from '../buttons/LoggedInTester';
-import styles from '../styles/Profile.module.css'
+import styles from '../styles/Karma.module.css'
 
 class Karma extends Component {
   constructor (props) {
     super(props);
     this.state = { 
       foo: [],
-      user_karma: 0, 
+      add_karma: 0, 
+      user_id: 0,
     };
     this.addKarma = this.addKarma.bind(this);
   }
@@ -22,30 +23,32 @@ class Karma extends Component {
 
     fetch('http://127.0.0.1:8000/connect/get_info/', { headers, })
       .then(response => response.json())
-      .then((data) => { this.setState( {foo: data })
+      .then((data) => {
+        this.setState({ foo: data })
+        this.setState({user_id: data.id})
       })
     .catch(console.log)
   }
 
-  addKarma(event) {
+  addKarma() {
     const requestOptions = {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem('auth-token'),
       },
-      body: JSON.stringify({user_karma: this.state.user_karma})
+      body: JSON.stringify({add_karma: this.state.add_karma, user_id: this.state.user_id})
     };
     fetch('http://127.0.0.1:8000/connect/add_karma/', requestOptions)
     .then(response => {response.json()})
-      .then((data) => {
+      .then(() => {
         this.setState({ }, () => {
           console.log("mail has been sent\n\n");
         })
       })
       .catch(console.log)
 
-      event.preventDefault();
+      //event.preventDefault();
   }
 
   ShowProfile = ({ foo }) => {
@@ -65,43 +68,27 @@ class Karma extends Component {
   render() {
     return (
       <>
+      {/*
         <div className={styles.componentWrapper}>
         <LoggedInTester />
-        {/* Sufficient to get whatever info we need from user */}
         { localStorage.getItem('auth-token') } <br /><br /><br />
         </div>
-
+      */}
         {/* Example of showing user's information */}
         <div className={styles.profileWrapper}>
-        <this.ShowProfile foo={this.state.foo} />
 
-        {/* Add karma. Only show when user is logged in */}
-
-        {/* Comment out for now
-                { localStorage.getItem('auth-token') ?
-          <button 
-            onClick={this.addKarma}
-            className={styles.button}>
-            Karma+1
-          </button> : 
-          <></>
-        }
-        End of comment */}
-
-        <input
-          type="text"
-          value={this.state.user_karma}
-          placeholder="New karma"
-          onChange={(event) => {
-            this.setState({user_karma: event.target.value})
-          }} 
-        />
-
+        {/* 
+        <this.ShowProfile foo={this.state.foo} /> 
+        */}
+        <p>
+          {"Karma to add (testing): "+ this.state.add_karma}
+        </p>
         <button
-          value={this.state.user_karma}
+          value={this.state.add_karma}
+          className={styles.button}
           onClick={(event) => {
             this.setState(prevState => ({
-              user_karma: prevState.user_karma +1
+              add_karma: prevState.add_karma +1
             }));
           }}
         >
@@ -111,9 +98,8 @@ class Karma extends Component {
         <button
           onClick={this.addKarma}
           className={styles.button}>
-          Send new karma to backend
+          Send info to backend
         </button>
-
         </div>
       </>
     );
