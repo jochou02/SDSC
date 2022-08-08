@@ -1,5 +1,5 @@
 import requests
-import json
+import ujson
 
 import re
 
@@ -7,6 +7,7 @@ from tqdm import tqdm
 import time
 
 import requests
+import redis
 
 from multiprocessing import Pool
 from bs4 import BeautifulSoup
@@ -34,14 +35,10 @@ def getURL():
     return toReturn
 
 
-def getCourseName(url):
-    page = requests.get(
-        f"https://seascape.app/course{url}"
-    )
-
+def getCourseName(page):
     return ((re.search(
         "(?<=<h1 class=\"text-2xl sm:text-3xl font-semibold font-sans flex-grow sm:flex-grow-0\">).*?(?=<\/h1>)",
-        page.text).group()))
+        page).group()))
 
 
 def getPage(url):
@@ -74,16 +71,22 @@ def formatOutputTQDM(approval, time, grade, name='foo'):
 
 
 def formatOutputMS(page):
-    # soup = BeautifulSoup(page.text, 'lxml')
-    # temp = str(soup.find(id="report-card"))
-
     temp = page.text
 
     formatOutputTQDM(getCourseAvgApproval(temp, patternApproval),
                      getCourseAvgTimeCommitment(temp, patternTime),
                      getCourseAvgGrade(temp, patternGrade),
-                     "foo")
+                     getCourseName(temp))
 
+def loadToRedisMS(page):
+    temp = page.text
+
+    name = getCourseName(temp)
+    time = getCourseAvgTimeCommitment(temp, patternTime)
+    grade = getCourseAvgGrade(temp, patternGrade)
+    approv = getCourseAvgApproval(temp, patternApproval)
+
+    r.set(name, ujson.dumps({'AvgApproval': approv, 'AvgTime': time, 'AvgGrade': grade}))
 
 def main():
     foo = getURL()
@@ -97,13 +100,14 @@ def main():
     p.join()
 
     p = Pool(50)
-    p.map(formatOutputMS, records)
+    p.map(loadToRedisMS, records)
 
     p.terminate()
     p.join()
 
 
 session = requests.Session()
+r = redis.Redis(host='132.249.242.203')
 
 patternGrade = \
     re.compile("(?<=<span class=\"text-gray-700\"> \().*?(?=\)</span>)")
