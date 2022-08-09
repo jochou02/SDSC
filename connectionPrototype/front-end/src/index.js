@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ForgotPass from './pages/ForgotPass';
 import Karma from './pages/Karma';
+import PrefsQuiz from './pages/PrefsQuiz';
 
 import Home from './pages/Home';
 
@@ -29,6 +30,7 @@ root.render(
       <Route path="profile" element={<Profile />} />
       <Route path="forgot_pass" element={<ForgotPass />} />
       <Route path="karma" element={<Karma />} />
+      <Route path="user_prefs" element={<PrefsQuiz />} />
     </Routes>
   </BrowserRouter>
 );
