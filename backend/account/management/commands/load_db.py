@@ -19,7 +19,7 @@ class Command(BaseCommand):
             c.save()
             print(c)
 
-        #auth_user(u_id 13 - 38)
+        #auth_user(u_id 1 - 26)
 
         usernames = string.ascii_lowercase
         lastnames = string.ascii_lowercase
@@ -38,11 +38,11 @@ class Command(BaseCommand):
             temp.last_name = lastnames[i]
             temp.save()
 
-        # Student (u_id 13 - 38)
+        # Student (u_id 1 - 26)
 
         c = list(Course.objects.all())
         
-        for i in range(13, 39):
+        for i in range(1, 27):
             temp = Student(id = i)
             temp.user_major = random.choice(MAJOR_LIST)[0]
             temp.user_college = random.choice(COLLEGE_LIST)[0]
@@ -52,6 +52,9 @@ class Command(BaseCommand):
             temp.user_interest1 = interests[0][0]
             temp.user_interest2 = interests[1][0]
             temp.user_interest3 = interests[2][0]
+            
+            # tho may not be neccesary as long as we enforce same id.
+            temp.student_user_id = i
         
             temp.save()
         
