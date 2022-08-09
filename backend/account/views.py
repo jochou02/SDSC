@@ -12,6 +12,10 @@ from api.serializers import *
 import smtplib
 from email.message import EmailMessage
 
+from django.shortcuts import render
+from rest_framework import viewsets
+
+
 '''
     Test things out 
 '''

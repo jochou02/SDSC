@@ -1,4 +1,4 @@
-from account.serializers import StudentSerializer
+from api.serializers import StudentSerializer
 from account.models import Student
 
 from django.apps import apps
