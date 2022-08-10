@@ -2,22 +2,18 @@ import React, { Component } from 'react';
 // eslint-disable-next-line
 import { useLocation } from 'react-router-dom'
 
-import LoggedInTester from '../buttons/LoggedInTester';
-
-
+import LoggedInTester from '../buttons/LoggedInTester'
+import Karma from '../pages/Karma'
+import styles from "../styles/Profile.module.css"
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { foo: [],
-                     };
-
+        this.state = { foo: [], };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
-
-    componentWillMount() {
+    componentDidMount() {
         const headers = {"Content-Type": "application/json"};
 
         if (localStorage.getItem('auth-token')) {
@@ -56,36 +52,42 @@ class Profile extends Component {
     }
     
     ShowProfile = ({ foo }) => {
-        return (
-            <>
-                ID: {foo['id']} <br />
-                Name: {foo['first_name']} {foo['last_name']} <br />
-                E-Mail: {foo['email']} <br />
-                College: {foo['user_college']}
-            </>
-        );
+        return (<>
+        <p>ID: {foo['id']}</p>
+        <p className={styles.name}>
+            {foo['first_name']}
+            {' '}
+            {foo['last_name']}
+        </p>
+        <p>Email: {foo['email']}</p> 
+        <p>College: {foo['user_college']}</p>
+        <p>Karma: {foo['user_karma']}</p>
+        </>);
     }
     
     render() {
       return (
         <>
-            <LoggedInTester />
+        <div className={styles.componentWrapper}>
+        <LoggedInTester />
+        {/* Sufficient to get whatever info we need from user */}
+        { localStorage.getItem('auth-token') } <br /><br /><br />
+        </div>
 
-            {/* Sufficient to get whatever info we need from user */}
-            { localStorage.getItem('auth-token') } <br /><br /><br />
+        {/* Example of showing user's information */}
+        <div className={styles.profileWrapper}>
+        <this.ShowProfile foo={this.state.foo} />
 
-            {/* Example of showing user's information */}
-            <this.ShowProfile foo={this.state.foo} />
-
-            {/* Delete user. Only show when user is logged in */}
-            { localStorage.getItem('auth-token') ?
-                <form onSubmit={this.handleSubmit}>
-                    <input type="submit" value="Delete My Account" />
-                </form> :
-
-                <></>
-            }
-
+        {/* Delete user. Only show when user is logged in */}
+        { localStorage.getItem('auth-token') ?
+        <form onSubmit={this.handleSubmit}>
+            <input type="submit" value="Delete My Account" className={styles.button}/>
+            </form> :
+            <>
+        </>}
+        </div>
+        <br />
+        <Karma />
         </>
       );
     }

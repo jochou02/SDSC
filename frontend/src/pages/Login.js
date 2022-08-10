@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester';
-import '../styles/Login.css'
-//import '../styles/index.css'
+import styles from '../styles/Login.module.css'
 import trident from '../icons/trident.png';
 
 class Login extends Component {
@@ -16,7 +15,6 @@ class Login extends Component {
 
       this.handleSubmit = this.handleSubmit.bind(this);
     }
-
 
     handleSubmit(event) {
         const requestOptions = {
@@ -61,16 +59,16 @@ class Login extends Component {
 
         <LoggedInTester />
 
-        <div className="logo" id="logo">
-			    <img src={trident} className="logo-pic" alt=""/> 
-          <p className="logo-text">UC Socially Undead</p>
+        <div className={styles.logo} id="logo">
+			    <img src={trident} className={styles.logoPic} alt=""/> 
+          <p className={styles.logoText}>UC Socially Undead</p>
 		    </div>
 
-        <div className="wrapper">
-          <p className="form-title">Login</p>
-          {this.state.failed ? <div className="login-error">Login Failed</div> : console.log("")}
+        <div className={styles.wrapper}>
+          <p className="formTitle">Login</p>
+          {this.state.failed ? <div className={styles.loginError}>Login Failed</div> : console.log("")}
           <form onSubmit={this.handleSubmit}
-          className="form-wrapper"> 
+          className="formWrapper"> 
 
           <input 
             type="text" 
@@ -95,12 +93,12 @@ class Login extends Component {
           </form>
 
           <Link to="/forgot_pass" state={{ from: "occupation" }}
-          className="link">
+          className={styles.link}>
             Forgot your password?
           </Link>
 
           <Link to="/register" state={{ from: "occupation" }}
-          className="link">
+          className={styles.link}>
             Don't have an account? Create account
           </Link>
 
