@@ -12,20 +12,55 @@ import random, json, time
 
 # Create your views here.
 
-
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
         if (request.user.is_authenticated):
             toRespond = StudentSerializer(Student.objects.get(pk=request.user.id)).data
-            toRespond.update({'first_name': request.user.first_name,
+            toRespond.update({
+                'first_name': request.user.first_name,
                 'last_name': request.user.last_name,
                 'email': request.user.email})
-            return toRespond
+            return Response(toRespond)
         else:
             print('test')
             return Response({})
+
+#地図: AddKarmaView API
+class AddKarmaView(APIView):
+    def post(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
+        request_user_id = 0
+
+        #print("**\nAddKarmaView has been called\n")
+
+        # Get the user id so we can use to find the User object 
+        request_user_id = request_content["user_id"]
+        #print("request user id:")
+        #print(request_content["user_id"])
+
+        #Find Student with specified request_user_id
+        temp = Student.objects.get(id=(request_user_id))
+        
+        #print("test to see if we got the right user, user_college:")
+        #print(temp.user_college)
+
+        #print("user_karma before set:")
+        #print(temp.user_karma)
+        #print("\n")
+
+        #Call set_karma and pass in amnt of karma to be added
+        temp.set_karma(request_content['add_karma'])
+        #print("user_karma after set: ")
+        #print(temp.user_karma)
+        #print("\n")
+
+        temp.save()
+
+        #print("**\n")
+
+        return Response({})
 
 # Placeholder before we have a real matching algo
 

@@ -233,18 +233,15 @@ class Register extends Component {
     let regExp =  /^[a-z]+@+ucsd.edu$/;
     if(email.match(regExp)) {
       event.target.className = styles.emailSuccess;
-      console.log('email valid');
         return true;
     } else {
         //If field is empty, reset to default grey border
         if(email === "") {
             event.target.className = styles.email;
-            console.log('email empty');
             return true;
         }
         //If input is invalid
         event.target.className = styles.emailError;
-        console.log('email invalid');
         return false;
     }
   }
