@@ -6,6 +6,8 @@ import LoggedInTester from '../buttons/LoggedInTester'
 import Karma from '../pages/Karma'
 import styles from "../styles/Profile.module.css"
 
+import pfp from "../icons/pfp.png"
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -24,6 +26,7 @@ class Profile extends Component {
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
+                    console.log(data)
         })
         .catch(console.log)
     }
@@ -51,17 +54,90 @@ class Profile extends Component {
         event.preventDefault();
     }
     
+    //TO-DO: Populate contact_type and contact_info with actual data
     ShowProfile = ({ foo }) => {
         return (<>
-        <p>ID: {foo['id']}</p>
-        <p className={styles.name}>
-            {foo['first_name']}
-            {' '}
-            {foo['last_name']}
-        </p>
-        <p>Email: {foo['email']}</p> 
-        <p>College: {foo['user_college']}</p>
-        <p>Karma: {foo['user_karma']}</p>
+            <div className={styles.profile_wrapper2}>      
+                <img src={pfp} alt="pfp" className={styles.pfp}></img>
+                <div className={styles.profile_info_wrapper}>
+                    <p>ID: {foo['id']}</p>
+                    <p className={styles.name}>
+                        {foo['first_name']}
+                        {' '}
+                        {foo['last_name']}
+                    </p>
+                    <p>College: {foo['user_college']}</p>
+                    <p>Major: {foo['user_major']}</p>
+                    <p>Karma: {foo['user_karma']}</p>
+                    <hr className={styles.solid}></hr>
+                    <div className={styles.contact_info_wrapper}>
+                        <div className={styles.contact_info_item}>
+                            <p className={styles.contact_type}>Email:</p>
+                            <p className={styles.contact_info}>{foo['email']}</p>   
+                        </div>
+                        <div className={styles.contact_info_item}>
+                            <p className={styles.contact_type}>Discord:</p>
+                            <p className={styles.contact_info}>nagumo_tetora#1919</p>   
+                        </div>
+                        <div className={styles.contact_info_item}>
+                            <p className={styles.contact_type}>Instagram: </p>
+                            <p className={styles.contact_info}>nagumo_tetora</p>   
+                        </div>
+                        <div className={styles.contact_info_item}>
+                            <p className={styles.contact_type}>Phone:</p>
+                            <p className={styles.contact_info}>123-456-7890</p>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>);
+    }
+
+    //TO-DO: Replace text inside module_text with actual course info
+    ShowCourses = () => {
+        return (<>
+            <div className={styles.module}>
+                <p className={styles.module_title}>Courses</p>
+                <div className={styles.module_grid}>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>BIMM 100</p>
+                    </div>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>BIPN 102</p>
+                    </div>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>BICD 110</p>
+                    </div>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>BIMM 100</p>
+                    </div>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>BIPN 102</p>
+                    </div>
+                    <div className={styles.module_item} style={{backgroundColor: "#00629b"}}>
+                        <p className={styles.module_text}>BICD 110</p>
+                    </div>
+                </div>
+            </div>
+        </>);
+    }
+
+    ShowInterests = ({ foo }) => {
+        return (<>
+            <div className={styles.module}>
+                <p className={styles.module_title}>Interests</p>
+                <div className={styles.module_grid}>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>{foo['user_interest1']}</p>
+                    </div>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>{foo['user_interest2']}</p>
+                    </div>
+                    <div className={styles.module_item}>
+                        <p className={styles.module_text}>{foo['user_interest3']}</p>
+                    </div>
+                </div>
+            </div>
         </>);
     }
     
@@ -69,25 +145,30 @@ class Profile extends Component {
       return (
         <>
         <div className={styles.componentWrapper}>
-        <LoggedInTester />
-        {/* Sufficient to get whatever info we need from user */}
-        { localStorage.getItem('auth-token') } <br /><br /><br />
+            <LoggedInTester />
+            {/* Sufficient to get whatever info we need from user */}
+            { localStorage.getItem('auth-token') }
         </div>
 
-        {/* Example of showing user's information */}
-        <div className={styles.profileWrapper}>
-        <this.ShowProfile foo={this.state.foo} />
+        <div className={styles.wrapper}>
+            {/* Example of showing user's information */}
+            <div className={styles.profile_wrapper}>
+                <this.ShowProfile foo={this.state.foo} />
 
-        {/* Delete user. Only show when user is logged in */}
-        { localStorage.getItem('auth-token') ?
-        <form onSubmit={this.handleSubmit}>
-            <input type="submit" value="Delete My Account" className={styles.button}/>
-            </form> :
-            <>
-        </>}
+                {/* Delete user. Only show when user is logged in */}
+                { localStorage.getItem('auth-token') ?
+                <form onSubmit={this.handleSubmit}>
+                    <input type="submit" value="Delete My Account" className={styles.button}/>
+                </form> : <>
+                </>}
+            </div>
+
+            <div className={styles.modules_wrapper}>
+                <this.ShowCourses />
+                <this.ShowInterests foo={this.state.foo} />
+                <Karma />
+            </div>
         </div>
-        <br />
-        <Karma />
         </>
       );
     }

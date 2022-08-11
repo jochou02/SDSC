@@ -15,6 +15,7 @@ body {
   --color-secondary: #00629b;
   --color-success: #4bb544;
   --color-error: #cc3333;
+  --color-accent: #ffcd00;
   
   background-color: var(--color-primary);
   margin: 0 0 100px 0;

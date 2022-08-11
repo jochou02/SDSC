@@ -86,7 +86,7 @@ class Karma extends Component {
         </p>
         <button
           value={this.state.add_karma}
-          className={styles.button}
+          className={styles.add_button}
           onClick={(event) => {
             this.setState(prevState => ({
               add_karma: prevState.add_karma +1
@@ -98,7 +98,7 @@ class Karma extends Component {
 
         <button
           onClick={this.addKarma}
-          className={styles.button}>
+          className={styles.backend_button}>
           Send info to backend
         </button>
         </div>
