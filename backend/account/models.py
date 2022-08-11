@@ -36,7 +36,7 @@ class Student(models.Model):
     lname = models.CharField(max_length=200, null=True)
     user_college = models.CharField(max_length=200, null=True, choices=COLLEGE_LIST)
     user_major = models.CharField(max_length=200, choices=MAJOR_LIST)
-    profile_pic = models.ImageField(default="profile1.png",null=True, blank=True)
+    profile_pic = models.ImageField(default="../icons/pfp.png",null=True, blank=True)
 
     # User contact info
     phone = models.CharField(max_length=200, null=True)
@@ -54,3 +54,21 @@ class Student(models.Model):
 
     def __str__(self):
         return f'{self.fname} {self.lname}'
+
+    # 地図: Set karma for each user, default is 0
+    user_karma = models.IntegerField(default=0)
+
+    
+
+    #地図: Def set_karma, I don't think this is the right place to put it but it'll work for now
+    def set_karma(self, add_karma):
+        #print("！！\nset_karma has been called\n")
+
+        #print("self.user_karma before:")
+        #print(self.user_karma)
+
+        self.user_karma += add_karma
+        #print("self.user_karma after:")
+        #print(self.user_karma)
+
+        #print("！！\n")

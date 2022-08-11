@@ -24,7 +24,10 @@ class Migration(migrations.Migration):
                 ('lname', models.CharField(max_length=200, null=True)),
                 ('user_college', models.CharField(choices=[('Revelle', 'Revelle'), ('Muir', 'Muir'), ('Marshall', 'Marshall'), ('Warren', 'Warren'), ('ERC', 'ERC'), ('Sixth', 'Sixth'), ('Seventh', 'Seventh')], max_length=200, null=True)),
                 ('user_major', models.CharField(choices=[('Math', 'Mathematics'), ('CS', 'Computer Science'), ('Bio', 'Biology'), ('Japn', 'Japanese Studies'), ('Chem', 'Chemistry'), ('SE', 'Structural Engineering'), ('Phys', 'Physics'), ('EE', 'Electrical Engineering'), ('Poli', 'Political Science')], max_length=200)),
-                ('profile_pic', models.ImageField(blank=True, default='profile1.png', null=True, upload_to='')),
+
+                # 地図: Change back to default='profile1.png'
+                ('profile_pic', models.
+                ImageField(blank=True, default="../icons/pfp.png", null=True, upload_to='')),
                 ('phone', models.CharField(max_length=200, null=True)),
                 ('email', models.CharField(max_length=200, null=True)),
                 ('user_interest1', models.CharField(choices=[('Anime', 'Anime'), ('WoW', 'World of Warcraft'), ('Racoon', 'Racoon Watching'), ('Speeding', 'Driving over speed limit'), ('HW', 'Doing Problem Set'), ('Travel', 'Traveling'), ('CS', 'Counter Strike'), ('LoL', 'League of Legends'), ('Football', 'Football')], max_length=40)),

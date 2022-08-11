@@ -14,11 +14,14 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ForgotPass from './pages/ForgotPass';
+import Karma from './pages/Karma';
+import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
 import Home from './pages/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  //地図: Add new routes
   <BrowserRouter>
     <Routes>
       <Route path="" element={<Home />} />
@@ -27,6 +30,8 @@ root.render(
       <Route path="profile" element={<Profile />} />
       <Route path="courses" element={<Courses />} />
       <Route path="forgot_pass" element={<ForgotPass />} />
+      <Route path="karma" element={<Karma />} />
+      <Route path="user_prefs" element={<PrefsQuiz />} />
     </Routes>
   </BrowserRouter>
 );
