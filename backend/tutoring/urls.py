@@ -1,16 +1,13 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 from . import views
 
-router1 = routers.DefaultRouter()
-router1.register(r'curr_courses', views.CurrentCourseView, 'curr_courses')
-router2 = routers.DefaultRouter()
-router2.register(r'past_courses', views.CompletedCourseView, 'past_courses')
-router3 = routers.DefaultRouter()
-router3.register(r'tutoring_courses', views.TutoringCourseView, 'tutoring_courses')
-
 urlpatterns=[
-    path('api/', include(router1.urls)),
-    path('api/', include(router2.urls)),
-    path('api/', include(router3.urls)),
+    path('get_courses_sample/', views.GetCoursesSample.as_view(), name='get_courses_sample'),
+
+    path('get_current_courses/', views.GetCurrentCourses.as_view(), name='get_current_courses'),
+    path('get_past_courses/', views.GetPastCourses.as_view(), name='get_past_courses'),
+    path('get_tutoring_courses/', views.GetTutoringCourses.as_view(), name='get_tutoring_courses'),
+
+    path('find_peer/<str:pk1>/<str:pk2>', views.FindPeer.as_view()),
+    path('find_tutor/<str:pk1>/<str:pk2>', views.FindTutor.as_view()),
 ]

@@ -17,7 +17,6 @@ class Command(BaseCommand):
         for i in range(10):
             c =  Course(course_dept = cd[i][0], course_num = cn[i])
             c.save()
-            print(c)
 
         #auth_user(u_id 1 - 26)
 

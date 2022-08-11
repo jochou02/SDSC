@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 import ForgotPass from './pages/ForgotPass';
 import Karma from './pages/Karma';
 import PrefsQuiz from './pages/PrefsQuiz';
-
+import Courses from './pages/Courses';
 import Home from './pages/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -28,6 +28,7 @@ root.render(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="courses" element={<Courses />} />
       <Route path="forgot_pass" element={<ForgotPass />} />
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
