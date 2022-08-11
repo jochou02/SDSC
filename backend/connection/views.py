@@ -12,6 +12,17 @@ import random, json, time
 
 # Create your views here.
 
+class GetInfoSample(APIView):
+
+    def get(self, request):
+        if (True):
+            toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+            toRespond.update({'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email})
+            return Response(toRespond)
+        else:
+            return Response({})
 
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
@@ -22,9 +33,8 @@ class GetInfo(APIView):
             toRespond.update({'first_name': request.user.first_name,
                 'last_name': request.user.last_name,
                 'email': request.user.email})
-            return toRespond
+            return Response(toRespond)
         else:
-            print('test')
             return Response({})
 
 # Placeholder before we have a real matching algo

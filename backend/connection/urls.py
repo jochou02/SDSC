@@ -8,4 +8,6 @@ urlpatterns = [
     path('match_finalized/', views.MatchingFinalized.as_view(), name='match_finalized'),
     path('modify_pending/', views.ModifyPending.as_view(), name='modify_pending'),
     path('get_info/', views.GetInfo.as_view(), name='get_info'),
+    
+    path('get_info_sample/', views.GetInfoSample.as_view(), name='get_info_sample'),
 ]
