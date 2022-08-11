@@ -149,9 +149,6 @@ DATABASES = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/connect/'
-LOGOUT_REDIRECT_URL = '/account/login/'
-
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',

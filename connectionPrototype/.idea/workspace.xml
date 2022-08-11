@@ -46,7 +46,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../scrapeWaitz.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -143,10 +143,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1484" y="547" width="564" height="505" key="EnvironmentVariablesDialog/0.0.2560.1400/-3840.-191.2560.1400@0.0.2560.1400" timestamp="1658605002002" />
-    <state x="1606" y="451" key="FileChooserDialogImpl" timestamp="1659656492944">
+    <state x="1606" y="451" key="FileChooserDialogImpl" timestamp="1660244033589">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="1606" y="451" key="FileChooserDialogImpl/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1659656492944" />
+    <state x="1606" y="451" key="FileChooserDialogImpl/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1660244033589" />
     <state x="1874" y="529" key="FileChooserDialogImpl/0.0.2560.1400/-3840.-191.2560.1400@0.0.2560.1400" timestamp="1658605970871" />
     <state x="1874" y="529" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1659381619814" />
     <state width="2173" height="307" key="GridCell.Tab.0.bottom" timestamp="1659656541484">

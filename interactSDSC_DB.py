@@ -26,12 +26,13 @@ try:
     print("1. Show all tables")
     print("2. Dump a table")
     print("3. Clear a table")
+    print("4. Drop and recreate merge_test2 for re-migration")
 
-    print("4. Quit")
+    print("5. Quit")
 
     opt = input("Enter number without dot: ")
 
-    while(opt != "4"):
+    while(opt != "5"):
         if (opt == "1"):
             cur.execute("SHOW TABLES")
             for i in cur:
@@ -39,14 +40,20 @@ try:
 
         elif (opt == "2"):
             temp = input("Which table would you like to dump:")
-            cur.execute(f"SELECT * FROM {temp}")
+            cur.execute(f"SELECT * FROM merge_test2.{temp}")
             for i in cur:
                 print(i)
 
         elif (opt == "3"):
             temp = input("Which table would you like to clear:")
-            cur.execute(f"DELETE FROM {temp}")
+            cur.execute(f"DELETE FROM merge_test2.{temp}")
             conn.commit()
+
+        elif (opt == "4"):
+            cur.execute("DROP DATABASE merge_test2")
+            cur.execute("CREATE DATABASE merge_test2")
+            conn.commit()
+            
 
         opt = input("Enter number without dot: ")
 
