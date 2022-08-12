@@ -15,14 +15,8 @@ import random, json, time
 class GetInfoSample(APIView):
 
     def get(self, request):
-        if (True):
-            toRespond = StudentSerializer(Student.objects.get(pk=1)).data
-            toRespond.update({'first_name': request.user.first_name,
-                'last_name': request.user.last_name,
-                'email': request.user.email})
-            return Response(toRespond)
-        else:
-            return Response({})
+        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+        return Response(toRespond)
 
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]

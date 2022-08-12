@@ -6,7 +6,8 @@ from account.LISTS import *
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-        #   Courses
+        
+        # Populate database with 10 Courses
 
         a = [i for i in range(1, 100)]
         
@@ -21,45 +22,47 @@ class Command(BaseCommand):
         #auth_user(u_id 1 - 26)
 
         usernames = string.ascii_lowercase
-        lastnames = string.ascii_lowercase
+        pword = "abc"
         
         firstnames = ['Alice', 'Bob', 'Eve', 'Trent', 'Mallory', 'John', 'Tan', 'Caleb',
             'Andrew', 'Emily', 'Evelyn', 'Jiting', 'Keystone', 'Corona', 'BudLight',
             'Kirin', 'Sapporo', 'Ebisu', 'Shifu', 'Tigress', 'Mantis', 'PandaHimself', 'Monkey',
             'Crane', 'Viper', 'Oogway']
-        
-        pword = "abc"
-        
+        lastnames = string.ascii_lowercase
+          
+        added_courses = list(Course.objects.all())
+
         for i in range(26):
-            temp = User.objects.create_user(username=usernames[i], password=pword)
-            temp.email = usernames[i] + "@ucsd.edu"
-            temp.first_name = firstnames[i]
-            temp.last_name = lastnames[i]
-            temp.save()
 
-        # Student (u_id 1 - 26)
+            # Create User
+            tempUser = User.objects.create_user(username=usernames[i], password=pword)
+            tempUser.email = usernames[i] + "@ucsd.edu"
+            tempUser.first_name = firstnames[i]
+            tempUser.last_name = lastnames[i]
 
-        c = list(Course.objects.all())
-        
-        for i in range(1, 27):
-            temp = Student(id = i)
-            temp.user_major = random.choice(MAJOR_LIST)[0]
-            temp.user_college = random.choice(COLLEGE_LIST)[0]
-        
+            tempUser.save()
+
+            # Create Student
+            tempStudent = Student(student_user=tempUser)
+            tempStudent.fname = firstnames[i]
+            tempStudent.lname = lastnames[i]
+            tempStudent.user_college = random.choice(COLLEGE_LIST)[0]
+            tempStudent.user_major = random.choice(MAJOR_LIST)[0]
+            tempStudent.email = usernames[i] + "@ucsd.edu"
+            
+
             interests = random.choices(INTEREST_LIST, k=3)
         
-            temp.user_interest1 = interests[0][0]
-            temp.user_interest2 = interests[1][0]
-            temp.user_interest3 = interests[2][0]
-            
-            # tho may not be neccesary as long as we enforce same id.
-            temp.student_user_id = i
+            tempStudent.user_interest1 = interests[0][0]
+            tempStudent.user_interest2 = interests[1][0]
+            tempStudent.user_interest3 = interests[2][0]
         
-            temp.save()
+            tempStudent.save()
         
-            courses = random.choices(c, k=3)
+            courses = random.choices(added_courses, k=3)
             for j in courses:
-                temp.current_courses.add(j)
+                tempStudent.current_courses.add(j)
         
-            temp.save()
+            tempStudent.save()
+
         print('DONE')

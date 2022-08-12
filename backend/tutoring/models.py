@@ -1,11 +1,9 @@
 from django.db import models
+from account.LISTS import *
 
 # Create your models here.
 
 class Course(models.Model):
-
-    DEPT_LIST = [('CSE', 'CSE'), ('MATH', 'MATH'), 
-        ('COGS', 'COGS'), ('POLI', 'POLI'), ('CHEM', 'CHEM')]
 
     course_dept = models.CharField(max_length=10, choices=DEPT_LIST)
     course_num = models.CharField(max_length=200, null=True)
