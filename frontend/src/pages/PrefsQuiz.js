@@ -13,6 +13,7 @@ class PrefsQuiz extends Component {
         phone: '',
         ig: '',
         discord: '',
+        prefs_save_success: false,
       };
 
       this.handleSubmitPrefs = this.handleSubmitPrefs.bind(this);
@@ -106,7 +107,7 @@ class PrefsQuiz extends Component {
 
         <input 
           type="text" 
-          value={this.state.phone} 
+          value={this.state.ig} 
           placeholder="Instagram"
           className="field"
           onChange={(event) => {
@@ -119,8 +120,9 @@ class PrefsQuiz extends Component {
           value={this.state.discord} 
           placeholder="Discord"
           className="field"
+          style={{marginBottom: "15px"}}
           onChange={(event) => {
-            this.setState({ phone: event.target.value })
+            this.setState({ discord: event.target.value })
           }} 
         />
 
@@ -128,12 +130,17 @@ class PrefsQuiz extends Component {
             type="submit" 
             value="Submit" 
             className={styles.button}
+            onClick={() => {
+              this.setState({ prefs_save_success: true})
+            }}
         />
 
-          <Link to="/profile" state={{ from: "occupation" }}
-          className={styles.link}>
-          Back to Profile
-          </Link>
+        {this.state.prefs_save_success ? <p className={styles.message}>Preferences saved</p> : <></>}
+
+        <Link to="/profile" state={{ from: "occupation" }}
+        className={styles.link}>
+        Back to Profile
+        </Link>
 
         </form>
         </div>

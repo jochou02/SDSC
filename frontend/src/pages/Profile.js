@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
 import { useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester'
 import Karma from '../pages/Karma'
@@ -26,7 +27,6 @@ class Profile extends Component {
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
-                    console.log(data)
         })
         .catch(console.log)
     }
@@ -54,7 +54,7 @@ class Profile extends Component {
         event.preventDefault();
     }
     
-    //ノート: Populate contact_type and contact_info with actual dataChange phone number to display in ###-###-#### format
+    //ノート: Change phone number to display in ###-###-#### format
     ShowProfile = ({ foo }) => {
         return (<>
             <div className={styles.profile_wrapper2}>      
@@ -69,34 +69,35 @@ class Profile extends Component {
                     <p>College: {foo['user_college']}</p>
                     <p>Major: {foo['user_major']}</p>
                     <p>Karma: {foo['user_karma']}</p>
-                    <p>Date Created: {foo['date_created']}</p>
                     <hr className={styles.solid}></hr>
                     <div className={styles.contact_info_wrapper}>
-                        <div className={styles.contact_info_item}>
-                            <p className={styles.contact_type}>Email:</p>
-                            <p className={styles.contact_info}>{foo['email']}</p>   
-                        </div>
-                        if (1===1) {
-                            console.log("yay")
-                        }
-                        <div className={styles.contact_info_item}>
-                            <p className={styles.contact_type}>Discord:</p>
-                            <p className={styles.contact_info}>nagumo_tetora#1919</p>   
-                        </div>
-                        <div className={styles.contact_info_item}>
-                            <p className={styles.contact_type}>Instagram: </p>
-                            <p className={styles.contact_info}>nagumo_tetora</p>   
-                        </div>
-                        <div className={styles.contact_info_item}>
-                            <p className={styles.contact_type}>Phone:</p>
-                            <p className={styles.contact_info}>{foo['phone']}</p> 
-                        </div>
+                        <div><p className={styles.contact_type}>Email:</p>
+                        <this.ShowContactInfo contact={foo['email']}/></div>
+
+                        <div><p className={styles.contact_type}>Phone:</p>
+                        <this.ShowContactInfo contact={foo['phone']}/></div>
+
+                        <div><p className={styles.contact_type}>Discord:</p>
+                        <this.ShowContactInfo contact={foo['discord']}/></div>
+
+                        <div><p className={styles.contact_type}>Instagram:</p>
+                        <this.ShowContactInfo contact={foo['ig']}/></div>
                     </div>
                 </div>
             </div>
         </>);
-    }
+    } 
 
+    ShowContactInfo = (contact) => {
+        if (Object.is(contact['contact'], null)) {
+            console.log("contact null")
+            return (<>
+                <p className={styles.contact_info}>-</p></>)
+        } else {
+            return (<>
+            <p className={styles.contact_info}>{contact['contact']}</p></>)
+        }
+    }
 
     //TO-DO: Replace text inside module_text with actual course info
     ShowCourses = () => {
@@ -159,6 +160,11 @@ class Profile extends Component {
             {/* Example of showing user's information */}
             <div className={styles.profile_wrapper}>
                 <this.ShowProfile foo={this.state.foo} />
+
+                <Link to="/user_prefs" state={{ from: "occupation" }}
+                className={styles.link}>
+                Edit Profile
+                </Link>
 
                 {/* Delete user. Only show when user is logged in */}
                 { localStorage.getItem('auth-token') ?
