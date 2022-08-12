@@ -4,8 +4,6 @@ import { useLocation } from 'react-router-dom'
 
 import LoggedInTester from '../buttons/LoggedInTester';
 
-
-
 class Profile extends Component {
     constructor(props) {
         super(props);

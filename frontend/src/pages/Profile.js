@@ -69,6 +69,7 @@ class Profile extends Component {
                     <p>College: {foo['user_college']}</p>
                     <p>Major: {foo['user_major']}</p>
                     <p>Karma: {foo['user_karma']}</p>
+                    <p>Date Created: {foo['date_created']}</p>
                     <hr className={styles.solid}></hr>
                     <div className={styles.contact_info_wrapper}>
                         <div className={styles.contact_info_item}>

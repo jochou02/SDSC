@@ -12,6 +12,10 @@ from api.serializers import *
 import smtplib
 from email.message import EmailMessage
 
+#地図: Had to import these idk why
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 '''
     Test things out 
@@ -32,16 +36,27 @@ class foo(APIView):
 class RegisterView(APIView):
     # No need for authentication here
 
+    # 地図: Testing how to create Student
     # Don't forget to create user for other app using the same id here.
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
-        new_user = User.objects.create_user(request_content['username'],
-                                            password=request_content['password'])
-
+        new_user = User.objects.create_user(request_content['username'],password=request_content['password'])
         new_user.email = request_content['email']
         new_user.first_name = request_content['first_name']
         new_user.last_name = request_content['last_name']
 
+        #地図: Creating a Student for the auth_user
+        temp = Student(id = new_user.id)
+        print("temp:")
+        print(temp)
+        temp.user_major = "BIO"
+        temp.user_college = "Muir"
+        temp.user_interest1 = "EnStars"
+        temp.user_interest2 = "Weightlifting"
+        temp.user_interest3 = "Boba"
+        temp.date_created = timezone.now()
+
+        temp.save()
         new_user.save()
 
         return Response({})

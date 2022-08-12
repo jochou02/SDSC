@@ -13,7 +13,6 @@ import random, json, time
 # Create your views here.
 
 class GetInfoSample(APIView):
-
     def get(self, request):
         if (True):
             toRespond = StudentSerializer(Student.objects.get(pk=1)).data
@@ -52,7 +51,7 @@ class AddKarmaView(APIView):
         #print(request_content["user_id"])
 
         #Find Student with specified request_user_id
-        temp = Student.objects.get(id=(request_user_id))
+        temp = Student.objects.get(id=request_user_id)
         
         #print("test to see if we got the right user, user_college:")
         #print(temp.user_college)

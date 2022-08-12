@@ -1,6 +1,8 @@
+from datetime import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from tutoring.models import Course
+from django.utils import timezone
 
 # Create your models here.
     
@@ -57,8 +59,6 @@ class Student(models.Model):
 
     # 地図: Set karma for each user, default is 0
     user_karma = models.IntegerField(default=0)
-
-    
 
     #地図: Def set_karma, I don't think this is the right place to put it but it'll work for now
     def set_karma(self, add_karma):
