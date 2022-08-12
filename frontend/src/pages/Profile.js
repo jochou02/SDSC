@@ -54,7 +54,7 @@ class Profile extends Component {
         event.preventDefault();
     }
     
-    //TO-DO: Populate contact_type and contact_info with actual data
+    //ノート: Populate contact_type and contact_info with actual dataChange phone number to display in ###-###-#### format
     ShowProfile = ({ foo }) => {
         return (<>
             <div className={styles.profile_wrapper2}>      
@@ -76,6 +76,9 @@ class Profile extends Component {
                             <p className={styles.contact_type}>Email:</p>
                             <p className={styles.contact_info}>{foo['email']}</p>   
                         </div>
+                        if (1===1) {
+                            console.log("yay")
+                        }
                         <div className={styles.contact_info_item}>
                             <p className={styles.contact_type}>Discord:</p>
                             <p className={styles.contact_info}>nagumo_tetora#1919</p>   
@@ -86,13 +89,14 @@ class Profile extends Component {
                         </div>
                         <div className={styles.contact_info_item}>
                             <p className={styles.contact_type}>Phone:</p>
-                            <p className={styles.contact_info}>123-456-7890</p>   
+                            <p className={styles.contact_info}>{foo['phone']}</p> 
                         </div>
                     </div>
                 </div>
             </div>
         </>);
     }
+
 
     //TO-DO: Replace text inside module_text with actual course info
     ShowCourses = () => {

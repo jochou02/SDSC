@@ -12,7 +12,7 @@ from api.serializers import *
 import smtplib
 from email.message import EmailMessage
 
-#地図: Had to import these idk why
+#ノート: Import
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -46,17 +46,17 @@ class RegisterView(APIView):
         new_user.last_name = request_content['last_name']
 
         #地図: Creating a Student for the auth_user
-        temp = Student(id = new_user.id)
-        print("temp:")
-        print(temp)
-        temp.user_major = "BIO"
-        temp.user_college = "Muir"
-        temp.user_interest1 = "EnStars"
-        temp.user_interest2 = "Weightlifting"
-        temp.user_interest3 = "Boba"
-        temp.date_created = timezone.now()
+        new_student = Student(id = new_user.id)
+        print("Student:")
+        print(new_student)
+        new_student.user_major = "BIO"
+        new_student.user_college = "Muir"
+        new_student.user_interest1 = "EnStars"
+        new_student.user_interest2 = "Weightlifting"
+        new_student.user_interest3 = "Boba"
+        new_student.date_created = timezone.now()
 
-        temp.save()
+        new_student.save()
         new_user.save()
 
         return Response({})
@@ -155,3 +155,17 @@ def send_email(email):
 
     return temp
 
+#地図: SetUserPrefs API
+class SetUserPrefs(APIView):
+    def post(self, request):
+        request_content = json.loads(request.body.decode("utf-8"))
+        request_user_id = request_content["user_id"]
+        temp = Student.objects.get(id=request_user_id)
+
+        temp.set_phone(request_content['phone'])
+        temp.set_ig(request_content['ig'])
+        temp.set_discord(request_content['discord'])
+
+        temp.save()
+
+        return Response({})

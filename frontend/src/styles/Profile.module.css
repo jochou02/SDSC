@@ -26,6 +26,7 @@ p {
   justify-content: center;
   padding: 20px 30px 30px 30px;
   border-radius: 20px;
+  max-width: fit-content;
 }
 
 .profile_wrapper2 {
@@ -71,6 +72,7 @@ p {
 
 .contact_info {
   color: black;
+  margin-bottom: 5px;
 }
 
 .button {
