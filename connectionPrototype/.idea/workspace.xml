@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3fde9baa-69cb-4935-8e7a-096fb11331d2" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+        <option value="Setup Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2BcovHEv0oMbGluPm3qtbPezOzd" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Jiting Shen\Documents\GitHub\UC-Socially-Undead\connectionPrototype\front-end\src\pages\components" />
+      <recent name="C:\Users\Jiting Shen\Documents\GitHub\UC-Socially-Undead\connectionPrototype\front-end\src\buttons" />
+      <recent name="C:\Users\Jiting Shen\Documents\GitHub\UC-Socially-Undead\connectionPrototype\front-end\src\pages" />
+      <recent name="C:\Users\Jiting Shen\PycharmProjects\connectionPrototype\connPrototype\templates" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="connectionPrototype" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Jiting Shen\Documents\GitHub\UC-Socially-Undead\connectionPrototype\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="testScraper" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="connectionPrototype" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Jiting Shen\Documents\GitHub\UC-Socially-Undead\connectionPrototype\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../testScraper.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.testScraper" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3fde9baa-69cb-4935-8e7a-096fb11331d2" name="Default Changelist" comment="" />
+      <created>1657214962139</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1657214962139</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="622" y="315" width="1089" height="731" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1659656516425">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state x="622" y="315" width="1089" height="731" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1659656516425" />
+    <state x="1078" y="455" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400/-3840.-191.2560.1400@0.0.2560.1400" timestamp="1658605694640" />
+    <state x="1036" y="501" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1657314448232">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1036" y="501" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1657314448232" />
+    <state x="1484" y="547" width="564" height="505" key="EnvironmentVariablesDialog" timestamp="1658605002002">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1484" y="547" width="564" height="505" key="EnvironmentVariablesDialog/0.0.2560.1400/-3840.-191.2560.1400@0.0.2560.1400" timestamp="1658605002002" />
+    <state x="1606" y="451" key="FileChooserDialogImpl" timestamp="1660244033589">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state x="1606" y="451" key="FileChooserDialogImpl/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1660244033589" />
+    <state x="1874" y="529" key="FileChooserDialogImpl/0.0.2560.1400/-3840.-191.2560.1400@0.0.2560.1400" timestamp="1658605970871" />
+    <state x="1874" y="529" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1659381619814" />
+    <state width="2173" height="307" key="GridCell.Tab.0.bottom" timestamp="1659656541484">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state width="2173" height="307" key="GridCell.Tab.0.bottom/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1659656541484" />
+    <state width="2539" height="400" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1659380989471" />
+    <state width="2173" height="307" key="GridCell.Tab.0.center" timestamp="1659656541484">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state width="2173" height="307" key="GridCell.Tab.0.center/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1659656541484" />
+    <state width="2539" height="400" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1659380989471" />
+    <state width="2173" height="307" key="GridCell.Tab.0.left" timestamp="1659656541484">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state width="2173" height="307" key="GridCell.Tab.0.left/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1659656541484" />
+    <state width="2539" height="400" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1659380989471" />
+    <state width="2173" height="307" key="GridCell.Tab.0.right" timestamp="1659656541484">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state width="2173" height="307" key="GridCell.Tab.0.right/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1659656541484" />
+    <state width="2539" height="400" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1659380989471" />
+    <state x="712" y="319" key="SettingsEditor" timestamp="1658606774346">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="712" y="319" key="SettingsEditor/0.0.2560.1400/-3840.-191.2560.1400@0.0.2560.1400" timestamp="1658606774346" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1657588971233">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1657588971233" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/connPrototype/connPrototype/urls.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

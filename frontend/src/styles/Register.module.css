@@ -1,0 +1,122 @@
+.emailWrapper {
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 20px 0;
+  padding: 30px;
+  border-radius: 20px;
+  min-width: 500px;
+}
+
+.erorrMessage {
+  color: var(--color-error);
+  margin: 10px 0 0 0;
+  font-weight: 700;
+}
+
+.successMessage {
+  color: var(--color-success);
+  margin: 10px 0 0 0;
+  font-weight: 700;
+}
+
+.wrapper {
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+:focus-visible {
+  outline-color: darkgrey;
+}
+
+.email {
+  font-size: 18px;
+  font-weight: 700;
+  border-style: solid;
+  border-color: rgb(200,200,200);
+  border-width: 1px;
+  border-radius: 7px;
+  width: 350px;
+  outline: none;
+  padding: 10px;
+  background-color: rgb(230,230,230);
+  margin-bottom: 10px;
+}
+
+.emailError {
+  font-size: 18px;
+  font-weight: 700;
+  border-style: solid;
+  border-color: var(--color-error);
+  border-width: 2px;
+  border-radius: 7px;
+  width: 350px;
+  outline: none;
+  padding: 10px;
+  background-color: rgb(230,230,230);
+}
+
+.emailError:focus-visible {
+  outline: none;
+}
+
+.emailSuccess {
+  font-size: 18px;
+  font-weight: 700;
+  border-style: solid;
+  border-color: var(--color-success);
+  border-width: 2px;
+  border-radius: 7px;
+  width: 350px;
+  outline: none;
+  padding: 10px;
+  background-color: rgb(230,230,230);
+}
+
+.emailSuccess:focus-visible {
+  outline: none;
+}
+
+.button {
+  background-color: var(--color-primary-dark);
+  color: whitesmoke;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  border-style: none;
+  padding: 10px 20px 10px 20px;
+  width: 200px;
+  border-radius: 5px;
+  transition: opacity 0.15s;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.button:active {
+  opacity: 0.6;
+}
+
+.button:disabled {
+  opacity: 0.1;
+}
+
+.link {
+  margin-top: 10px;
+  color: var(--color-secondary);
+  font-family: 'Source Sans Pro', 'sans-serif';
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,55 @@
+/* Change all fonts here */
+input, button, link {
+  font-family: 'Source Sans Pro', 'sans-serif';
+}
+
+.loginError {
+  color: var(--color-error);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: center;
+  margin-bottom: 25px;
+}
+
+.logoText {
+  color:whitesmoke;
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.logoPic {
+  width: 100px;
+  height: 110px;
+  margin: 0;
+  /* display: inline-block; */
+}
+
+.wrapper {
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px 30px 20px;
+  border-radius: 20px;
+  min-width: 550px;
+}
+
+.link {
+  margin-top: 10px;
+  color: var(--color-secondary);
+  font-family: 'Source Sans Pro', 'sans-serif';
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
