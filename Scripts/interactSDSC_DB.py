@@ -21,7 +21,7 @@ try:
         password="sungod123")
    
     cur = conn.cursor()
-    cur.execute("USE conn_prototype")
+    cur.execute("USE merge_test")
 
     print("1. Show all tables")
     print("2. Dump a table")
@@ -69,7 +69,6 @@ except mariadb.Error as e:
 
 print("Exiting...")
 conn.close()
-
 
 
 
