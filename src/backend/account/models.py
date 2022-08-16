@@ -75,6 +75,12 @@ class Student(models.Model):
 
         # print("！！\n")
 
+    def set_college(self, college):
+        self.user_college = college
+
+    def set_major(self, major):
+        self.user_major = major
+
     def set_phone(self, phone):
         self.phone = phone
 
@@ -83,3 +89,4 @@ class Student(models.Model):
 
     def set_discord(self, discord):
         self.discord = discord
+

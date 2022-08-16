@@ -24,10 +24,11 @@ class Profile extends Component {
         }
 
         fetch('http://127.0.0.1:8000/connect/get_info/', { headers, })
-                    .then(response => response.json())
-                    .then((data) => {
-                    this.setState({ foo: data })
-        })
+            .then(response => response.json())
+            .then((data) => {
+                this.setState({ foo: data });
+                console.log(data);
+            })
         .catch(console.log)
     }
 
@@ -90,7 +91,7 @@ class Profile extends Component {
 
     ShowContactInfo = (contact) => {
         if (Object.is(contact['contact'], null)) {
-            console.log("contact null")
+            //console.log("contact null")
             return (<>
                 <p className={styles.contact_info}>-</p></>)
         } else {

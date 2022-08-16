@@ -184,6 +184,10 @@ class SetUserPrefs(APIView):
         request_user_id = request_content["user_id"]
         temp = Student.objects.get(id=request_user_id)
 
+        if request_content['college'] != '':  
+            temp.set_college(request_content['college'])
+        if request_content['major'] != '':  
+            temp.set_major(request_content['major'])
         if request_content['phone'] != '':  
             temp.set_phone(request_content['phone'])
         if request_content['ig'] != '':
