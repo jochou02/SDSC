@@ -9,13 +9,16 @@ from rest_framework.authentication import TokenAuthentication
 
 from api.serializers import *
 
+from .models import Student
+
 import smtplib
 from email.message import EmailMessage
 
+'''
+    Test things out. Deprecated. 
+'''
 
-'''
-    Test things out 
-'''
+
 class foo(APIView):
     authentication_classes = [TokenAuthentication]
 
@@ -29,6 +32,8 @@ class foo(APIView):
     Registers a user using given info, and generate a auth 
     token for it.
 '''
+
+
 class RegisterView(APIView):
     # No need for authentication here
 
@@ -44,7 +49,21 @@ class RegisterView(APIView):
 
         new_user.save()
 
+        new_student = Student(pk=new_user.id, student_user=new_user)
+        new_student.first_name = new_user.first_name
+        new_student.last_name = new_user.last_name
+        new_student.email = new_user.email
+
+        # Hook the quiz up from here.
+
+        new_student.save()
+
         return Response({})
+
+
+'''
+    Test things out. Deprecated. 
+'''
 
 
 class GetUserInfoView(APIView):
@@ -56,6 +75,11 @@ class GetUserInfoView(APIView):
         return Response(serializer.data)
 
 
+'''
+    First delete Token, then Student, then User. Add in others as needed.
+'''
+
+
 class DeleteUserView(APIView):
     authentication_classes = [TokenAuthentication]
 
@@ -63,14 +87,21 @@ class DeleteUserView(APIView):
         # Delete other accounts that has to do with auth_user here.
 
         Token.objects.get(user=request.user).delete()
+
+        # Prob should go through connection tables and delete from there as well
+        Student.objects.get(pk=request.user.id).delete()
         User.objects.get(pk=request.user.id).delete()
 
         return Response({})
 
 
-# Send a random code to the supplied email address.
-# Re-use for both forgot password and register account, by introducing
-# status code to differentiate use case.
+'''
+    Send a random code to the supplied email address.
+    Re-use for both forgot password and register account, by introducing
+    status code to differentiate use case.
+'''
+
+
 class GenEmailAuth(APIView):
     # No need for authentication here
     def post(self, request):
@@ -95,6 +126,12 @@ class GenEmailAuth(APIView):
                                  'status': 1})
 
 
+'''
+    Updates the user's password using the unique email and new password 
+    supplied by the user.
+'''
+
+
 class UpdatePassword(APIView):
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
@@ -112,7 +149,6 @@ class UpdatePassword(APIView):
         return Response({})
 
 
-
 # Use the snippet I had once we are on SDSC
 
 # We be passing all these credentials in plain text, let's hope
@@ -122,21 +158,20 @@ def send_email(email):
     # Use that once we are on SDSC cloud. For now, just return a number
 
     temp = str(secrets.token_hex(3))
-#     content_template = f"Your verification code is: {temp}"
+    #     content_template = f"Your verification code is: {temp}"
 
-#     # Create a text/plain message
-#     msg = EmailMessage()
+    #     # Create a text/plain message
+    #     msg = EmailMessage()
 
-#     msg.set_content(content_template)
-#     msg['Subject'] = "UC Socially Undead - Verification Code"
+    #     msg.set_content(content_template)
+    #     msg['Subject'] = "UC Socially Undead - Verification Code"
 
-#     # Only enter the part before @. e.g. jis029, not jis029@ucsd.edu
-#     msg['From'] = "admin"
-#     msg['To'] = "kfrd2022@gmail.com"
+    #     # Only enter the part before @. e.g. jis029, not jis029@ucsd.edu
+    #     msg['From'] = "admin"
+    #     msg['To'] = "kfrd2022@gmail.com"
 
-#     s = smtplib.SMTP('localhost')
-#     s.send_message(msg)
-#     s.quit()
+    #     s = smtplib.SMTP('localhost')
+    #     s.send_message(msg)
+    #     s.quit()
 
     return temp
-

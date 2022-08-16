@@ -43,7 +43,7 @@ class Command(BaseCommand):
             tempUser.save()
 
             # Create Student
-            tempStudent = Student(student_user=tempUser)
+            tempStudent = Student(pk = tempUser.id, student_user=tempUser)
             tempStudent.fname = firstnames[i]
             tempStudent.lname = lastnames[i]
             tempStudent.user_college = random.choice(COLLEGE_LIST)[0]
