@@ -81,6 +81,7 @@ class AddKarmaView(APIView):
 
 
 class MatchingSentView(APIView):
+    #print("MatchingSentView has been called");
 
     authentication_classes = [TokenAuthentication]
 
@@ -96,7 +97,6 @@ class MatchingSentView(APIView):
             toReturn.append(temp)
 
         print("--- %s seconds ---" % (time.time() - start_time))
-
         return Response(toReturn)
 
 
@@ -128,6 +128,7 @@ class MatchingReceivedView(APIView):
 
 
 class GenerateMatchingView(APIView):
+
     authentication_classes = [TokenAuthentication]
 
     # If front end makes a GET request to url associated to generate_match,
@@ -236,13 +237,12 @@ class ModifyPending(APIView):
 # TODO: Conditions for matching
 def generate_match(request):
     pending_matching = get_pending_matching_id(request)
-    print(pending_matching)
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
     for i in tot_users:
         print(i.id)
-
+    
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
         matched_user = random.choice(tot_users)

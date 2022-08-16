@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = 'connect'
+
 urlpatterns = [
     path('match_sent/', views.MatchingSentView.as_view(), name='match_sent'),
     path('match_received/', views.MatchingReceivedView.as_view(), name='match_received'),

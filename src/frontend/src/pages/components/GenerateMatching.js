@@ -46,7 +46,7 @@ class GenerateMatching extends Component {
         }
 
         fetch('http://127.0.0.1:8000/connect/generate_match/', {headers, })
-        .then(res => res.json())
+        .then((res) => {res.json()})
         .then((data) => {
             this.setState({ matching_latest: data,
                             matching_requested: true})

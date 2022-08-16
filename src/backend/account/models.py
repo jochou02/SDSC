@@ -5,6 +5,7 @@ from tutoring.models import Course
 
 # Create your models here.
 
+# 地図: Add fields to Student model
 class Student(models.Model):
     COLLEGE_LIST = (
         ('Revelle', 'Revelle'),
@@ -56,13 +57,12 @@ class Student(models.Model):
     past_courses = models.ManyToManyField(Course, related_name='past_courses_set', blank=True)
     tutoring_courses = models.ManyToManyField(Course, related_name='tutoring_courses_set', blank=True)
 
+    user_karma = models.IntegerField(default=0)
+
     def __str__(self):
         return f'{self.fname} {self.lname}'
 
-    # 地図: Set karma for each user, default is 0
-    user_karma = models.IntegerField(default=0)
-
-    # 地図: Def set_karma, I don't think this is the right place to put it but it'll work for now
+    # 地図: Def for changing setting fields
     def set_karma(self, add_karma):
         # print("！！\nset_karma has been called\n")
 
