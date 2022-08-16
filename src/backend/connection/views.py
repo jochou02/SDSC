@@ -4,20 +4,19 @@ from rest_framework.views import APIView
 from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.authentication import TokenAuthentication
 
-from account.models import *
+from account.models import Student
 from account.LISTS import *
+from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
 from . import helpers
-import random, json, time
+
+import random
+import ujson
+import time
+import redis
 
 # Create your views here.
-
-class GetInfoSample(APIView):
-
-    def get(self, request):
-        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
-        return Response(toRespond)
 
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
@@ -25,10 +24,6 @@ class GetInfo(APIView):
     def get(self, request):
         if (request.user.is_authenticated):
             toRespond = StudentSerializer(Student.objects.get(pk=request.user.id)).data
-            toRespond.update({
-                'first_name': request.user.first_name,
-                'last_name': request.user.last_name,
-                'email': request.user.email})
             return Response(toRespond)
         else:
             return Response({})
@@ -47,7 +42,7 @@ class AddKarmaView(APIView):
         #print(request_content["user_id"])
 
         #Find Student with specified request_user_id
-        temp = Student.objects.get(id=(request_user_id))
+        temp = Student.objects.get(id=request.user.id)
         
         #print("test to see if we got the right user, user_college:")
         #print(temp.user_college)
@@ -90,7 +85,18 @@ class MatchingSentView(APIView):
 
         toReturn = []
         for i in matching_sent:
-            temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
+            # No longer needed now that we have Student as wrapper model
+            # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
+
+            r = redis.Redis("132.249.242.203")
+            temp = None
+
+            if (not r.exists(f"student_{i.id}")):
+                temp = StudentSerializer(Student.objects.get(pk=i.id_receiver)).data
+                r.set(f"student_{i.id}", ujson.dumps(temp))
+            else:
+                temp = ujson.loads(r.get(f"student_{i.id}"))
+
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -113,7 +119,7 @@ class MatchingReceivedView(APIView):
 
         toReturn = []
         for i in matching_sent:
-            temp = helpers.conn_wrapper(User.objects.get(pk=i.id_sender), Student.objects.get(pk=i.id_sender))
+            temp = StudentSerializer(Student.objects.get(pk=i.id_sender)).data
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -137,7 +143,7 @@ class GenerateMatchingView(APIView):
         temp = generate_match(request)
 
         # Send the information about the match back to the front end
-        return Response(helpers.conn_wrapper(User.objects.get(pk=temp.id), temp))
+        return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
@@ -180,7 +186,7 @@ class MatchingFinalized(APIView):
 
         toReturn = []
         for i in finalized_matching:
-            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
+            toReturn.append(StudentSerializer(i).data)
 
         return Response(toReturn)
 
@@ -278,12 +284,3 @@ def get_pending_matching_id(request):
         temp.append(i.id_sender)
 
     return temp
-
-'''
-    Helper that generates either:
-    1. Fake courses
-    2. Fake auth_user
-    3. or Fake ConnUser
-    
-    For testing purposes before their respective UIs are up online.
-'''
