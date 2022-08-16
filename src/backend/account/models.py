@@ -43,6 +43,8 @@ class Student(models.Model):
     # User contact info
     phone = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
+    ig = models.CharField(max_length=200, null=True)
+    discord = models.CharField(max_length=200, null=True)
 
     # User interests
     user_interest1 = models.CharField(max_length=40, choices=INTEREST_LIST)
@@ -72,3 +74,12 @@ class Student(models.Model):
         # print(self.user_karma)
 
         # print("！！\n")
+
+    def set_phone(self, phone):
+        self.phone = phone
+
+    def set_ig(self, ig):
+        self.ig = ig
+
+    def set_discord(self, discord):
+        self.discord = discord

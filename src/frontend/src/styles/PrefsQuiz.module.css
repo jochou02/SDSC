@@ -45,6 +45,11 @@
   opacity: 0.1;
 }
 
+.message {
+  margin: 10px 0 0 0;
+  color: var(--color-success);
+}
+
 .link {
   margin-top: 10px;
   color: var(--color-secondary);
