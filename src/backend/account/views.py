@@ -1,3 +1,5 @@
+#foo
+
 import secrets
 
 from rest_framework.authtoken.models import Token
