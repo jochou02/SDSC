@@ -11,7 +11,7 @@ class PrefsQuiz extends Component {
         user_id: 0,
         college: '',
         major: '',
-        tutor_checked: null,
+        tutor_checked: '',
         phone: '',
         ig: '',
         discord: '',

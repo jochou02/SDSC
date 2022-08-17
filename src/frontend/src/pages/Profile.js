@@ -27,7 +27,7 @@ class Profile extends Component {
             .then(response => response.json())
             .then((data) => {
                 this.setState({ foo: data });
-                console.log(data);
+                //console.log(data);
             })
         .catch(console.log)
     }
@@ -90,14 +90,8 @@ class Profile extends Component {
     } 
 
     ShowContactInfo = (contact) => {
-        if (Object.is(contact['contact'], null)) {
-            //console.log("contact null")
-            return (<>
-                <p className={styles.contact_info}>-</p></>)
-        } else {
-            return (<>
+        return (<>
             <p className={styles.contact_info}>{contact['contact']}</p></>)
-        }
     }
 
     //TO-DO: Replace text inside module_text with actual course info

@@ -31,35 +31,18 @@ class GetInfo(APIView):
 #地図: AddKarmaView API
 class AddKarmaView(APIView):
     def post(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
-        request_user_id = 0
+        request_content = ujson.loads(request.body)
 
-        #print("**\nAddKarmaView has been called\n")
-
-        # Get the user id so we can use to find the User object 
-        request_user_id = request_content["user_id"]
-        #print("request user id:")
-        #print(request_content["user_id"])
+        # Get the user id so we can use to find the User object
+        request_user_id = request_content.get("user_id")
 
         #Find Student with specified request_user_id
-        temp = Student.objects.get(id=request.user.id)
-        
-        #print("test to see if we got the right user, user_college:")
-        #print(temp.user_college)
-
-        #print("user_karma before set:")
-        #print(temp.user_karma)
-        #print("\n")
+        temp = Student.objects.get(id=request_user_id)
 
         #Call set_karma and pass in amnt of karma to be added
-        temp.set_karma(request_content['add_karma'])
-        #print("user_karma after set: ")
-        #print(temp.user_karma)
-        #print("\n")
+        temp.set_karma(request_content.get("add_karma"))
 
         temp.save()
-
-        #print("**\n")
 
         return Response({})
 
@@ -137,29 +120,33 @@ class GenerateMatchingView(APIView):
 
     authentication_classes = [TokenAuthentication]
 
+    #TO-DO: User shown before and after request do not match (match request is sent to user shown before, but a different user is shown when match is pending )
     # If front end makes a GET request to url associated to generate_match,
     # the func below executes
     def get(self, request):
         # Make sure the match is not the user itself
+
+        print("hello from get")
         temp = generate_match(request)
+        print(generate_match(request))
 
         # Send the information about the match back to the front end
-
-        #print(StudentSerializer(Student.objects.get(pk=temp.id)).data)
         
         return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
     def post(self, request):
+        print("hello from post")
         print(request.user)
 
         # Extract
-        request_content = json.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body)
 
         # Create a new PendingMatching object, where the sender and receivers are as specified by our input
-        m = PendingMatching(id_sender=request.user.id,
-                            id_receiver=request_content['id_receiver'])
+        m = PendingMatching(
+            id_sender=request.user.id,
+            id_receiver=request_content.get("id_receiver"))
 
         # Insert the new PendingMatching object into database by calling .save()
         m.save()
@@ -207,36 +194,41 @@ class ModifyPending(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body);
+
+        #print("request_content: ")
+        #print(request_content)
 
         # If yes, push the matching into finalized matching
         # Only receiver could make this call, so request.user.id = id_receiver
-        if (request_content['mode'] == 'y'):
-            FinalizedMatching(id_user_1=request_content['id_sender'],
-                              id_user_2=request.user.id).save()
+        if (request_content.get("mode") == 'y'):
+            #print("_____YAY_____");
+            FinalizedMatching(id_user_1=request_content.get("id_sender"),
+            id_user_2=request.user.id).save()
 
-            PendingMatching.objects.get(id_sender=request_content['id_sender'],
-                                        id_receiver=request.user.id).delete()
+            PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
+            id_receiver=request.user.id).delete()
 
         # If no, mark as denied. Only show to sender.
         # Only receiver could make this call, so request.user.id = id_receiver
-        elif (request_content['mode'] == 'n'):
-            p = PendingMatching.objects.get(id_sender=request_content['id_sender'],
-                                            id_receiver=request.user.id)
+        elif (request_content.get("mode") == 'n'):
+            #print("_____NAY_____");
+            p = PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
+            id_receiver=request.user.id)
             p.isDenied = True
             p.save()
 
         # Should we allow people to pullback pending matching?
         # Assuming we do, then this is visible to both sender and receiver
         # So we need to determine what request.user.id is.
-        elif (request_content['mode'] == 'd'):
+        elif (request_content.get("mode") == 'd'):
             # Let front end supply only one id, and we can guess the other
-            if (request_content['id_sender']):
-                PendingMatching.objects.get(id_sender=request_content['id_sender'],
-                                            id_receiver=request.user.id).delete()
+            if (request_content.get("id_sender")):
+                PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
+                id_receiver=request.user.id).delete()
             else:
                 PendingMatching.objects.get(id_sender=request.user.id,
-                                            id_receiver=request_content['id_receiver']).delete()
+                id_receiver=request_content.get("id_receiver")).delete()
 
         return Response({})
 
@@ -249,8 +241,8 @@ def generate_match(request):
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
-    for i in tot_users:
-        print(i.id)
+    #for i in tot_users:
+        #print(i.id)
     
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
