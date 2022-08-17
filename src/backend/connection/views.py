@@ -144,6 +144,9 @@ class GenerateMatchingView(APIView):
         temp = generate_match(request)
 
         # Send the information about the match back to the front end
+
+        #print(StudentSerializer(Student.objects.get(pk=temp.id)).data)
+        
         return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
 
     # If front end makes a POST request to url associated to generate_match,
