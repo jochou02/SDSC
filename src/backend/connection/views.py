@@ -31,7 +31,7 @@ class GetInfo(APIView):
 #地図: AddKarmaView API
 class AddKarmaView(APIView):
     def post(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body.decode("utf-8"))
         request_user_id = 0
 
         #print("**\nAddKarmaView has been called\n")
@@ -85,19 +85,13 @@ class MatchingSentView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
+        r = redis.Redis("132.249.242.203")
+
         for i in matching_sent:
             # No longer needed now that we have Student as wrapper model
             # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
 
-            r = redis.Redis("132.249.242.203")
-            temp = None
-
-            if (not r.exists(f"student_{i.id}")):
-                temp = StudentSerializer(Student.objects.get(pk=i.id_receiver)).data
-                r.set(f"student_{i.id}", ujson.dumps(temp))
-            else:
-                temp = ujson.loads(r.get(f"student_{i.id}"))
-
+            temp = helpers.redis_get_student(r, i.id_receiver)
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -118,8 +112,10 @@ class MatchingReceivedView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
         toReturn = []
+        r = redis.Redis("132.249.242.203")
+
         for i in matching_sent:
-            temp = StudentSerializer(Student.objects.get(pk=i.id_sender)).data
+            temp = helpers.redis_get_student(r, i.id_sender)
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -144,7 +140,7 @@ class GenerateMatchingView(APIView):
         temp = generate_match(request)
 
         # Send the information about the match back to the front end
-        return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
+        return Response(StudentSerializer(temp).data)
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
@@ -152,7 +148,7 @@ class GenerateMatchingView(APIView):
         print(request.user)
 
         # Extract
-        request_content = json.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body.decode("utf-8"))
 
         # Create a new PendingMatching object, where the sender and receivers are as specified by our input
         m = PendingMatching(id_sender=request.user.id,
@@ -175,21 +171,18 @@ class MatchingFinalized(APIView):
     def get(self, request):
         finalized_matching = []
 
+        r = redis.Redis("132.249.242.203")
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
 
         # our user is either user_1 or user_2, so we go through both lists
         for i in temp:
-            finalized_matching.append(Student.objects.get(pk=i.id_user_2))
+            finalized_matching.append(helpers.redis_get_student(r, i.id_user_2))
 
         temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
         for i in temp:
-            finalized_matching.append(Student.objects.get(pk=i.id_user_1))
+            finalized_matching.append(helpers.redis_get_student(r, i.id_user_1))
 
-        toReturn = []
-        for i in finalized_matching:
-            toReturn.append(StudentSerializer(i).data)
-
-        return Response(toReturn)
+        return Response(finalized_matching)
 
 
 '''
@@ -204,7 +197,7 @@ class ModifyPending(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body.decode("utf-8"))
 
         # If yes, push the matching into finalized matching
         # Only receiver could make this call, so request.user.id = id_receiver
