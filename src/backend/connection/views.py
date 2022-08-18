@@ -42,9 +42,9 @@ class GetInfo(APIView):
 # 地図: AddKarmaView API
 class AddKarmaView(APIView):
     def post(self, request):
-        request_content = ujson.loads(request.body.decode("utf-8"))
-        request_user_id = 0
+        request_content = ujson.loads(request.body)
 
+<<<<<<< HEAD
         # print("**\nAddKarmaView has been called\n")
 
         # Get the user id so we can use to find the User object 
@@ -72,6 +72,19 @@ class AddKarmaView(APIView):
 
         # print("**\n")
 
+=======
+        # Get the user id so we can use to find the User object
+        request_user_id = request_content.get("user_id")
+
+        #Find Student with specified request_user_id
+        temp = Student.objects.get(id=request_user_id)
+
+        #Call set_karma and pass in amnt of karma to be added
+        temp.set_karma(request_content.get("add_karma"))
+
+        temp.save()
+
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
         return Response({})
 
 
@@ -97,14 +110,29 @@ class MatchingSentView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
+<<<<<<< HEAD
         r = redis.Redis("132.249.242.203")
         pipe = r.pipeline()
 
+=======
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
         for i in matching_sent:
             # No longer needed now that we have Student as wrapper model
             # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
 
+<<<<<<< HEAD
             temp = redis_get_student(r, pipe, i.id_receiver)
+=======
+            r = redis.Redis("132.249.242.203")
+            temp = None
+
+            if (not r.exists(f"student_{i.id}")):
+                temp = StudentSerializer(Student.objects.get(pk=i.id_receiver)).data
+                r.set(f"student_{i.id}", ujson.dumps(temp))
+            else:
+                temp = ujson.loads(r.get(f"student_{i.id}"))
+
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -127,6 +155,7 @@ class MatchingReceivedView(APIView):
     def get(self, request):
         matching_received = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
+<<<<<<< HEAD
         r = redis.Redis("132.249.242.203")
         pipe = r.pipeline()
         toReturn = []
@@ -134,6 +163,12 @@ class MatchingReceivedView(APIView):
         for i in matching_received:
             temp = redis_get_student(r, pipe, i.id_sender)
             # temp.update({'isDenied': i.isDenied})
+=======
+        toReturn = []
+        for i in matching_sent:
+            temp = StudentSerializer(Student.objects.get(pk=i.id_sender)).data
+            temp.update({'isDenied': i.isDenied})
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
 
             toReturn.append(temp)
 
@@ -151,26 +186,33 @@ class MatchingReceivedView(APIView):
 class GenerateMatchingView(APIView):
     authentication_classes = [TokenAuthentication]
 
+    #TO-DO: User shown before and after request do not match (match request is sent to user shown before, but a different user is shown when match is pending )
     # If front end makes a GET request to url associated to generate_match,
     # the func below executes
     def get(self, request):
         # Make sure the match is not the user itself
+
+        print("hello from get")
         temp = generate_match(request)
+        print(generate_match(request))
 
         # Send the information about the match back to the front end
-        return Response(StudentSerializer(temp).data)
+        
+        return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
     def post(self, request):
+        print("hello from post")
         print(request.user)
 
         # Extract
-        request_content = ujson.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body)
 
         # Create a new PendingMatching object, where the sender and receivers are as specified by our input
-        m = PendingMatching(id_sender=request.user.id,
-                            id_receiver=request_content['id_receiver'])
+        m = PendingMatching(
+            id_sender=request.user.id,
+            id_receiver=request_content.get("id_receiver"))
 
         # Insert the new PendingMatching object into database by calling .save()
         m.save()
@@ -190,13 +232,17 @@ class MatchingFinalized(APIView):
     def get(self, request):
         finalized_matching = []
 
+<<<<<<< HEAD
         r = redis.Redis("132.249.242.203")
         pipe = r.pipeline()
 
+=======
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
 
         # our user is either user_1 or user_2, so we go through both lists
         for i in temp:
+<<<<<<< HEAD
             finalized_matching.append(redis_get_student(r, pipe, i.id_user_2))
 
         temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
@@ -205,6 +251,19 @@ class MatchingFinalized(APIView):
 
         pipe.execute()
         return Response(finalized_matching)
+=======
+            finalized_matching.append(Student.objects.get(pk=i.id_user_2))
+
+        temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
+        for i in temp:
+            finalized_matching.append(Student.objects.get(pk=i.id_user_1))
+
+        toReturn = []
+        for i in finalized_matching:
+            toReturn.append(StudentSerializer(i).data)
+
+        return Response(toReturn)
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
 
 
 '''
@@ -219,36 +278,41 @@ class ModifyPending(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        request_content = ujson.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body);
+
+        #print("request_content: ")
+        #print(request_content)
 
         # If yes, push the matching into finalized matching
         # Only receiver could make this call, so request.user.id = id_receiver
-        if (request_content['mode'] == 'y'):
-            FinalizedMatching(id_user_1=request_content['id_sender'],
-                              id_user_2=request.user.id).save()
+        if (request_content.get("mode") == 'y'):
+            #print("_____YAY_____");
+            FinalizedMatching(id_user_1=request_content.get("id_sender"),
+            id_user_2=request.user.id).save()
 
-            PendingMatching.objects.get(id_sender=request_content['id_sender'],
-                                        id_receiver=request.user.id).delete()
+            PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
+            id_receiver=request.user.id).delete()
 
         # If no, mark as denied. Only show to sender.
         # Only receiver could make this call, so request.user.id = id_receiver
-        elif (request_content['mode'] == 'n'):
-            p = PendingMatching.objects.get(id_sender=request_content['id_sender'],
-                                            id_receiver=request.user.id)
+        elif (request_content.get("mode") == 'n'):
+            #print("_____NAY_____");
+            p = PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
+            id_receiver=request.user.id)
             p.isDenied = True
             p.save()
 
         # Should we allow people to pullback pending matching?
         # Assuming we do, then this is visible to both sender and receiver
         # So we need to determine what request.user.id is.
-        elif (request_content['mode'] == 'd'):
+        elif (request_content.get("mode") == 'd'):
             # Let front end supply only one id, and we can guess the other
-            if (request_content['id_sender']):
-                PendingMatching.objects.get(id_sender=request_content['id_sender'],
-                                            id_receiver=request.user.id).delete()
+            if (request_content.get("id_sender")):
+                PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
+                id_receiver=request.user.id).delete()
             else:
                 PendingMatching.objects.get(id_sender=request.user.id,
-                                            id_receiver=request_content['id_receiver']).delete()
+                id_receiver=request_content.get("id_receiver")).delete()
 
         return Response({})
 
@@ -260,9 +324,15 @@ def generate_match(request):
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
+<<<<<<< HEAD
     # for i in tot_users:
     #     print(i.id)
 
+=======
+    #for i in tot_users:
+        #print(i.id)
+    
+>>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
         matched_user = random.choice(tot_users)

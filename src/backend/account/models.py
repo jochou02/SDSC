@@ -37,15 +37,16 @@ class Student(models.Model):
     # Changed the naming here so it matches the auth_user to reduce confusion
     first_name = models.CharField(max_length=200, null=True)
     last_name = models.CharField(max_length=200, null=True)
-    user_college = models.CharField(max_length=200, null=True, choices=COLLEGE_LIST)
+    user_college = models.CharField(max_length=200, choices=COLLEGE_LIST, default='')
     user_major = models.CharField(max_length=200, choices=MAJOR_LIST)
-    profile_pic = models.ImageField(default="../icons/pfp.png", null=True, blank=True)
+    #profile_pic = models.ImageField(default="../icons/pfp.png",blank=True)
+    profile_pic = models.ImageField(blank=True)
 
     # User contact info
-    phone = models.CharField(max_length=200, null=True)
-    email = models.CharField(max_length=200, null=True)
-    ig = models.CharField(max_length=200, null=True)
-    discord = models.CharField(max_length=200, null=True)
+    phone = models.CharField(max_length=200, default="")
+    email = models.CharField(max_length=200, default="")
+    ig = models.CharField(max_length=200, default="")
+    discord = models.CharField(max_length=200, default="")
 
     # User interests
     user_interest1 = models.CharField(max_length=40, choices=INTEREST_LIST)
@@ -59,8 +60,9 @@ class Student(models.Model):
 
     user_karma = models.IntegerField(default=0)
 
+    # I had to change names from fname and lname
     def __str__(self):
-        return f'{self.fname} {self.lname}'
+        return f'{self.first_name} {self.last_name}'
 
     # 地図: Def for changing setting fields
     def set_karma(self, add_karma):

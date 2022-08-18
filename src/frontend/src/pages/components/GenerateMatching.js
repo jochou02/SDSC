@@ -62,8 +62,9 @@ class GenerateMatching extends Component {
     handleRequestMatch() {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                        'Authorization': localStorage.getItem('auth-token') },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('auth-token') },
             body: JSON.stringify({ id_receiver: this.state.matching_latest.id})
         };
         fetch('http://127.0.0.1:8000/connect/generate_match/', requestOptions)
@@ -112,21 +113,19 @@ class GenerateMatching extends Component {
     }
  
     // Format the output
+    //TO-DO: Fix keys error?
     ShowSent = ({ sent }) => {
         return (
             <>
             <div className="col">
             <h1>Matchings Sent</h1>
                 {sent.map(match => <>
-                    <ul>
-                    
+                    <ul key={match.id}>
                         <li>Name : {match.first_name} {match.last_name}</li>
                         <div>
                             College: {match.user_college} Major: {match.user_major}
                             &emsp;&emsp;&emsp; {match.isDenied ? <> Denied </> : <> Pending </>}
                         </div>
-
-
 
                         <button onClick={() => this.handleRequestDelete(match)}>
                             Cancel Request
