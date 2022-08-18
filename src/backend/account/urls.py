@@ -13,6 +13,4 @@ urlpatterns = [
     path('delete_user/', views.DeleteUserView.as_view(), name='delete'),
     path('gen_auth/', views.GenEmailAuth.as_view(), name='gen_auth'),
     path('update_password/', views.UpdatePassword.as_view(), name='update_pword'),
-    #地図: set_prefs
-    path('set_prefs/', views.SetUserPrefs.as_view(), name='sef_prefs'),
 ]

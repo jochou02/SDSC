@@ -1,5 +1,4 @@
 import secrets
-from traceback import print_exception
 
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -176,25 +175,3 @@ def send_email(email):
     #     s.quit()
 
     return temp
-
-#地図: SetUserPrefs API
-class SetUserPrefs(APIView):
-    def post(self, request):
-        request_content = json.loads(request.body.decode("utf-8"))
-        request_user_id = request_content["user_id"]
-        temp = Student.objects.get(id=request_user_id)
-
-        if request_content['college'] != '':  
-            temp.set_college(request_content['college'])
-        if request_content['major'] != '':  
-            temp.set_major(request_content['major'])
-        if request_content['phone'] != '':  
-            temp.set_phone(request_content['phone'])
-        if request_content['ig'] != '':
-            temp.set_ig(request_content['ig'])
-        if request_content['discord'] != '':
-            temp.set_discord(request_content['discord'])
-
-        temp.save()
-
-        return Response({})

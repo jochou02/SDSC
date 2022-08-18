@@ -26,7 +26,6 @@ p {
   justify-content: center;
   padding: 20px 30px 30px 30px;
   border-radius: 20px;
-  max-width: fit-content;
 }
 
 .profile_wrapper2 {
@@ -72,7 +71,6 @@ p {
 
 .contact_info {
   color: black;
-  margin-bottom: 5px;
 }
 
 .button {
@@ -139,16 +137,4 @@ p {
   color: whitesmoke;
   margin: 0;
   font-size: 17px;
-}
-
-.link {
-  margin-top: 10px;
-  color: var(--color-secondary);
-  font-family: 'Source Sans Pro', 'sans-serif';
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
 }

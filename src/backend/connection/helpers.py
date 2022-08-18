@@ -4,14 +4,10 @@ from account.models import Student
 from django.apps import apps
 userModel = apps.get_model('account', 'Student')
 
-import ujson
-import redis
+def conn_wrapper(auth_user, conn_user):
+    toRespond = Student(conn_user).data
+    toRespond.update({'first_name': auth_user.first_name,
+                      'last_name': auth_user.last_name,
+                      'email': auth_user.email})
 
-def redis_get_student(r, id):
-    if (not r.exists(f"student_{id}")):
-        student = StudentSerializer(Student.objects.get(pk=id)).data
-        r.set(f"student_{id}", ujson.dumps(student))
-    else:
-        student = ujson.loads(r.get(f"student_{id}"))
-
-    return student
+    return toRespond

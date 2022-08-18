@@ -4,7 +4,6 @@ import LoggedInTester from '../buttons/LoggedInTester';
 
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
-import Test from './components/Test';
 
 /* import Profile from './Profile' */
 
@@ -25,7 +24,7 @@ class Home extends Component {
         this.ShowProfile = this.ShowProfile.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const headers = {"Content-Type": "application/json"};
 
         if (localStorage.getItem('auth-token')) {
@@ -62,10 +61,9 @@ class Home extends Component {
             {/* Example of showing user's information */}
             <this.ShowProfile foo={this.state.foo} />
 
-            <GenerateMatching /> 
+            <GenerateMatching />
             <MatchingReceived />
 
-            <Test />
 
         </>
       );

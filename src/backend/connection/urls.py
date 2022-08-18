@@ -1,8 +1,6 @@
 from django.urls import path
 from . import views
 
-app_name = 'connect'
-
 urlpatterns = [
     path('match_sent/', views.MatchingSentView.as_view(), name='match_sent'),
     path('match_received/', views.MatchingReceivedView.as_view(), name='match_received'),
@@ -12,4 +10,6 @@ urlpatterns = [
     path('get_info/', views.GetInfo.as_view(), name='get_info'),
 
     path('add_karma/', views.AddKarmaView.as_view(), name='add_karma'),
+
+    path('get_info_sample/', views.GetInfoSample.as_view(), name='get_info_sample'),
 ]

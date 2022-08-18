@@ -66,7 +66,7 @@ class Login extends Component {
 
         <div className={styles.wrapper}>
           <p className="formTitle">Login</p>
-          {this.state.failed ? <div className={styles.loginError}>Login Failed</div> : console.log()}
+          {this.state.failed ? <div className={styles.loginError}>Login Failed</div> : console.log("")}
           <form onSubmit={this.handleSubmit}
           className="formWrapper"> 
 

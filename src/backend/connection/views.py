@@ -4,19 +4,20 @@ from rest_framework.views import APIView
 from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.authentication import TokenAuthentication
 
-from account.models import Student
+from account.models import *
 from account.LISTS import *
-from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
 from . import helpers
-
-import random
-import ujson
-import time
-import redis
+import random, json, time
 
 # Create your views here.
+
+class GetInfoSample(APIView):
+
+    def get(self, request):
+        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+        return Response(toRespond)
 
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
@@ -24,6 +25,10 @@ class GetInfo(APIView):
     def get(self, request):
         if (request.user.is_authenticated):
             toRespond = StudentSerializer(Student.objects.get(pk=request.user.id)).data
+            toRespond.update({
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email})
             return Response(toRespond)
         else:
             return Response({})
@@ -31,18 +36,35 @@ class GetInfo(APIView):
 #地図: AddKarmaView API
 class AddKarmaView(APIView):
     def post(self, request):
-        request_content = ujson.loads(request.body)
+        request_content = json.loads(request.body.decode("utf-8"))
+        request_user_id = 0
 
-        # Get the user id so we can use to find the User object
-        request_user_id = request_content.get("user_id")
+        #print("**\nAddKarmaView has been called\n")
+
+        # Get the user id so we can use to find the User object 
+        request_user_id = request_content["user_id"]
+        #print("request user id:")
+        #print(request_content["user_id"])
 
         #Find Student with specified request_user_id
-        temp = Student.objects.get(id=request_user_id)
+        temp = Student.objects.get(id=(request_user_id))
+        
+        #print("test to see if we got the right user, user_college:")
+        #print(temp.user_college)
+
+        #print("user_karma before set:")
+        #print(temp.user_karma)
+        #print("\n")
 
         #Call set_karma and pass in amnt of karma to be added
-        temp.set_karma(request_content.get("add_karma"))
+        temp.set_karma(request_content['add_karma'])
+        #print("user_karma after set: ")
+        #print(temp.user_karma)
+        #print("\n")
 
         temp.save()
+
+        #print("**\n")
 
         return Response({})
 
@@ -59,7 +81,6 @@ class AddKarmaView(APIView):
 
 
 class MatchingSentView(APIView):
-    #print("MatchingSentView has been called");
 
     authentication_classes = [TokenAuthentication]
 
@@ -69,23 +90,13 @@ class MatchingSentView(APIView):
 
         toReturn = []
         for i in matching_sent:
-            # No longer needed now that we have Student as wrapper model
-            # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
-
-            r = redis.Redis("132.249.242.203")
-            temp = None
-
-            if (not r.exists(f"student_{i.id}")):
-                temp = StudentSerializer(Student.objects.get(pk=i.id_receiver)).data
-                r.set(f"student_{i.id}", ujson.dumps(temp))
-            else:
-                temp = ujson.loads(r.get(f"student_{i.id}"))
-
+            temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
 
         print("--- %s seconds ---" % (time.time() - start_time))
+
         return Response(toReturn)
 
 
@@ -102,7 +113,7 @@ class MatchingReceivedView(APIView):
 
         toReturn = []
         for i in matching_sent:
-            temp = StudentSerializer(Student.objects.get(pk=i.id_sender)).data
+            temp = helpers.conn_wrapper(User.objects.get(pk=i.id_sender), Student.objects.get(pk=i.id_sender))
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -117,36 +128,28 @@ class MatchingReceivedView(APIView):
 
 
 class GenerateMatchingView(APIView):
-
     authentication_classes = [TokenAuthentication]
 
-    #TO-DO: User shown before and after request do not match (match request is sent to user shown before, but a different user is shown when match is pending )
     # If front end makes a GET request to url associated to generate_match,
     # the func below executes
     def get(self, request):
         # Make sure the match is not the user itself
-
-        print("hello from get")
         temp = generate_match(request)
-        print(generate_match(request))
 
         # Send the information about the match back to the front end
-        
-        return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
+        return Response(helpers.conn_wrapper(User.objects.get(pk=temp.id), temp))
 
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
     def post(self, request):
-        print("hello from post")
         print(request.user)
 
         # Extract
-        request_content = ujson.loads(request.body)
+        request_content = json.loads(request.body.decode("utf-8"))
 
         # Create a new PendingMatching object, where the sender and receivers are as specified by our input
-        m = PendingMatching(
-            id_sender=request.user.id,
-            id_receiver=request_content.get("id_receiver"))
+        m = PendingMatching(id_sender=request.user.id,
+                            id_receiver=request_content['id_receiver'])
 
         # Insert the new PendingMatching object into database by calling .save()
         m.save()
@@ -177,7 +180,7 @@ class MatchingFinalized(APIView):
 
         toReturn = []
         for i in finalized_matching:
-            toReturn.append(StudentSerializer(i).data)
+            toReturn.append(helpers.conn_wrapper(User.objects.get(pk=i.id), i))
 
         return Response(toReturn)
 
@@ -194,41 +197,36 @@ class ModifyPending(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        request_content = ujson.loads(request.body);
-
-        #print("request_content: ")
-        #print(request_content)
+        request_content = json.loads(request.body.decode("utf-8"))
 
         # If yes, push the matching into finalized matching
         # Only receiver could make this call, so request.user.id = id_receiver
-        if (request_content.get("mode") == 'y'):
-            #print("_____YAY_____");
-            FinalizedMatching(id_user_1=request_content.get("id_sender"),
-            id_user_2=request.user.id).save()
+        if (request_content['mode'] == 'y'):
+            FinalizedMatching(id_user_1=request_content['id_sender'],
+                              id_user_2=request.user.id).save()
 
-            PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
-            id_receiver=request.user.id).delete()
+            PendingMatching.objects.get(id_sender=request_content['id_sender'],
+                                        id_receiver=request.user.id).delete()
 
         # If no, mark as denied. Only show to sender.
         # Only receiver could make this call, so request.user.id = id_receiver
-        elif (request_content.get("mode") == 'n'):
-            #print("_____NAY_____");
-            p = PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
-            id_receiver=request.user.id)
+        elif (request_content['mode'] == 'n'):
+            p = PendingMatching.objects.get(id_sender=request_content['id_sender'],
+                                            id_receiver=request.user.id)
             p.isDenied = True
             p.save()
 
         # Should we allow people to pullback pending matching?
         # Assuming we do, then this is visible to both sender and receiver
         # So we need to determine what request.user.id is.
-        elif (request_content.get("mode") == 'd'):
+        elif (request_content['mode'] == 'd'):
             # Let front end supply only one id, and we can guess the other
-            if (request_content.get("id_sender")):
-                PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
-                id_receiver=request.user.id).delete()
+            if (request_content['id_sender']):
+                PendingMatching.objects.get(id_sender=request_content['id_sender'],
+                                            id_receiver=request.user.id).delete()
             else:
                 PendingMatching.objects.get(id_sender=request.user.id,
-                id_receiver=request_content.get("id_receiver")).delete()
+                                            id_receiver=request_content['id_receiver']).delete()
 
         return Response({})
 
@@ -238,12 +236,13 @@ class ModifyPending(APIView):
 # TODO: Conditions for matching
 def generate_match(request):
     pending_matching = get_pending_matching_id(request)
+    print(pending_matching)
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
-    #for i in tot_users:
-        #print(i.id)
-    
+    for i in tot_users:
+        print(i.id)
+
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
         matched_user = random.choice(tot_users)
@@ -279,3 +278,12 @@ def get_pending_matching_id(request):
         temp.append(i.id_sender)
 
     return temp
+
+'''
+    Helper that generates either:
+    1. Fake courses
+    2. Fake auth_user
+    3. or Fake ConnUser
+    
+    For testing purposes before their respective UIs are up online.
+'''
