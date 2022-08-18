@@ -9,12 +9,16 @@ from account.LISTS import *
 from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
-from . import helpers
+from .helpers import redis_get_student
 
 import random
 import ujson
 import time
 import redis
+
+# from numba import jit
+from multiprocessing import Pool
+
 
 # Create your views here.
 
@@ -22,46 +26,54 @@ class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
+        start_time = time.time()
+
+        r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
+
         if (request.user.is_authenticated):
-            toRespond = StudentSerializer(Student.objects.get(pk=request.user.id)).data
-            return Response(toRespond)
+            print("--- %s seconds ---" % (time.time() - start_time))
+            #
+            return Response(redis_get_student(r, pipe, request.user.id))
         else:
             return Response({})
 
-#地図: AddKarmaView API
+
+# 地図: AddKarmaView API
 class AddKarmaView(APIView):
     def post(self, request):
         request_content = ujson.loads(request.body.decode("utf-8"))
         request_user_id = 0
 
-        #print("**\nAddKarmaView has been called\n")
+        # print("**\nAddKarmaView has been called\n")
 
         # Get the user id so we can use to find the User object 
         request_user_id = request_content["user_id"]
-        #print("request user id:")
-        #print(request_content["user_id"])
+        # print("request user id:")
+        # print(request_content["user_id"])
 
-        #Find Student with specified request_user_id
+        # Find Student with specified request_user_id
         temp = Student.objects.get(id=request.user.id)
-        
-        #print("test to see if we got the right user, user_college:")
-        #print(temp.user_college)
 
-        #print("user_karma before set:")
-        #print(temp.user_karma)
-        #print("\n")
+        # print("test to see if we got the right user, user_college:")
+        # print(temp.user_college)
 
-        #Call set_karma and pass in amnt of karma to be added
+        # print("user_karma before set:")
+        # print(temp.user_karma)
+        # print("\n")
+
+        # Call set_karma and pass in amnt of karma to be added
         temp.set_karma(request_content['add_karma'])
-        #print("user_karma after set: ")
-        #print(temp.user_karma)
-        #print("\n")
+        # print("user_karma after set: ")
+        # print(temp.user_karma)
+        # print("\n")
 
         temp.save()
 
-        #print("**\n")
+        # print("**\n")
 
         return Response({})
+
 
 # Placeholder before we have a real matching algo
 
@@ -76,7 +88,7 @@ class AddKarmaView(APIView):
 
 
 class MatchingSentView(APIView):
-    #print("MatchingSentView has been called");
+    # print("MatchingSentView has been called");
 
     authentication_classes = [TokenAuthentication]
 
@@ -86,17 +98,20 @@ class MatchingSentView(APIView):
 
         toReturn = []
         r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
 
         for i in matching_sent:
             # No longer needed now that we have Student as wrapper model
             # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
 
-            temp = helpers.redis_get_student(r, i.id_receiver)
+            temp = redis_get_student(r, pipe, i.id_receiver)
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
 
-        print("--- %s seconds ---" % (time.time() - start_time))
+        pipe.execute()
+
+        #print("--- %s seconds ---" % (time.time() - start_time))
         return Response(toReturn)
 
 
@@ -105,20 +120,24 @@ class MatchingSentView(APIView):
 '''
 
 
+# TODO: try out multi-threading
 class MatchingReceivedView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        matching_sent = list(PendingMatching.objects.filter(id_receiver=request.user.id))
+        matching_received = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
-        toReturn = []
         r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
+        toReturn = []
 
-        for i in matching_sent:
-            temp = helpers.redis_get_student(r, i.id_sender)
-            temp.update({'isDenied': i.isDenied})
+        for i in matching_received:
+            temp = redis_get_student(r, pipe, i.id_sender)
+            # temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
+
+        pipe.execute()
 
         return Response(toReturn)
 
@@ -130,7 +149,6 @@ class MatchingReceivedView(APIView):
 
 
 class GenerateMatchingView(APIView):
-
     authentication_classes = [TokenAuthentication]
 
     # If front end makes a GET request to url associated to generate_match,
@@ -168,20 +186,24 @@ class GenerateMatchingView(APIView):
 class MatchingFinalized(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # We may be able to optimize this by introducing a hashing mechanism.
     def get(self, request):
         finalized_matching = []
 
         r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
+
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
 
         # our user is either user_1 or user_2, so we go through both lists
         for i in temp:
-            finalized_matching.append(helpers.redis_get_student(r, i.id_user_2))
+            finalized_matching.append(redis_get_student(r, pipe, i.id_user_2))
 
         temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
         for i in temp:
-            finalized_matching.append(helpers.redis_get_student(r, i.id_user_1))
+            finalized_matching.append(redis_get_student(r, pipe, i.id_user_1))
 
+        pipe.execute()
         return Response(finalized_matching)
 
 
@@ -231,7 +253,6 @@ class ModifyPending(APIView):
         return Response({})
 
 
-
 # Placeholder before we have a real matching algo
 # TODO: Conditions for matching
 def generate_match(request):
@@ -239,9 +260,9 @@ def generate_match(request):
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
-    for i in tot_users:
-        print(i.id)
-    
+    # for i in tot_users:
+    #     print(i.id)
+
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
         matched_user = random.choice(tot_users)

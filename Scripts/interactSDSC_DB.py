@@ -21,7 +21,7 @@ try:
         password="sungod123")
    
     cur = conn.cursor()
-    cur.execute("USE merge_test")
+    cur.execute("USE merge_test2")
 
     print("1. Show all tables")
     print("2. Dump a table")
