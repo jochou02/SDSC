@@ -9,12 +9,16 @@ from account.LISTS import *
 from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
-from . import helpers
+from .helpers import redis_get_student
 
 import random
 import ujson
 import time
 import redis
+
+# from numba import jit
+from multiprocessing import Pool
+
 
 # Create your views here.
 
@@ -22,13 +26,20 @@ class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
+        start_time = time.time()
+
+        r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
+
         if (request.user.is_authenticated):
-            toRespond = StudentSerializer(Student.objects.get(pk=request.user.id)).data
-            return Response(toRespond)
+            print("--- %s seconds ---" % (time.time() - start_time))
+            #
+            return Response(redis_get_student(r, pipe, request.user.id))
         else:
             return Response({})
 
-#地図: AddKarmaView API
+
+# 地図: AddKarmaView API
 class AddKarmaView(APIView):
     def post(self, request):
         request_content = ujson.loads(request.body)
@@ -37,6 +48,7 @@ class AddKarmaView(APIView):
         request_user_id = request_content.get("user_id")
 
         #Find Student with specified request_user_id
+        # use redis_get_student() instead for better performance
         temp = Student.objects.get(id=request_user_id)
 
         #Call set_karma and pass in amnt of karma to be added
@@ -45,6 +57,7 @@ class AddKarmaView(APIView):
         temp.save()
 
         return Response({})
+
 
 # Placeholder before we have a real matching algo
 
@@ -59,7 +72,7 @@ class AddKarmaView(APIView):
 
 
 class MatchingSentView(APIView):
-    #print("MatchingSentView has been called");
+    # print("MatchingSentView has been called");
 
     authentication_classes = [TokenAuthentication]
 
@@ -68,24 +81,21 @@ class MatchingSentView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
+        r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
+
         for i in matching_sent:
             # No longer needed now that we have Student as wrapper model
             # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
 
-            r = redis.Redis("132.249.242.203")
-            temp = None
-
-            if (not r.exists(f"student_{i.id}")):
-                temp = StudentSerializer(Student.objects.get(pk=i.id_receiver)).data
-                r.set(f"student_{i.id}", ujson.dumps(temp))
-            else:
-                temp = ujson.loads(r.get(f"student_{i.id}"))
-
+            temp = redis_get_student(r, pipe, i.id_receiver)
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
 
-        print("--- %s seconds ---" % (time.time() - start_time))
+        pipe.execute()
+
+        #print("--- %s seconds ---" % (time.time() - start_time))
         return Response(toReturn)
 
 
@@ -94,18 +104,24 @@ class MatchingSentView(APIView):
 '''
 
 
+# TODO: try out multi-threading
 class MatchingReceivedView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        matching_sent = list(PendingMatching.objects.filter(id_receiver=request.user.id))
+        matching_received = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
+        r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
         toReturn = []
-        for i in matching_sent:
-            temp = StudentSerializer(Student.objects.get(pk=i.id_sender)).data
+
+        for i in matching_received:
+            temp = redis_get_student(r, pipe, i.id_sender)
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
+
+        pipe.execute()
 
         return Response(toReturn)
 
@@ -117,7 +133,6 @@ class MatchingReceivedView(APIView):
 
 
 class GenerateMatchingView(APIView):
-
     authentication_classes = [TokenAuthentication]
 
     #TO-DO: User shown before and after request do not match (match request is sent to user shown before, but a different user is shown when match is pending )
@@ -162,24 +177,27 @@ class GenerateMatchingView(APIView):
 class MatchingFinalized(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # We may be able to optimize this by introducing a hashing mechanism.
     def get(self, request):
         finalized_matching = []
+
+        r = redis.Redis("132.249.242.203")
+        pipe = r.pipeline()
 
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
 
         # our user is either user_1 or user_2, so we go through both lists
         for i in temp:
-            finalized_matching.append(Student.objects.get(pk=i.id_user_2))
+            finalized_matching.append(redis_get_student(r, pipe, i.id_user_2))
 
         temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
         for i in temp:
-            finalized_matching.append(Student.objects.get(pk=i.id_user_1))
+            finalized_matching.append(redis_get_student(r, pipe, i.id_user_1))
 
-        toReturn = []
-        for i in finalized_matching:
-            toReturn.append(StudentSerializer(i).data)
+        pipe.execute()
 
-        return Response(toReturn)
+        return Response(finalized_matching)
+
 
 
 '''
@@ -233,7 +251,6 @@ class ModifyPending(APIView):
         return Response({})
 
 
-
 # Placeholder before we have a real matching algo
 # TODO: Conditions for matching
 def generate_match(request):
@@ -241,9 +258,6 @@ def generate_match(request):
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
-    #for i in tot_users:
-        #print(i.id)
-    
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
         matched_user = random.choice(tot_users)
