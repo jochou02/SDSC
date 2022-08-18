@@ -11,11 +11,8 @@ import Test from './components/Test';
 /*
     GenerateMatching takes care of generating a matching, as well as displaying
     matching that we have sent.
-
     Matching Received takes care of interaction between we and matching that we
     have received.
-
-
 */
 class Home extends Component {
     constructor(props) {
