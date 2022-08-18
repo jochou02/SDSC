@@ -178,6 +178,8 @@ def send_email(email):
     return temp
 
 #地図: SetUserPrefs API
+
+# Naisu jobu!
 class SetUserPrefs(APIView):
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
