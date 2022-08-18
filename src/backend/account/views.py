@@ -12,6 +12,8 @@ from api.serializers import *
 
 from .models import Student
 
+import redis
+
 import smtplib
 from email.message import EmailMessage
 
@@ -179,13 +181,14 @@ def send_email(email):
 
 #地図: SetUserPrefs API
 
-# Naisu jobu!
+# Naisu jobu! お疲れさま---
 class SetUserPrefs(APIView):
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
         request_user_id = request_content["user_id"]
         temp = Student.objects.get(id=request_user_id)
 
+        # Or use shorthand if request_content['college'] since empty string evaluates to false
         if request_content['college'] != '':  
             temp.set_college(request_content['college'])
         if request_content['major'] != '':  
@@ -199,4 +202,9 @@ class SetUserPrefs(APIView):
 
         temp.save()
 
+        #also need to update redis
+        r = redis.Redis(host="132.249.242.203")
+        r.set(f"student_{temp.id}", temp)
+
+        # Could return success/failure if we introduce server-side error handling for inputs
         return Response({})
