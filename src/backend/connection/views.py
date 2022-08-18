@@ -44,39 +44,11 @@ class AddKarmaView(APIView):
     def post(self, request):
         request_content = ujson.loads(request.body)
 
-<<<<<<< HEAD
-        # print("**\nAddKarmaView has been called\n")
-
-        # Get the user id so we can use to find the User object 
-        request_user_id = request_content["user_id"]
-        # print("request user id:")
-        # print(request_content["user_id"])
-
-        # Find Student with specified request_user_id
-        temp = Student.objects.get(id=request.user.id)
-
-        # print("test to see if we got the right user, user_college:")
-        # print(temp.user_college)
-
-        # print("user_karma before set:")
-        # print(temp.user_karma)
-        # print("\n")
-
-        # Call set_karma and pass in amnt of karma to be added
-        temp.set_karma(request_content['add_karma'])
-        # print("user_karma after set: ")
-        # print(temp.user_karma)
-        # print("\n")
-
-        temp.save()
-
-        # print("**\n")
-
-=======
         # Get the user id so we can use to find the User object
         request_user_id = request_content.get("user_id")
 
         #Find Student with specified request_user_id
+        # use redis_get_student() instead for better performance
         temp = Student.objects.get(id=request_user_id)
 
         #Call set_karma and pass in amnt of karma to be added
@@ -84,7 +56,6 @@ class AddKarmaView(APIView):
 
         temp.save()
 
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
         return Response({})
 
 
@@ -110,29 +81,14 @@ class MatchingSentView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
-<<<<<<< HEAD
         r = redis.Redis("132.249.242.203")
         pipe = r.pipeline()
 
-=======
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
         for i in matching_sent:
             # No longer needed now that we have Student as wrapper model
             # temp = helpers.conn_wrapper(User.objects.get(pk=i.id_receiver), Student.objects.get(pk=i.id_receiver))
 
-<<<<<<< HEAD
             temp = redis_get_student(r, pipe, i.id_receiver)
-=======
-            r = redis.Redis("132.249.242.203")
-            temp = None
-
-            if (not r.exists(f"student_{i.id}")):
-                temp = StudentSerializer(Student.objects.get(pk=i.id_receiver)).data
-                r.set(f"student_{i.id}", ujson.dumps(temp))
-            else:
-                temp = ujson.loads(r.get(f"student_{i.id}"))
-
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
             temp.update({'isDenied': i.isDenied})
 
             toReturn.append(temp)
@@ -155,20 +111,13 @@ class MatchingReceivedView(APIView):
     def get(self, request):
         matching_received = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
-<<<<<<< HEAD
         r = redis.Redis("132.249.242.203")
         pipe = r.pipeline()
         toReturn = []
 
         for i in matching_received:
             temp = redis_get_student(r, pipe, i.id_sender)
-            # temp.update({'isDenied': i.isDenied})
-=======
-        toReturn = []
-        for i in matching_sent:
-            temp = StudentSerializer(Student.objects.get(pk=i.id_sender)).data
             temp.update({'isDenied': i.isDenied})
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
 
             toReturn.append(temp)
 
@@ -232,17 +181,13 @@ class MatchingFinalized(APIView):
     def get(self, request):
         finalized_matching = []
 
-<<<<<<< HEAD
         r = redis.Redis("132.249.242.203")
         pipe = r.pipeline()
 
-=======
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
 
         # our user is either user_1 or user_2, so we go through both lists
         for i in temp:
-<<<<<<< HEAD
             finalized_matching.append(redis_get_student(r, pipe, i.id_user_2))
 
         temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
@@ -250,20 +195,9 @@ class MatchingFinalized(APIView):
             finalized_matching.append(redis_get_student(r, pipe, i.id_user_1))
 
         pipe.execute()
+
         return Response(finalized_matching)
-=======
-            finalized_matching.append(Student.objects.get(pk=i.id_user_2))
 
-        temp = FinalizedMatching.objects.filter(id_user_2=request.user.id)
-        for i in temp:
-            finalized_matching.append(Student.objects.get(pk=i.id_user_1))
-
-        toReturn = []
-        for i in finalized_matching:
-            toReturn.append(StudentSerializer(i).data)
-
-        return Response(toReturn)
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
 
 
 '''
@@ -324,15 +258,6 @@ def generate_match(request):
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
-<<<<<<< HEAD
-    # for i in tot_users:
-    #     print(i.id)
-
-=======
-    #for i in tot_users:
-        #print(i.id)
-    
->>>>>>> b2ee87c8853691d27dca6e0085b7b5a3b324f0c0
     matched_user = random.choice(tot_users)
     while (matched_user.id == request.user.id):
         matched_user = random.choice(tot_users)
