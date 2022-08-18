@@ -1,0 +1,89 @@
+.CoursePageContainer{
+    display:flex;
+    flex-direction:column;
+    padding-top:100px;
+    align-items:center;
+    background-color:rgb(222,222,222);
+    padding-bottom:80px;
+}
+
+.ClassSearchBar{
+    height:60px;
+    width:800px;
+    margin-bottom:20px;
+    background-color:white;
+    padding-left:12px;
+    border-style:solid;
+    border-color:gray;
+    padding-top:15px;
+    font-size:20px;
+    color:gray;
+    
+}
+
+.CurrentCourses{
+   height:260px;
+   width:800px;
+   margin-bottom:40px;
+   background-color:white;
+   border-radius:20px;
+    padding-left:17px;
+    padding-right:22px;
+    overflow-y:scroll;
+}
+
+.CompletedCourses{
+    height:280px;
+    width:800px;
+    background-color:white;
+    border-radius:20px;
+    padding-left:12px;
+    overflow-y:scroll;
+}
+.currentCourseTitle{
+    margin-bottom:20px;
+    margin-top:8px;
+    margin-left:10px;
+    font-size:16px;
+}
+.sortByTop{
+    margin-left:500px;
+    margin-top:6px;
+}
+
+.sortByBottom{
+    margin-left:550px;
+    margin-top:6px;
+}
+.currentCourse{
+    border-style:solid;
+    margin-bottom:12px;
+    height:95px;
+    border-radius:15px;
+    padding-left:10px;
+    background-color:gray;
+    color:white;
+}
+
+.completedCourseTitle{
+    margin-bottom:20px;
+    margin-top:8px;
+    margin-left:18px;
+    font-size:16px;   
+}
+
+.completedCourse{  
+    border-style:solid;
+    margin-bottom:12px;
+    height:103px;
+    border-radius:15px;
+    padding-left:12px;
+    background-color:gray;
+    color:white;
+    margin-right:22px;
+    margin-left:5px;
+}
+
+.searchButton{
+    margin-bottom:20px;
+}
