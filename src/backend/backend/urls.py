@@ -25,5 +25,4 @@ urlpatterns = [
     path('review/', include("review.urls")),
     path('wait_time/', include("wait_time.urls")),
     path('karma/', include("karma.urls")),
-    path('schedule/', include("schedule.urls")),
 ]

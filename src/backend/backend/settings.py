@@ -50,8 +50,7 @@ INSTALLED_APPS = [
     'tutoring',
     'review',
     'wait_time',
-    'karma',
-    'schedule',
+    'karma'
 ]
 
 MIDDLEWARE = [

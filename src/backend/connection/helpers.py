@@ -2,12 +2,17 @@ from api.serializers import StudentSerializer
 from account.models import Student
 
 from django.apps import apps
-userModel = apps.get_model('account', 'Student')
 
-def conn_wrapper(auth_user, conn_user):
-    toRespond = Student(conn_user).data
-    toRespond.update({'first_name': auth_user.first_name,
-                      'last_name': auth_user.last_name,
-                      'email': auth_user.email})
+import ujson
+import redis
 
-    return toRespond
+def redis_get_student(r, pipe, id):
+    try:
+        student = ujson.loads(r.get(f"student_{id}"))
+    except:
+        student = StudentSerializer(Student.objects.get(pk=id)).data
+        pipe.set(f"student_{id}", ujson.dumps(student))
+
+
+    return student
+

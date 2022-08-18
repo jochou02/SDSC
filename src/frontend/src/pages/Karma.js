@@ -44,7 +44,7 @@ class Karma extends Component {
     .then(response => {response.json()})
       .then(() => {
         this.setState({ }, () => {
-          console.log("mail has been sent\n\n");
+          console.log();
         })
       })
       .catch(console.log)
