@@ -4,91 +4,59 @@ import { useLocation } from 'react-router-dom'
 
 import LoggedInTester from '../buttons/LoggedInTester';
 
+const Course = ({ course_dept, course_num }) => (
+    <div>
+        <p>{course_dept}</p>
+        <p>{course_num}</p>
+    </div>
+);
 
 
-class Profile extends Component {
+
+class Courses extends Component {
+
     constructor(props) {
         super(props);
-        this.state = { foo: [],
-                     };
+        this.state = { 
+            foo: [],
+        };
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.GetCourses = this.GetCourses.bind(this);
     }
 
-
-
-    componentWillMount() {
+    componentDidMount() {
         const headers = {"Content-Type": "application/json"};
 
-        if (localStorage.getItem('auth-token')) {
-            headers["Authorization"] = localStorage.getItem('auth-token');
-        }
-
-        fetch('http://127.0.0.1:8000/tutoring/get_current_courses/', { headers, })
+        console.log('test')
+    
+        fetch("http://127.0.0.1:8000/tutoring/get_courses_sample/", { headers, })
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
         })
-        .catch(console.log)
     }
 
-    handleSubmit(event) {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                       'Authorization': localStorage.getItem('auth-token'), },
-            body: JSON.stringify({})
-        };
-
-        fetch('http://127.0.0.1:8000/account/delete_user/', requestOptions)
-        .then(response => response.json())
-              .then((data) => {
-                this.setState({ token: data['token'] }, () => {
-                    window.location.href = 'http://localhost:3000/login';
-              })
-        })
-        .catch(console.log)
-
-        // User should not be logged in account that's no longer exists
-        localStorage.removeItem('auth-token')
-
-        event.preventDefault();
-    }
-    
-    ShowProfile = ({ foo }) => {
+    GetCourses = ({ foo }) => {
         return (
             <>
-                ID: {foo['id']} <br />
-                Name: {foo['first_name']} {foo['last_name']} <br />
-                E-Mail: {foo['email']} <br />
-                College: {foo['user_college']}
+                ID: {foo[1]['course_dept']} <br />
+                Name: {foo[1]['course_num']} <br />
             </>
         );
     }
-    
+
     render() {
-      return (
-        <>
-            <LoggedInTester />
-
-            {/* Sufficient to get whatever info we need from user */}
-            { localStorage.getItem('auth-token') } <br /><br /><br />
-
-            {/* Example of showing user's information */}
-            <this.ShowProfile foo={this.state.foo} />
-
-            {/* Delete user. Only show when user is logged in */}
-            { localStorage.getItem('auth-token') ?
-                <form onSubmit={this.handleSubmit}>
-                    <input type="submit" value="Delete My Account" />
-                </form> :
-
-                <></>
-            }
-
-        </>
-      );
+        console.log('test')
+        return (
+            <div>
+                <p>test</p>
+                <this.GetCourses foo={this.state.foo} />
+            </div>
+        );
     }
+
+
   }
 
-  export default Profile
+  export default Courses
+
