@@ -28,7 +28,7 @@ class GetInfo(APIView):
     def get(self, request):
         start_time = time.time()
 
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         if (request.user.is_authenticated):
@@ -81,7 +81,7 @@ class MatchingSentView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         for i in matching_sent:
@@ -111,7 +111,7 @@ class MatchingReceivedView(APIView):
     def get(self, request):
         matching_received = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
         toReturn = []
 
@@ -181,7 +181,7 @@ class MatchingFinalized(APIView):
     def get(self, request):
         finalized_matching = []
 
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
