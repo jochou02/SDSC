@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse, HttpResponseRedirect
@@ -37,6 +38,13 @@ class GetInfo(APIView):
             return Response(redis_get_student(r, pipe, request.user.id))
         else:
             return Response({})
+        
+
+class GetInfoTest(APIView):
+
+    def get(self, request):
+        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+        return Response(toRespond)
 
 
 # 地図: AddKarmaView API

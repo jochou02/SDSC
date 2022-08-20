@@ -6,52 +6,63 @@ import LoggedInTester from '../buttons/LoggedInTester';
 
 const Course = ({ course_dept, course_num }) => (
     <div>
-        <p>{course_dept}</p>
-        <p>{course_num}</p>
+        <p>{course_dept} {course_num}</p>
     </div>
 );
-
-
 
 class Courses extends Component {
 
     constructor(props) {
         super(props);
         this.state = { 
-            foo: [],
+            foo: [{}],
         };
-
-        this.GetCourses = this.GetCourses.bind(this);
     }
 
     componentDidMount() {
         const headers = {"Content-Type": "application/json"};
-
-        console.log('test')
     
-        fetch("http://127.0.0.1:8000/tutoring/get_courses_sample/", { headers, })
+        if (localStorage.getItem('auth-token')) {
+            headers["Authorization"] = localStorage.getItem('auth-token');
+        }
+
+        fetch("http://127.0.0.1:8000/tutoring/get_all_courses/", { headers, })
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
         })
-    }
-
-    GetCourses = ({ foo }) => {
-        return (
-            <>
-                ID: {foo[1]['course_dept']} <br />
-                Name: {foo[1]['course_num']} <br />
-            </>
-        );
+        .catch(console.log)
     }
 
     render() {
-        console.log('test')
         return (
-            <div>
-                <p>test</p>
-                <this.GetCourses foo={this.state.foo} />
-            </div>
+            <>
+            {   
+                !localStorage.getItem('auth-token') ? <></> : <>
+                    <h1>Current Courses</h1>
+                    {this.state.foo?.current_courses?.map((course) => (
+                        <Course
+                            course_dept={course.course_dept}
+                            course_num={course.course_num}
+                        />
+                    ))}
+                    <h1>Past Courses</h1>
+                    {this.state.foo?.past_courses?.map((course) => (
+                        <Course
+                            course_dept={course.course_dept}
+                            course_num={course.course_num}
+                        />
+                    ))}
+                    <h1>Tutoring Courses</h1>
+                    {this.state.foo?.tutoring_courses?.map((course) => (
+                        <Course
+                            course_dept={course.course_dept}
+                            course_num={course.course_num}
+                        />
+                    ))}
+                </>
+            }
+            </>
         );
     }
 
