@@ -15,10 +15,52 @@ class GetCoursesSample(APIView):
 
     def get(self, request):
         student = Student.objects.get(pk=1)
-        queryset = student.current_courses.all()
-        serializer = CourseSerializer(queryset, many=True)
-        data = serializer.data
-        return Response(data)
+
+        queryset1 = student.current_courses.all()
+        serializer1 = CourseSerializer(queryset1, many=True)
+        data1 = serializer1.data
+
+        queryset2 = student.past_courses.all()
+        serializer2 = CourseSerializer(queryset2, many=True)
+        data2 = serializer2.data
+
+        queryset3 = student.past_courses.all()
+        serializer3 = CourseSerializer(queryset3, many=True)
+        data3 = serializer3.data
+
+        return Response({
+            'current_courses': data1, 
+            'past_courses': data2,
+            'tutoring_courses': data3
+        })
+
+class GetAllCourses(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        if (request.user.is_authenticated):
+            student = Student.objects.get(pk=request.user.id)
+
+            queryset1 = student.current_courses.all()
+            serializer1 = CourseSerializer(queryset1, many=True)
+            data1 = serializer1.data
+
+            queryset2 = student.past_courses.all()
+            serializer2 = CourseSerializer(queryset2, many=True)
+            data2 = serializer2.data
+
+            queryset3 = student.past_courses.all()
+            serializer3 = CourseSerializer(queryset3, many=True)
+            data3 = serializer3.data
+
+            return Response({
+                'current_courses': data1, 
+                'past_courses': data2,
+                'tutoring_courses': data3
+            })
+
+        else:
+            return Response({})
 
 class GetCurrentCourses(APIView):
     authentication_classes = [TokenAuthentication]
