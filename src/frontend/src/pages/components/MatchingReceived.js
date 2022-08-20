@@ -52,6 +52,7 @@ class MatchingReceived extends Component {
             .then(res => res.json())
             .then((data) => {
                 this.setState({ matching_finalized: data })
+                //console.log(data);
             })
 
             .catch(console.log)
@@ -147,10 +148,11 @@ class MatchingReceived extends Component {
                 <>
                 <div className="col">
                 <h1>Recent Connections</h1>
-                    {finalized.map(match => <>
+                    {finalized.map((match) => <>
                         <ul>
 
-                            <li>{match.first_name} {match.last_name}</li>
+                            <li >
+                            {match.first_name} {match.last_name}</li>
                             <div>{match.user_college}</div>
 
                             <hr />

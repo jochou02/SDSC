@@ -4,17 +4,15 @@ import LoggedInTester from '../buttons/LoggedInTester';
 
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
+import Test from './components/Test';
 
 /* import Profile from './Profile' */
 
 /*
     GenerateMatching takes care of generating a matching, as well as displaying
     matching that we have sent.
-
     Matching Received takes care of interaction between we and matching that we
     have received.
-
-
 */
 class Home extends Component {
     constructor(props) {
@@ -24,7 +22,7 @@ class Home extends Component {
         this.ShowProfile = this.ShowProfile.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const headers = {"Content-Type": "application/json"};
 
         if (localStorage.getItem('auth-token')) {
@@ -61,9 +59,10 @@ class Home extends Component {
             {/* Example of showing user's information */}
             <this.ShowProfile foo={this.state.foo} />
 
-            <GenerateMatching />
+            <GenerateMatching /> 
             <MatchingReceived />
 
+            <Test />
 
         </>
       );
