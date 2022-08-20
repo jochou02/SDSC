@@ -7,25 +7,25 @@ import "../Courses.css";
 export default function Courses(){
     const [value,setValue] = useState(''); //what is typed into the search bar
     const [data, setData] = useState([  //using temporary dummy data
-        {course_dept: 'a'},
-        {course_dept: 'b'},
-        {course_dept: 'c'}
+        {course_dept: 'a', course_num:'1', prof: "Professor A"},
+        {course_dept: 'b', course_num:'2', prof: "Professor B"},
+        {course_dept: 'c', course_num:'3', prof: "Professor C"}
     ]);  //data of current courses
     const [filteredData, setFilteredData] = useState([
-        {course_dept: 'a'},
-        {course_dept: 'b'},
-        {course_dept: 'c'}
+        {course_dept: 'a', course_num:'1', prof: "Professor A"},
+        {course_dept: 'b', course_num:'2', prof: "Professor B"},
+        {course_dept: 'c', course_num:'3', prof: "Professor C"}
     ]); //data of current courses that match what is typed into the search bar
 
     const [data2,setData2] = useState([
-        {course_dept: 'a'},
-        {course_dept: 'b'},
-        {course_dept: 'c'}
+        {course_dept: 'a', course_num:'1', prof: "Professor A"},
+        {course_dept: 'b', course_num:'2', prof: "Professor B"},
+        {course_dept: 'c', course_num:'3', prof: "Professor C"}
     ]); //data of completed courses
     const [filteredData2, setFilteredData2] = useState([
-        {course_dept: 'a'},
-        {course_dept: 'b'},
-        {course_dept: 'c'}
+        {course_dept: 'a', course_num:'1', prof: "Professor A"},
+        {course_dept: 'b', course_num:'2', prof: "Professor B"},
+        {course_dept: 'c', course_num:'3', prof: "Professor C"}
     ]); //data of completed couress that match what is typed into the search bar 
 
     const onChange = (event) =>{        //sets value to whatever is typed into the search bar
@@ -40,9 +40,11 @@ export default function Courses(){
         let filtered = []
         for(let i=0;i<data.length;i++){
             console.log(data[i].course_dept);
-            if(data[i].course_dept.includes(value)){
+            if(value.includes(data[i].course_dept)
+                || value.includes(data[i].course_num)
+                ||value.includes(data[i].prof)){
                 console.log("abc")
-                filtered.push(data[i]);
+                filtered.push(data[i]); 
             }
         }
 
@@ -53,14 +55,19 @@ export default function Courses(){
         let filtered2 = []
         for(let i=0;i<data2.length;i++){
             console.log(data2[i].course_dept);
-            if(data2[i].course_dept.includes(value)){
+            if(value.includes(data2[i].course_dept) 
+                || value.includes(data2[i].course_num)
+                ||value.includes(data2[i].prof)){
+                // ||(data2[i].course_dept.includes(value) && data2[i].course_num.includes(value))){
                 console.log("abc")
                 filtered2.push(data2[i]);
-            }
+            } 
         }
 
         setFilteredData2(filtered2);
-        
+        // data2[i].course_dept.includes(value) 
+        //         || data2[i].course_num.includes(value)
+        //         ||data2[i].prof.includes(value)
     }
 
     useEffect(() => {   //pulls in information from data base and puts it into data state
@@ -105,7 +112,7 @@ export default function Courses(){
             </div>
 
             {filteredData.map(filtered => {
-            return <div className = 'currentCourse'> {filtered.course_dept}</div>
+            return <div className = 'currentCourse'> {filtered.course_dept} {filtered.course_num} {filtered.prof}</div>
         })}
         </div>
         
@@ -117,7 +124,7 @@ export default function Courses(){
                 </button> */}
             </div>
             {filteredData2.map(filtered => {
-            return <div className = 'completedCourse'> {filtered.course_dept}</div>
+            return <div className = 'completedCourse'> {filtered.course_dept} {filtered.course_num} {filtered.prof}</div>
         })}
         </div>
         </div>
