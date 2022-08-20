@@ -37,6 +37,7 @@
     border-radius:30px;
     text-align:center;
     background-color:rgb(222,222,222);
+    overflow-y:scroll;
 }
 
 .reviews{
@@ -60,6 +61,25 @@
 .profName{
     flex:1;
     color:gray;
+    width:130px;
+    font-size:20px;
+    position:relative;
+}
+.classTime{
+    font-size:19px;
+    width:130px;
+    margin-top:10px;
+}
+
+.rating_out_5{
+    margin-top:50px;
+    text-align:center;
+    border-style:solid;
+    margin-left:40px;
+    margin-right:40px;
+    border-radius:20px;
+    padding-top:7px;
+    padding-bottom:7px;
 }
 .ratingDescription{
     flex:2;
