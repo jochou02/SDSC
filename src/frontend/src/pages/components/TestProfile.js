@@ -11,28 +11,47 @@ import pfp from '../../icons/pfp.png'
 class TestProfile extends Component {
   constructor(props) {
     super(props);
+    this.state = { foo: [], };
   }
 
   componentDidMount() {
-    const headers = {"Content-Type": "application/json"};
+    this.setState({foo: this.props.foo}, () => console.log("foo"));
+  }
 
-    if (localStorage.getItem('auth-token')) {
-        headers["Authorization"] = localStorage.getItem('auth-token');
-    }
-
-    fetch('http://127.0.0.1:8000/connect/get_info/', { headers, })
-        .then(response => response.json())
-        .then((data) => {
-            this.setState({ foo: data });
-            console.log(data);
-        })
-    .catch(console.log)
-}
+  ShowProfile = ({ foo }) => {
+    return (<>
+      <div className={styles.profile_wrapper2}>      
+        <img src={pfp} alt="pfp" className={styles.pfp}></img>
+        <div className={styles.profile_info_wrapper}>
+          <p>ID: {foo['id']}</p>
+          <p className={styles.name}>
+            {foo['first_name']}
+            {' '}
+            {foo['last_name']}
+          </p>
+          <p>College: {foo['user_college']}</p>
+          <p>Major: {foo['user_major']}</p>
+          <p>Karma: {foo['user_karma']}</p>
+          <hr className={styles.solid}></hr>
+        </div>
+      </div>
+    </>);
+  } 
 
   render() {
-    return (
-      <p>Hello</p>
-    );
+    return (<>
+      <div className={styles.componentWrapper}>
+        <LoggedInTester />
+        {/* Sufficient to get whatever info we need from user */}
+        { localStorage.getItem('auth-token') }
+      </div>
+
+      <div className={styles.wrapper}>
+        <div className={styles.profile_wrapper}>
+          <this.ShowProfile foo={this.state.foo} />
+        </div>
+      </div>
+    </>);
   }
 }
 

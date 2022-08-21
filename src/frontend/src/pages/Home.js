@@ -62,8 +62,6 @@ class Home extends Component {
             <GenerateMatching /> 
             <MatchingReceived />
 
-            <Test />
-
         </>
       );
     }

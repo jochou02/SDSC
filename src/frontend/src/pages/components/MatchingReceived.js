@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Test from '../components/Test';
 
 class MatchingReceived extends Component {
     constructor(props) {
@@ -144,6 +145,7 @@ class MatchingReceived extends Component {
     }
 
     ShowFinalized = ({ finalized }) => {
+        //console.log(finalized);
             return (
                 <>
                 <div className="col">
@@ -154,6 +156,7 @@ class MatchingReceived extends Component {
                             <li >
                             {match.first_name} {match.last_name}</li>
                             <div>{match.user_college}</div>
+                            <Test id={match.id}/>
 
                             <hr />
 
@@ -166,7 +169,6 @@ class MatchingReceived extends Component {
     }
      
     render() {
-
         return (
             <>
             <this.ShowReceived received = {this.state.matching_received} />

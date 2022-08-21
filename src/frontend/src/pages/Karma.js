@@ -42,14 +42,12 @@ class Karma extends Component {
     };
     fetch('http://127.0.0.1:8000/connect/add_karma/', requestOptions)
     .then(response => {response.json()})
-      .then(() => {
-        this.setState({ }, () => {
-          console.log();
+      .then((data) => {
+        this.setState({}, () => {
+          console.log("hello");
         })
       })
-      .catch(console.log)
-
-      //event.preventDefault();
+    .catch(console.log);
   }
 
   ShowProfile = ({ foo }) => {

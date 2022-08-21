@@ -42,6 +42,7 @@ class GetInfo(APIView):
     # To get info of any user given uid
     def post(self, request):
         request_content = ujson.loads(request.body.decode("utf-8"))
+        print(request_content['id']);
 
         r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
@@ -154,9 +155,9 @@ class GenerateMatchingView(APIView):
     def get(self, request):
         # Make sure the match is not the user itself
 
-        print("hello from get")
+        #print("hello from get")
         temp = generate_match(request)
-        print(generate_match(request))
+        #print(generate_match(request))
 
         # Send the information about the match back to the front end
 
@@ -165,8 +166,8 @@ class GenerateMatchingView(APIView):
     # If front end makes a POST request to url associated to generate_match,
     # the func below executes
     def post(self, request):
-        print("hello from post")
-        print(request.user)
+        #print("hello from post")
+        #print(request.user)
 
         # Extract
         request_content = ujson.loads(request.body)
