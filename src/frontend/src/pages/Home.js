@@ -4,7 +4,6 @@ import LoggedInTester from '../buttons/LoggedInTester';
 
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
-import Test from './components/Test';
 
 /* import Profile from './Profile' */
 

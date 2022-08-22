@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Test from '../components/Test';
+import LinkProfile from '../components/LinkProfile';
 
 class MatchingReceived extends Component {
     constructor(props) {
@@ -156,7 +156,7 @@ class MatchingReceived extends Component {
                             <li >
                             {match.first_name} {match.last_name}</li>
                             <div>{match.user_college}</div>
-                            <Test id={match.id}/>
+                            <LinkProfile id={match.id}/>
 
                             <hr />
 

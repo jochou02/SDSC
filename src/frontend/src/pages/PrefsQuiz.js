@@ -15,6 +15,11 @@ class PrefsQuiz extends Component {
         phone: '',
         ig: '',
         discord: '',
+        /*
+        email: '',
+        fname: '',
+        lname: '',
+        */
         prefs_save_success: false,
       };
 
@@ -41,7 +46,12 @@ class PrefsQuiz extends Component {
               major: data.user_major,
               phone: data.phone,
               ig: data.ig,
-              discord: data.discord
+              discord: data.discord,
+              /*
+              email: data.email,
+              fname: data.fname,
+              lname: data.lname,
+              */
             });
             //console.log(data);
         })
@@ -59,7 +69,11 @@ class PrefsQuiz extends Component {
           tutor_checked: this.state.tutor_checked,
           phone: this.state.phone,
           ig: this.state.ig,
-          discord: this.state.discord})
+          discord: this.state.discord,
+          /*
+          email: this.state.email,
+          fname: this.state.fname,
+          lname: this.state.lname*/})
       };
     
       fetch('http://127.0.0.1:8000/account/set_prefs/', requestOptions)
@@ -166,6 +180,38 @@ class PrefsQuiz extends Component {
             this.setState({ discord: event.target.value })
           }} 
         />
+
+        {/*
+        <label>Email</label>
+        <input 
+          type="text" 
+          value={this.state.email} 
+          className="field"
+          style={{marginBottom: "15px"}}
+          onChange={(event) => {
+            this.setState({ email: event.target.value })
+          }} 
+        />
+        <label>Fname</label>
+        <input 
+          type="text" 
+          value={this.state.fname} 
+          className="field"
+          style={{marginBottom: "15px"}}
+          onChange={(event) => {
+            this.setState({ fname: event.target.value })
+          }} 
+        />
+        <label>Lname</label>
+        <input 
+          type="text" 
+          value={this.state.lname} 
+          className="field"
+          style={{marginBottom: "15px"}}
+          onChange={(event) => {
+            this.setState({ lname: event.target.value })
+          }} 
+        />*/}
 
         <div className={styles.question}>
           <p>Would you like to become a tutor?</p>

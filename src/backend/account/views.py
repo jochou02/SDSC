@@ -199,6 +199,14 @@ class SetUserPrefs(APIView):
             temp.set_ig(request_content['ig'])
         if request_content['discord'] != '':
             temp.set_discord(request_content['discord'])
+        '''
+        if request_content['email'] != '':
+            temp.set_email(request_content['email'])
+        if request_content['fname'] != '':
+            temp.set_fname(request_content['fname'])
+        if request_content['lname'] != '':
+            temp.set_lname(request_content['lname'])
+        '''
 
         temp.save()
 

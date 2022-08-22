@@ -34,7 +34,6 @@ class GetInfo(APIView):
 
         if (request.user.is_authenticated):
             print("--- %s seconds ---" % (time.time() - start_time))
-            #
             return Response(redis_get_student(r, pipe, request.user.id))
         else:
             return Response({})
@@ -42,7 +41,7 @@ class GetInfo(APIView):
     # To get info of any user given uid
     def post(self, request):
         request_content = ujson.loads(request.body.decode("utf-8"))
-        print(request_content['id']);
+        #print(request_content['id']);
 
         r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()

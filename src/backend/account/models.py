@@ -91,4 +91,14 @@ class Student(models.Model):
 
     def set_discord(self, discord):
         self.discord = discord
+    '''
+    def set_email(self, email):
+        self.email = email
+
+    def set_fname(self, fname):
+        self.first_name = fname
+
+    def set_lname(self, lname):
+        self.last_name = lname
+    '''
 
