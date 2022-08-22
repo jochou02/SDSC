@@ -5,33 +5,60 @@ import { Link } from 'react-router-dom';
 import LoggedInTester from '../../buttons/LoggedInTester'
 import Karma from '../Karma'
 import styles from '../../styles/TestProfile.module.css'
-
 import pfp from '../../icons/pfp.png'
+import withRouter from './withRouter';
 
 class TestProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { foo: [], };
+    this.state = { id: '', userInfo: [], };
   }
 
   componentDidMount() {
-    this.setState({foo: this.props.foo}, () => console.log("foo"));
+    this.setState({id: this.props.params.userId}, () => {
+      this.getUserProfile();
+    })
   }
 
-  ShowProfile = ({ foo }) => {
+  getUserProfile() {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth-token'),
+      },
+      body: JSON.stringify({id: this.state.id})
+    };
+    fetch('http://127.0.0.1:8000/connect/get_info/', requestOptions)
+    .then(response => response.json())
+      .then((data) => {
+        this.setState({userInfo: data}, () => {console.log()})
+      })
+    .catch(console.log);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    //console.log(prevProps);
+    //console.log(this.props.userInfo);
+    if (prevProps.userInfo != this.props.userInfo) {
+      this.setState({userInfo: this.props.userInfo}, () => console.log())
+    }
+  }
+
+  ShowProfile = ({ userInfo }) => {
     return (<>
       <div className={styles.profile_wrapper2}>      
         <img src={pfp} alt="pfp" className={styles.pfp}></img>
         <div className={styles.profile_info_wrapper}>
-          <p>ID: {foo['id']}</p>
+          <p>ID: {userInfo['id']}</p>
           <p className={styles.name}>
-            {foo['first_name']}
+            {userInfo['first_name']}
             {' '}
-            {foo['last_name']}
+            {userInfo['last_name']}
           </p>
-          <p>College: {foo['user_college']}</p>
-          <p>Major: {foo['user_major']}</p>
-          <p>Karma: {foo['user_karma']}</p>
+          <p>College: {userInfo['user_college']}</p>
+          <p>Major: {userInfo['user_major']}</p>
+          <p>Karma: {userInfo['user_karma']}</p>
           <hr className={styles.solid}></hr>
         </div>
       </div>
@@ -48,11 +75,11 @@ class TestProfile extends Component {
 
       <div className={styles.wrapper}>
         <div className={styles.profile_wrapper}>
-          <this.ShowProfile foo={this.state.foo} />
+          <this.ShowProfile userInfo={this.state.userInfo} />
         </div>
       </div>
     </>);
   }
 }
 
-export default TestProfile
+export default withRouter(TestProfile);

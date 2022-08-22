@@ -8,11 +8,9 @@ import redis
 
 def redis_get_student(r, pipe, id):
     try:
-        print("TRY")
         student = ujson.loads(r.get(f"student_{id}"))
         #print(student)
     except:
-        print("EXCEPT")
         student = StudentSerializer(Student.objects.get(pk=id)).data
         pipe.set(f"student_{id}", ujson.dumps(student))
 

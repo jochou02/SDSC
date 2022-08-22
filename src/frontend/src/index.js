@@ -8,6 +8,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  useLocation,
 } from "react-router-dom";
 
 import Login from './pages/Login';
@@ -35,6 +36,7 @@ root.render(
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
       <Route path="test_profile" element={<TestProfile />} />
+      <Route path="user/:userId" element={<TestProfile />} />
     </Routes>
   </BrowserRouter>
 );
