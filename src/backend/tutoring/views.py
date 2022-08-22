@@ -9,7 +9,7 @@ from .models import *
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 
-# API
+# TESTING ONLY #
 
 class GetCoursesSample(APIView):
 
@@ -33,34 +33,6 @@ class GetCoursesSample(APIView):
             'past_courses': data2,
             'tutoring_courses': data3
         })
-
-class GetAllCourses(APIView):
-    authentication_classes = [TokenAuthentication]
-
-    def get(self, request):
-        if (request.user.is_authenticated):
-            student = Student.objects.get(pk=request.user.id)
-
-            queryset1 = student.current_courses.all()
-            serializer1 = CourseSerializer(queryset1, many=True)
-            data1 = serializer1.data
-
-            queryset2 = student.past_courses.all()
-            serializer2 = CourseSerializer(queryset2, many=True)
-            data2 = serializer2.data
-
-            queryset3 = student.past_courses.all()
-            serializer3 = CourseSerializer(queryset3, many=True)
-            data3 = serializer3.data
-
-            return Response({
-                'current_courses': data1, 
-                'past_courses': data2,
-                'tutoring_courses': data3
-            })
-
-        else:
-            return Response({})
 
 class GetCurrentCourses(APIView):
     authentication_classes = [TokenAuthentication]
@@ -103,6 +75,61 @@ class GetTutoringCourses(APIView):
 
         else:
             return Response({})
+
+# END TESTING SECTION #
+
+class GetAllCourses(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        if (request.user.is_authenticated):
+            student = Student.objects.get(pk=request.user.id)
+
+            queryset1 = student.current_courses.all()
+            serializer1 = CourseSerializer(queryset1, many=True)
+            data1 = serializer1.data
+
+            queryset2 = student.past_courses.all()
+            serializer2 = CourseSerializer(queryset2, many=True)
+            data2 = serializer2.data
+
+            queryset3 = student.past_courses.all()
+            serializer3 = CourseSerializer(queryset3, many=True)
+            data3 = serializer3.data
+
+            return Response({
+                'current_courses': data1, 
+                'past_courses': data2,
+                'tutoring_courses': data3
+            })
+
+        else:
+            return Response({})
+
+def removeCurrentCourse(request, pk):
+    request.user.student.current_courses.remove(Course.objects.get(id=pk))
+
+def removePastCourse(request, pk):
+    request.user.student.past_courses.remove(Course.objects.get(id=pk))
+
+def removeTutoringCourse(request, pk):
+    request.user.student.tutoring_courses.remove(Course.objects.get(id=pk))
+    request.user.student.past_courses.add(Course.objects.get(id=pk))
+
+def markComplete(request, pk):
+    updated_course = Course.objects.get(id=pk)
+    request.user.student.current_courses.remove(updated_course)
+    request.user.student.past_courses.add(updated_course)
+
+def markCurrent(request, pk):
+    updated_course = Course.objects.get(id=pk)
+    request.user.student.past_courses.remove(updated_course)
+    request.user.student.current_courses.add(updated_course)
+
+def becomeTutor(request, pk):
+    course = Course.objects.get(id=pk)
+    request.user.student.past_courses.remove(course)
+    request.user.student.tutoring_courses.add(course)
 
 class FindPeer(APIView):
 
