@@ -68,12 +68,12 @@ class Student(models.Model):
     def set_karma(self, add_karma):
         # print("！！\nset_karma has been called\n")
 
-        # print("self.user_karma before:")
-        # print(self.user_karma)
+        print("self.user_karma before:")
+        print(self.user_karma)
 
         self.user_karma += add_karma
-        # print("self.user_karma after:")
-        # print(self.user_karma)
+        print("self.user_karma after:")
+        print(self.user_karma)
 
         # print("！！\n")
 

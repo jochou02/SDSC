@@ -7,12 +7,16 @@ import ujson
 import redis
 
 def redis_get_student(r, pipe, id):
+    '''The part in try isn't working
     try:
         student = ujson.loads(r.get(f"student_{id}"))
-        print(student)
     except:
         student = StudentSerializer(Student.objects.get(pk=id)).data
         pipe.set(f"student_{id}", ujson.dumps(student))
+    '''
+
+    student = StudentSerializer(Student.objects.get(pk=id)).data
+    pipe.set(f"student_{id}", ujson.dumps(student))
 
     return student
 

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { useLocation } from 'react-router-dom'
-import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../../buttons/LoggedInTester'
-import Karma from '../Karma'
 import styles from '../../styles/OtherProfile.module.css'
 import pfp from '../../icons/pfp.png'
 import withRouter from './withRouter';
@@ -40,7 +37,7 @@ class OtherProfile extends Component {
   componentDidUpdate(prevProps, prevState) {
     //console.log(prevProps);
     //console.log(this.props.userInfo);
-    if (prevProps.userInfo != this.props.userInfo) {
+    if (prevProps.userInfo !== this.props.userInfo) {
       this.setState({userInfo: this.props.userInfo}, () => console.log())
     }
   }
