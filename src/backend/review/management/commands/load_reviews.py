@@ -10,8 +10,8 @@ class Command(BaseCommand):
         
         # 5 Random Courses and Students
 
-        students = random.sample(Student.objects.all(), 5)
-        courses = random.sample(Course.objects.all(), 5)
+        students = random.sample(list(Student.objects.all()), 5)
+        courses = random.sample(list(Course.objects.all()), 5)
         descriptions = [
             'This class was great',
             'Class was too hard',

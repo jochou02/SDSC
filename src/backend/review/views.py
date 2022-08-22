@@ -18,6 +18,3 @@ class GetReviews(APIView):
             data = serializer.data
             return Response(data)
 
-class addReview(APIView):
-
-    # TODO
