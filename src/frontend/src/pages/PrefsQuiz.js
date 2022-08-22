@@ -15,11 +15,9 @@ class PrefsQuiz extends Component {
         phone: '',
         ig: '',
         discord: '',
-        /*
-        email: '',
-        fname: '',
-        lname: '',
-        */
+        user_interest1: '',
+        user_interest2: '',
+        user_interest3: '',
         prefs_save_success: false,
       };
 
@@ -47,11 +45,9 @@ class PrefsQuiz extends Component {
               phone: data.phone,
               ig: data.ig,
               discord: data.discord,
-              /*
-              email: data.email,
-              fname: data.fname,
-              lname: data.lname,
-              */
+              user_interest1: data.user_interest1,
+              user_interest2: data.user_interest2,
+              user_interest3: data.user_interest3,
             });
             //console.log(data);
         })
@@ -70,10 +66,10 @@ class PrefsQuiz extends Component {
           phone: this.state.phone,
           ig: this.state.ig,
           discord: this.state.discord,
-          /*
-          email: this.state.email,
-          fname: this.state.fname,
-          lname: this.state.lname*/})
+          user_interest1: this.state.user_interest1,
+          user_interest2: this.state.user_interest2,
+          user_interest3: this.state.user_interest3
+        })
       };
     
       fetch('http://127.0.0.1:8000/account/set_prefs/', requestOptions)
@@ -181,37 +177,36 @@ class PrefsQuiz extends Component {
           }} 
         />
 
-        {/*
-        <label>Email</label>
+        <label>Interest 1</label>
         <input 
           type="text" 
-          value={this.state.email} 
+          value={this.state.user_interest1} 
           className="field"
           style={{marginBottom: "15px"}}
           onChange={(event) => {
-            this.setState({ email: event.target.value })
+            this.setState({ user_interest1: event.target.value })
           }} 
         />
-        <label>Fname</label>
+        <label>Interest 2</label>
         <input 
           type="text" 
-          value={this.state.fname} 
+          value={this.state.user_interest2} 
           className="field"
           style={{marginBottom: "15px"}}
           onChange={(event) => {
-            this.setState({ fname: event.target.value })
+            this.setState({ user_interest2: event.target.value })
           }} 
         />
-        <label>Lname</label>
+        <label>Interest 3</label>
         <input 
           type="text" 
-          value={this.state.lname} 
+          value={this.state.user_interest3} 
           className="field"
           style={{marginBottom: "15px"}}
           onChange={(event) => {
-            this.setState({ lname: event.target.value })
+            this.setState({ user_interest3: event.target.value })
           }} 
-        />*/}
+        />
 
         <div className={styles.question}>
           <p>Would you like to become a tutor?</p>

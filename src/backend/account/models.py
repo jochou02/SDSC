@@ -91,14 +91,12 @@ class Student(models.Model):
 
     def set_discord(self, discord):
         self.discord = discord
-    '''
-    def set_email(self, email):
-        self.email = email
 
-    def set_fname(self, fname):
-        self.first_name = fname
+    def set_user_interest1(self, user_interest1):
+        self.user_interest1 = user_interest1
 
-    def set_lname(self, lname):
-        self.last_name = lname
-    '''
+    def set_user_interest2(self, user_interest2):
+        self.user_interest2 = user_interest2
 
+    def set_user_interest3(self, user_interest3):
+        self.user_interest3 = user_interest3

@@ -188,27 +188,25 @@ class SetUserPrefs(APIView):
         request_user_id = request_content["user_id"]
         temp = Student.objects.get(id=request_user_id)
 
-        # Or use shorthand if request_content['college'] since empty string evaluates to false
-        if request_content['college'] != '':  
+        if request_content['college']:  
             temp.set_college(request_content['college'])
-        if request_content['major'] != '':  
+        if request_content['major']:  
             temp.set_major(request_content['major'])
-        if request_content['phone'] != '':  
+        if request_content['phone']:  
             temp.set_phone(request_content['phone'])
-        if request_content['ig'] != '':
+        if request_content['ig']:
             temp.set_ig(request_content['ig'])
-        if request_content['discord'] != '':
+        if request_content['discord']:
             temp.set_discord(request_content['discord'])
-        '''
-        if request_content['email'] != '':
-            temp.set_email(request_content['email'])
-        if request_content['fname'] != '':
-            temp.set_fname(request_content['fname'])
-        if request_content['lname'] != '':
-            temp.set_lname(request_content['lname'])
-        '''
+        if request_content['user_interest1']:
+            temp.set_user_interest1(request_content['user_interest1'])
+        if request_content['user_interest2']:
+            temp.set_user_interest2(request_content['user_interest2'])
+        if request_content['user_interest3']:
+            temp.set_user_interest3(request_content['user_interest3'])
 
         temp.save()
+
 
         #also need to update redis
         r = redis.Redis(host="132.249.242.203")
