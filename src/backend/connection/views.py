@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse, HttpResponseRedirect
@@ -25,16 +26,36 @@ from multiprocessing import Pool
 class GetInfo(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # To get info for user that's currently logged in
     def get(self, request):
         start_time = time.time()
 
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         if (request.user.is_authenticated):
             print("--- %s seconds ---" % (time.time() - start_time))
             #
             return Response(redis_get_student(r, pipe, request.user.id))
+        else:
+            return Response({})
+        
+
+class GetInfoTest(APIView):
+
+    def get(self, request):
+        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+        return Response(toRespond)
+
+    # To get info of any user given uid
+    def post(self, request):
+        request_content = ujson.loads(request.body.decode("utf-8"))
+
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+        pipe = r.pipeline()
+
+        if (request.user.is_authenticated):
+            return Response(redis_get_student(r, pipe, request_content['id']))
         else:
             return Response({})
 
@@ -47,11 +68,11 @@ class AddKarmaView(APIView):
         # Get the user id so we can use to find the User object
         request_user_id = request_content.get("user_id")
 
-        #Find Student with specified request_user_id
+        # Find Student with specified request_user_id
         # use redis_get_student() instead for better performance
         temp = Student.objects.get(id=request_user_id)
 
-        #Call set_karma and pass in amnt of karma to be added
+        # Call set_karma and pass in amnt of karma to be added
         temp.set_karma(request_content.get("add_karma"))
 
         temp.save()
@@ -81,7 +102,7 @@ class MatchingSentView(APIView):
         matching_sent = list(PendingMatching.objects.filter(id_sender=request.user.id))
 
         toReturn = []
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         for i in matching_sent:
@@ -95,7 +116,7 @@ class MatchingSentView(APIView):
 
         pipe.execute()
 
-        #print("--- %s seconds ---" % (time.time() - start_time))
+        # print("--- %s seconds ---" % (time.time() - start_time))
         return Response(toReturn)
 
 
@@ -111,7 +132,7 @@ class MatchingReceivedView(APIView):
     def get(self, request):
         matching_received = list(PendingMatching.objects.filter(id_receiver=request.user.id))
 
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
         toReturn = []
 
@@ -135,7 +156,7 @@ class MatchingReceivedView(APIView):
 class GenerateMatchingView(APIView):
     authentication_classes = [TokenAuthentication]
 
-    #TO-DO: User shown before and after request do not match (match request is sent to user shown before, but a different user is shown when match is pending )
+    # TO-DO: User shown before and after request do not match (match request is sent to user shown before, but a different user is shown when match is pending )
     # If front end makes a GET request to url associated to generate_match,
     # the func below executes
     def get(self, request):
@@ -146,7 +167,7 @@ class GenerateMatchingView(APIView):
         print(generate_match(request))
 
         # Send the information about the match back to the front end
-        
+
         return Response(StudentSerializer(Student.objects.get(pk=temp.id)).data)
 
     # If front end makes a POST request to url associated to generate_match,
@@ -181,7 +202,7 @@ class MatchingFinalized(APIView):
     def get(self, request):
         finalized_matching = []
 
-        r = redis.Redis("132.249.242.203")
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         temp = FinalizedMatching.objects.filter(id_user_1=request.user.id)
@@ -199,7 +220,6 @@ class MatchingFinalized(APIView):
         return Response(finalized_matching)
 
 
-
 '''
     POST: Modify a pending matching by either:
         1. Accepting it and pushing it to the finalized table (mode: 'y')
@@ -214,25 +234,25 @@ class ModifyPending(APIView):
     def post(self, request):
         request_content = ujson.loads(request.body);
 
-        #print("request_content: ")
-        #print(request_content)
+        # print("request_content: ")
+        # print(request_content)
 
         # If yes, push the matching into finalized matching
         # Only receiver could make this call, so request.user.id = id_receiver
         if (request_content.get("mode") == 'y'):
-            #print("_____YAY_____");
+            # print("_____YAY_____");
             FinalizedMatching(id_user_1=request_content.get("id_sender"),
-            id_user_2=request.user.id).save()
+                              id_user_2=request.user.id).save()
 
             PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
-            id_receiver=request.user.id).delete()
+                                        id_receiver=request.user.id).delete()
 
         # If no, mark as denied. Only show to sender.
         # Only receiver could make this call, so request.user.id = id_receiver
         elif (request_content.get("mode") == 'n'):
-            #print("_____NAY_____");
+            # print("_____NAY_____");
             p = PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
-            id_receiver=request.user.id)
+                                            id_receiver=request.user.id)
             p.isDenied = True
             p.save()
 
@@ -243,10 +263,10 @@ class ModifyPending(APIView):
             # Let front end supply only one id, and we can guess the other
             if (request_content.get("id_sender")):
                 PendingMatching.objects.get(id_sender=request_content.get("id_sender"),
-                id_receiver=request.user.id).delete()
+                                            id_receiver=request.user.id).delete()
             else:
                 PendingMatching.objects.get(id_sender=request.user.id,
-                id_receiver=request_content.get("id_receiver")).delete()
+                                            id_receiver=request_content.get("id_receiver")).delete()
 
         return Response({})
 
