@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import { Button} from './Button';
 import Dropdown from './Dropdown';
 import { logDOM } from '@testing-library/react';
 import logo from '../logo.PNG';
@@ -66,6 +65,11 @@ function Navbar() {
                     <li className = 'nav-item'>
                         <Link to = '/tutoring' className = 'nav-links' onClick={closeMobileMenu}>
                             Tutoring
+                        </Link>    
+                    </li>
+                    <li className = 'nav-item'>
+                        <Link to = '/calendar' className = 'nav-links' onClick={closeMobileMenu}>
+                            Calendar
                         </Link>    
                     </li>
                     <li className = 'nav-item'>
