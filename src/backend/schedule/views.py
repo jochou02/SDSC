@@ -52,17 +52,20 @@ class UploadScheduleView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
+
         request_content = ujson.loads(request.body.decode("utf-8"))
+
         #print("request_content")
         #print(request_content)
 
-        user_ical_link = request_content.get('ical_link')
+        #user_ical_link = request_content.get('ical_link')
         #print("user_ical_link")
         #print(user_ical_link)
 
         cal = requests.get(user_ical_link).content.decode()
         #print("cal")
         #print(cal);
+
 
         try: 
             temp = Schedule.objects.get(pk=request.user.id)
@@ -125,7 +128,7 @@ class AddEventView(APIView):
 
         cal.add_component(e)
 
-        schedule.content = cal.to_ical()
+        schedule.content = cal.to_ical().decode()
         schedule.save()
 
         return Response(dump_cal(cal))
@@ -152,9 +155,10 @@ class DeleteEventView(APIView):
         #request_content = ujson.loads(request.body.decode("utf-8"))
 
         #event_id = request_content['uid']
+        #replace with your event_id
+        event_id = "event-calendar-event-786801"
 
-        event_id = "123"
-
+        #replace with request.user.id
         schedule = Schedule.objects.get(pk=1)
         cal = Calendar.from_ical(schedule.content)
 
@@ -164,8 +168,7 @@ class DeleteEventView(APIView):
             if component.name == 'VEVENT' and not (component.get('uid') == event_id):
                 temp.add_component(component)
 
-        calendar = temp
-        #schedule.content = cal.to_ical()
-        #schedule.save()
+        schedule.content = temp.to_ical().decode()
+        schedule.save()
 
-        return Response(dump_cal(cal))
+        return Response(dump_cal(temp))
