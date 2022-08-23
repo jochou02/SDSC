@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import LoggedInTester from '../buttons/LoggedInTester';
 
 class Calendar extends React.Component {
@@ -6,11 +6,29 @@ class Calendar extends React.Component {
     super(props);
 
     this.state = { 
-      ical_link: "",
-      cal: ""
+      user_id: '',
+      ical_link: '',
+      cal: []
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getCalendar = this.getCalendar.bind(this);
+  }
+
+  componentDidMount() {
+    const headers = {"Content-Type": "application/json"};
+
+    if (localStorage.getItem('auth-token')) {
+        headers["Authorization"] = localStorage.getItem('auth-token');
+    }
+
+    fetch('http://127.0.0.1:8000/connect/get_info/', { headers, })
+        .then(response => response.json())
+        .then((data) => {
+          this.setState({user_id: data.id}, () => {
+            console.log()})
+        })
+    .catch(console.log)
   }
 
   handleSubmit() {
@@ -23,10 +41,12 @@ class Calendar extends React.Component {
   
     fetch('http://127.0.0.1:8000/schedule/upload_schedule/', requestOptions)
       .then(response => response.json())
+      /*
       .then((data) => {
         this.setState({ }, () => {
           console.log()})
       })
+      */
       .catch(console.log)
   }
 
@@ -40,8 +60,7 @@ class Calendar extends React.Component {
     fetch('http://127.0.0.1:8000/schedule/get_schedule/', { headers, })
         .then(response => response.json())
         .then((data) => {
-            this.setState({ });
-            console.log(data);
+          this.setState({cal: data}, () => {console.log()})
         })
     .catch(console.log)
   }
@@ -65,6 +84,10 @@ class Calendar extends React.Component {
       <br />
 
       <button onClick={this.getCalendar}>Get Calendar</button>
+      <br />
+
+      <button onClick={this.showCalendar}>Display Calendar</button>
+      <br />
     </>)
   }
 }

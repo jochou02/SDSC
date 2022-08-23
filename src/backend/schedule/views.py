@@ -79,18 +79,21 @@ class UploadScheduleView(APIView):
 # Fetch from database and push to the front-end.
 # returns a list of calendars, where each element of the list is a dict representing an event
 class FetchScheduleView(APIView):
-    authentication_class = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        print("request")
-        print(request)
+        #print("request.user")
+        #print(request.user.id)
 
-        #schedule = Schedule.objects.get(pk=request.user.id)
-        #print("schedule")
-        #print(schedule)
+        try:
+            schedule = Schedule.objects.get(pk=request.user.id)
+            #print("schedule")
+            #print(schedule)
+        except:
+            print("No schedule found")
+            return Response({})
 
-        #return Response(dump_cal(Calendar.from_ical(schedule.content)))
-
+        return Response(dump_cal(Calendar.from_ical(schedule.content)))
 
 # Front-end supplies details about an event, we crete an event using those details, and push it into user's
 # schedule in database.
