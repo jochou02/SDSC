@@ -27,7 +27,16 @@ export default function Courses(){
         {course_dept: 'b', course_num:'2', prof: "Professor B"},
         {course_dept: 'c', course_num:'3', prof: "Professor C"}
     ]); //data of completed couress that match what is typed into the search bar 
-
+    const [data3,setData3] = useState([
+        {course_dept: 'a', course_num:'1', prof: "Professor A"},
+        {course_dept: 'b', course_num:'2', prof: "Professor B"},
+        {course_dept: 'c', course_num:'3', prof: "Professor C"}
+    ]); //data of tutor courses
+    const [filteredData3, setFilteredData3] = useState([
+        {course_dept: 'a', course_num:'1', prof: "Professor A"},
+        {course_dept: 'b', course_num:'2', prof: "Professor B"},
+        {course_dept: 'c', course_num:'3', prof: "Professor C"}
+    ]);
     const onChange = (event) =>{        //sets value to whatever is typed into the search bar
         setValue(event.target.value);
     }
@@ -59,15 +68,22 @@ export default function Courses(){
                 || value.includes(data2[i].course_num)
                 ||value.includes(data2[i].prof)){
                 // ||(data2[i].course_dept.includes(value) && data2[i].course_num.includes(value))){
-                console.log("abc")
                 filtered2.push(data2[i]);
             } 
         }
 
         setFilteredData2(filtered2);
-        // data2[i].course_dept.includes(value) 
-        //         || data2[i].course_num.includes(value)
-        //         ||data2[i].prof.includes(value)
+        let filtered3 = []
+        for(let i=0;i<data3.length;i++){
+            console.log(data3[i].course_dept);
+            if(value.includes(data3[i].course_dept) 
+                || value.includes(data3[i].course_num)
+                ||value.includes(data3[i].prof)){
+                filtered3.push(data3[i]);
+            } 
+        }
+        setFilteredData3(filtered3);
+
     }
 
     useEffect(() => {   //pulls in information from data base and puts it into data state
@@ -125,6 +141,17 @@ export default function Courses(){
             </div>
             {filteredData2.map(filtered => {
             return <div className = 'completedCourse'> {filtered.course_dept} {filtered.course_num} {filtered.prof}</div>
+        })}
+        </div>
+        <div className = 'tutorCourses'>
+            <div className = 'tutorCourseTitle'>
+                Tutoring Courses
+                {/* <button className = "sortByBottom">
+                Sort By
+                </button> */}
+            </div>
+            {filteredData3.map(filtered => {
+            return <div className = 'tutorCourse'> {filtered.course_dept} {filtered.course_num} {filtered.prof}</div>
         })}
         </div>
         </div>
