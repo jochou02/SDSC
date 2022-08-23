@@ -58,14 +58,13 @@ class UploadScheduleView(APIView):
         #print("request_content")
         #print(request_content)
 
-        #user_ical_link = request_content.get('ical_link')
+        user_ical_link = request_content.get('ical_link')
         #print("user_ical_link")
         #print(user_ical_link)
 
         cal = requests.get(user_ical_link).content.decode()
         #print("cal")
         #print(cal);
-
 
         try: 
             temp = Schedule.objects.get(pk=request.user.id)
@@ -74,7 +73,6 @@ class UploadScheduleView(APIView):
 
         temp.content = cal
         temp.save()
-        #print("done")
 
         return Response({})
 

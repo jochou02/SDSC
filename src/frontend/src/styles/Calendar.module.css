@@ -1,0 +1,13 @@
+.eventTitle, .eventDescrip {
+  color: white;
+}
+
+.eventWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.eventDescrip {
+  font-weight: 400;
+}

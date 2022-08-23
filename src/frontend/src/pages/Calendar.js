@@ -1,5 +1,6 @@
 import React from 'react';
 import LoggedInTester from '../buttons/LoggedInTester';
+import styles from '../styles/Calendar.module.css'
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Calendar extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCalendar = this.getCalendar.bind(this);
+    this.ShowCalendar = this.ShowCalendar.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +28,8 @@ class Calendar extends React.Component {
         .then(response => response.json())
         .then((data) => {
           this.setState({user_id: data.id}, () => {
-            console.log()})
+            //console.log()
+            this.getCalendar()})
         })
     .catch(console.log)
   }
@@ -65,6 +68,19 @@ class Calendar extends React.Component {
     .catch(console.log)
   }
 
+  ShowCalendar({ cal }) {
+    return(
+      <div>
+        {cal.map(e => 
+        <div className={styles.eventWrapper}>
+          <h1 className={styles.eventTitle}>Event: {e.event}</h1>
+          <p className={styles.eventDescrip}>Description: {e.event}</p>
+        </div>
+        )}
+      </div>
+    )
+  }
+
   render() {
     return(<>
       <LoggedInTester />
@@ -83,10 +99,7 @@ class Calendar extends React.Component {
       <button onClick={this.handleSubmit}>Submit</button>
       <br />
 
-      <button onClick={this.getCalendar}>Get Calendar</button>
-      <br />
-
-      <button onClick={this.showCalendar}>Display Calendar</button>
+      <this.ShowCalendar cal={this.state.cal}/>
       <br />
     </>)
   }
