@@ -28,8 +28,4 @@ class wait_time_data(APIView):
             if (location['subLocs'] != False):
                 filter['subLocation'] = location['subLocs']
             filteredList.append(filter)
-
-        #get the subLocs for Geisel Library
-        b = ujson.loads(r.get('wait_7'))
-        p = pprint.PrettyPrinter(indent = 4)
         return Response(filteredList)
