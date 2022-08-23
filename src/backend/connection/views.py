@@ -9,7 +9,7 @@ from account.LISTS import *
 from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
-from .helpers import redis_get_student
+from .helpers import redis_get_student, redis_set_student
 
 import random
 import ujson
@@ -60,15 +60,20 @@ class AddKarmaView(APIView):
         # Get the user id so we can use to find the User object
         request_user_id = request_content.get("user_id")
 
+        #Open connection to Redis
+        r = redis.StrictRedis(
+            host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+        pipe = r.pipeline()
+
         # Find Student with specified request_user_id
-        # use redis_get_student() instead for better performance
-        temp = Student.objects.get(id=request_user_id)
+        temp = redis_get_student(r, pipe, request_user_id)
 
-        # Call set_karma and pass in amnt of karma to be added
-        temp.set_karma(request_content.get("add_karma"))
+        add_karma = temp.get("user_karma") + request_content.get("add_karma");
 
-        temp.save()
+        temp.update({'user_karma': add_karma})
 
+        redis_set_student(r, request_user_id, temp)
+        
         return Response({})
 
 

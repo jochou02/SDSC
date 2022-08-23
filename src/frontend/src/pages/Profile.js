@@ -27,7 +27,7 @@ class Profile extends Component {
             .then(response => response.json())
             .then((data) => {
                 this.setState({ foo: data });
-                console.log();
+                console.log(data);
             })
         .catch(console.log)
     }
