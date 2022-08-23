@@ -28,7 +28,7 @@ def dump_cal(cal):
         if (component.name == 'VEVENT'):
             temp['event'] = component.get('summary')
             temp['description'] = component.get('description')
-            temp['event_id'] = component.get('uid')
+            temp['uid'] = component.get('uid')
 
             # need to use .dt to convert it to human readable datatime.
             # so be careful in case certain entry doesnt exist
@@ -109,7 +109,9 @@ class AddEventView(APIView):
         # And we need to figure out a scheme to generate event id (could hash the time stamp)
         time_now = datetime.utcnow().replace(microsecond=0)
 
-        e.add('uid', f'event_{str(time_now)}')
+        # For testing only. Use time stamp for event id
+        e.add('uid', '123')
+        #e.add('uid', f'event_{str(time_now)}')
         # Note server time is zulu time
         # e.add('dtstart', datetime(request_content['year'], request_content['month'], request_content['day'],
         #                           request_content['hour'], request_content['minute'], request_content['second'], tzinfo=pytz.utc))
@@ -134,3 +136,30 @@ class UpdateScheduleView(APIView):
         cal = Schedule.objects.get(pk=1)
 
         return Response({})
+
+
+class DeleteEventView(APIView):
+    authentication_class = [TokenAuthentication]
+
+    def post(self, request):
+        #For testing only
+        #request_content = ujson.loads(request.body.decode("utf-8"))
+
+        #event_id = request_content['uid']
+
+        event_id = "123"
+
+        schedule = Schedule.objects.get(pk=1)
+        cal = Calendar.from_ical(schedule.content)
+
+        temp = Calendar()
+        for component in cal.walk():
+            # Seems like if you keep the same header, it would cause issue, so only saving VEVENT
+            if component.name == 'VEVENT' and not (component.get('uid') == event_id):
+                temp.add_component(component)
+
+        calendar = temp
+        #schedule.content = cal.to_ical()
+        #schedule.save()
+
+        return Response(dump_cal(cal))
