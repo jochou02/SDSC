@@ -75,12 +75,43 @@ class FetchScheduleView(APIView):
         return Response(dump_cal(Calendar.from_ical(schedule.content)))
 
 
+class AddEventView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        schedule = Schedule.objects.get(pk=1)
+        cal = Calendar.from_ical(schedule.content)
+
+        # request_content = ujson.loads(request.body.decode("utf-8"))
+
+        e = Event()
+
+        # e.add('summary', request_content['summary'])
+        # e.add('description', request_content['description'])
+
+        # And we need to figure out a scheme to generate event id (could hash the time stamp)
+        time_now = datetime.utcnow().replace(microsecond=0)
+
+        e.add('uid', f'event_{str(time_now)}')
+        # Note server time is zulu time
+        # e.add('dtstart', datetime(request_content['year'], request_content['month'], request_content['day'],
+        #                           request_content['hour'], request_content['minute'], request_content['second'], tzinfo=pytz.utc))
+        e.add('dtstamp', time_now)
+
+        cal.add_component(e)
+
+        schedule.content = cal.to_ical()
+        schedule.save()
+
+        return Response(dump_cal(cal))
+
+
 class UpdateScheduleView(APIView):
     authentication_class = [TokenAuthentication]
 
     def post(self, request):
         #For testing only
-        request_content = json.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body.decode("utf-8"))
 
         cal = Schedule.objects.get(pk=1)
 
