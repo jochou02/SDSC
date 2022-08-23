@@ -89,3 +89,32 @@
 .searchButton{
     margin-bottom:20px;
 }
+
+.tutorCourseTitle{
+    margin-bottom:20px;
+    margin-top:8px;
+    margin-left:18px;
+    font-size:16px;    
+}
+
+.tutorCourses{
+    height:280px;
+    width:800px;
+    background-color:white;
+    border-radius:20px;
+    padding-left:12px;
+    overflow-y:scroll;
+    margin-top:30px;
+}
+.tutorCourse{
+    border-style:solid;
+    margin-bottom:12px;
+    height:103px;
+    border-radius:15px;
+    padding-left:12px;
+    background-color:gray;
+    color:white;
+    margin-right:22px;
+    margin-left:5px;
+    font-size:30px;
+}
