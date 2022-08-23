@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fab27498-7c10-45b1-8b81-16a31992ad57" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/schedule/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/schedule/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/schedule/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/schedule/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

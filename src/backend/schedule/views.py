@@ -47,16 +47,19 @@ def dump_cal(cal):
     return toReturn
 
 
+# Front end supplies a link to user's Canvas ical feed. We load it, and store it in database
 class UploadScheduleView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
         # request_content = ujson.loads(request.body.decode("utf-8"))
         # user_ical_link = request_content(['ical_link'])
+        # cal = requests.get(user_ical_link).content.decode()
 
         cal = requests.get("https://canvas.ucsd.edu/feeds/calendars/user_a1YvJ7LIcGvB7NnkUpxOWFCvaZjqpnp3KQftmIwI.ics").content.decode()
 
         # For testing only
+        # Use request.user.id
         temp = Schedule.objects.get(pk=1)
         temp.content = cal
         temp.save()
@@ -64,7 +67,8 @@ class UploadScheduleView(APIView):
         return Response({})
 
 
-# returns a list
+# Fetch from database and push to the front-end.
+# returns a list of clendars, where each element of the list is a dict representing an event
 class FetchScheduleView(APIView):
     authentication_class = [TokenAuthentication]
 
@@ -75,6 +79,9 @@ class FetchScheduleView(APIView):
         return Response(dump_cal(Calendar.from_ical(schedule.content)))
 
 
+# Front-end supplies details about an event, we crete an event using those details, and push it into user's
+# schedule in database.
+# Returns the updated schedule to front-end
 class AddEventView(APIView):
     authentication_classes = [TokenAuthentication]
 
@@ -106,6 +113,7 @@ class AddEventView(APIView):
         return Response(dump_cal(cal))
 
 
+# TODO: Work on this one. Specifically, edit and deletion. Need to figure out an efficient way to update.
 class UpdateScheduleView(APIView):
     authentication_class = [TokenAuthentication]
 
