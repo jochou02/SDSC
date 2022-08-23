@@ -17,6 +17,8 @@ import redis
 import smtplib
 from email.message import EmailMessage
 
+from .helpers import redis_get_student, redis_set_student
+
 '''
     Test things out. Deprecated. 
 '''
@@ -186,31 +188,35 @@ class SetUserPrefs(APIView):
     def post(self, request):
         request_content = json.loads(request.body.decode("utf-8"))
         request_user_id = request_content["user_id"]
+
         temp = Student.objects.get(id=request_user_id)
 
         if request_content['college']:  
-            temp.set_college(request_content['college'])
+            temp.user_college = request_content['college']
         if request_content['major']:  
-            temp.set_major(request_content['major'])
+            temp.user_major = request_content['major']
         if request_content['phone']:  
-            temp.set_phone(request_content['phone'])
+            temp.phone = request_content['phone']
         if request_content['ig']:
-            temp.set_ig(request_content['ig'])
+            temp.ig = request_content['ig']
         if request_content['discord']:
-            temp.set_discord(request_content['discord'])
+            temp.discord = request_content['discord']
         if request_content['user_interest1']:
-            temp.set_user_interest1(request_content['user_interest1'])
+            temp.user_interest1 = request_content['user_interest1']
         if request_content['user_interest2']:
-            temp.set_user_interest2(request_content['user_interest2'])
+            temp.user_interest2 = request_content['user_interest2']
         if request_content['user_interest3']:
-            temp.set_user_interest3(request_content['user_interest3'])
+            temp.user_interest3 = request_content['user_interest3']
 
         temp.save()
-
+        
+        temp = StudentSerializer(Student.objects.get(pk=request_user_id)).data
 
         #also need to update redis
-        r = redis.Redis(host="132.249.242.203")
-        r.set(f"student_{temp.id}", temp)
+        r = redis.StrictRedis(
+            host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+
+        redis_set_student(r, request_user_id, temp)
 
         # Could return success/failure if we introduce server-side error handling for inputs
         return Response({})

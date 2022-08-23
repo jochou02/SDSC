@@ -1,3 +1,4 @@
+from re import TEMPLATE
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -73,7 +74,11 @@ class AddKarmaView(APIView):
         temp.update({'user_karma': add_karma})
 
         redis_set_student(r, request_user_id, temp)
-        
+
+        student = Student.objects.get(id=request_user_id)
+        student.user_karma = temp.get('user_karma');
+        student.save();
+
         return Response({})
 
 

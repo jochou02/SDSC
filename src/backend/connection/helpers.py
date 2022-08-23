@@ -16,10 +16,11 @@ def redis_get_student(r, pipe, id):
     return student
 
 def redis_set_student(r, id, temp):
-    student = StudentSerializer(temp).data
-    r.set(f"student_{id}", ujson.dumps(student))
+    #Idk why below isn't working but w/ temp it works so
+    #student = StudentSerializer(temp).data
+    r.set(f"student_{id}", ujson.dumps(temp))
 
-    return student
+    return temp
 
 
 
