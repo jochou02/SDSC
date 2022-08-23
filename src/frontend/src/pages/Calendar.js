@@ -5,7 +5,10 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { ical_link: ""};
+    this.state = { 
+      ical_link: "",
+      cal: ""
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -22,9 +25,25 @@ class Calendar extends React.Component {
       .then(response => response.json())
       .then((data) => {
         this.setState({ }, () => {
-          console.log(data)})
+          console.log()})
       })
       .catch(console.log)
+  }
+
+  getCalendar() {
+    const headers = {"Content-Type": "application/json"};
+
+    if (localStorage.getItem('auth-token')) {
+        headers["Authorization"] = localStorage.getItem('auth-token');
+    }
+
+    fetch('http://127.0.0.1:8000/schedule/get_schedule/', { headers, })
+        .then(response => response.json())
+        .then((data) => {
+            this.setState({ });
+            console.log(data);
+        })
+    .catch(console.log)
   }
 
   render() {
@@ -43,6 +62,9 @@ class Calendar extends React.Component {
       <br />
 
       <button onClick={this.handleSubmit}>Submit</button>
+      <br />
+
+      <button onClick={this.getCalendar}>Get Calendar</button>
     </>)
   }
 }

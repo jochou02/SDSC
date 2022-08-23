@@ -53,26 +53,25 @@ class UploadScheduleView(APIView):
 
     def post(self, request):
         request_content = ujson.loads(request.body.decode("utf-8"))
-        print("request_content")
-        print(request_content)
+        #print("request_content")
+        #print(request_content)
 
         user_ical_link = request_content.get('ical_link')
         #print("user_ical_link")
         #print(user_ical_link)
 
-        #cal = requests.get(user_ical_link).content.decode()
+        cal = requests.get(user_ical_link).content.decode()
         #print("cal")
         #print(cal);
 
-        #cal = requests.get("https://canvas.ucsd.edu/feeds/calendars/user_a1YvJ7LIcGvB7NnkUpxOWFCvaZjqpnp3KQftmIwI.ics").content.decode()
-        cal = requests.get(user_ical_link).content.decode()
-        print(cal);
+        try: 
+            temp = Schedule.objects.get(pk=request.user.id)
+        except:
+            temp = Schedule.objects.create(pk=request.user.id)
 
-        # For testing only
-        # Use request.user.id
-        temp = Schedule.objects.get(pk=1)
         temp.content = cal
         temp.save()
+        #print("done")
 
         return Response({})
 
@@ -83,10 +82,14 @@ class FetchScheduleView(APIView):
     authentication_class = [TokenAuthentication]
 
     def get(self, request):
-        # For testing only
-        schedule = Schedule.objects.get(pk=1)
+        print("request")
+        print(request)
 
-        return Response(dump_cal(Calendar.from_ical(schedule.content)))
+        #schedule = Schedule.objects.get(pk=request.user.id)
+        #print("schedule")
+        #print(schedule)
+
+        #return Response(dump_cal(Calendar.from_ical(schedule.content)))
 
 
 # Front-end supplies details about an event, we crete an event using those details, and push it into user's
