@@ -52,11 +52,21 @@ class UploadScheduleView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        # request_content = ujson.loads(request.body.decode("utf-8"))
-        # user_ical_link = request_content(['ical_link'])
-        # cal = requests.get(user_ical_link).content.decode()
+        request_content = ujson.loads(request.body.decode("utf-8"))
+        print("request_content")
+        print(request_content)
 
-        cal = requests.get("https://canvas.ucsd.edu/feeds/calendars/user_a1YvJ7LIcGvB7NnkUpxOWFCvaZjqpnp3KQftmIwI.ics").content.decode()
+        user_ical_link = request_content.get('ical_link')
+        #print("user_ical_link")
+        #print(user_ical_link)
+
+        #cal = requests.get(user_ical_link).content.decode()
+        #print("cal")
+        #print(cal);
+
+        #cal = requests.get("https://canvas.ucsd.edu/feeds/calendars/user_a1YvJ7LIcGvB7NnkUpxOWFCvaZjqpnp3KQftmIwI.ics").content.decode()
+        cal = requests.get(user_ical_link).content.decode()
+        print(cal);
 
         # For testing only
         # Use request.user.id
@@ -68,7 +78,7 @@ class UploadScheduleView(APIView):
 
 
 # Fetch from database and push to the front-end.
-# returns a list of clendars, where each element of the list is a dict representing an event
+# returns a list of calendars, where each element of the list is a dict representing an event
 class FetchScheduleView(APIView):
     authentication_class = [TokenAuthentication]
 
