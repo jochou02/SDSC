@@ -41,33 +41,35 @@ var events = [
 const Calendars = (props) => {
   var cal = [];
 
-  props.cal.map(e => {
-    //UTC counts month starting from 0: January = 0, February = 1, etc.
-    function adjustedMonth(month) {
-      if (month == 1) 
-        return 0;
-      else 
-        return month-1;
-    }
+  //Error checking for empty props.cal
+  if (props.cal !== [])
+    props.cal.map(e => {
+      //UTC counts month starting from 0: January = 0, February = 1, etc.
+      function adjustedMonth(month) {
+        if (month == 1) 
+          return 0;
+        else 
+          return month-1;
+      }   
 
-   var dateStart = new Date(Date.UTC(
-      e.dtstart_year, 
-      adjustedMonth(e.dtstart_month), 
-      e.dtstart_day, 
-      e.dtstart_hour, 
-      e.dtstart_minute
-    ))
+      var dateStart = new Date(Date.UTC(
+        e.dtstart_year, 
+        adjustedMonth(e.dtstart_month), 
+        e.dtstart_day, 
+        e.dtstart_hour, 
+        e.dtstart_minute
+      ))
 
-   var dateEnd = new Date(Date.UTC(
-      e.dtend_year, 
-      adjustedMonth(e.dtend_month), 
-      e.dtend_day, 
-      e.dtend_hour, 
-      e.dtend_minute
-    ))
+      var dateEnd = new Date(Date.UTC(
+        e.dtend_year, 
+        adjustedMonth(e.dtend_month), 
+        e.dtend_day, 
+        e.dtend_hour, 
+        e.dtend_minute
+      ))
 
-    cal.push({"title": e.event, start: dateStart, end: dateEnd})
-  })
+      cal.push({"title": e.event, start: dateStart, end: dateEnd})
+    })
 
   events = cal;
 
