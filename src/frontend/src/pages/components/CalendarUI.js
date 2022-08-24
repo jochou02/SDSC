@@ -40,25 +40,33 @@ var events = [
 
 const Calendars = (props) => {
   var cal = [];
-  var dateStart = '';
-  var dateEnd = '';
 
   props.cal.map(e => {
-    dateStart = dateStart.concat(
-      e.dtstart_month, "/", 
-      e.dtstart_day, "/", 
-      e.dtstart_year);
-    dateEnd = dateEnd.concat(
-      e.dtstart_month, "/", 
-      e.dtstart_day, "/", 
-      e.dtstart_year);
+    //UTC counts month starting from 0: January = 0, February = 1, etc.
+    function adjustedMonth(month) {
+      if (month == 1) 
+        return 0;
+      else 
+        return month-1;
+    }
 
-    //console.log("start: " + dateStart + ", end: " + dateEnd + "\n\n")
+   var dateStart = new Date(Date.UTC(
+      e.dtstart_year, 
+      adjustedMonth(e.dtstart_month), 
+      e.dtstart_day, 
+      e.dtstart_hour, 
+      e.dtstart_minute
+    ))
 
-    cal.push({"title": e.event, start: new Date(dateStart), end: new Date(dateEnd)})
-    
-    dateStart=''
-    dateEnd=''
+   var dateEnd = new Date(Date.UTC(
+      e.dtend_year, 
+      adjustedMonth(e.dtend_month), 
+      e.dtend_day, 
+      e.dtend_hour, 
+      e.dtend_minute
+    ))
+
+    cal.push({"title": e.event, start: dateStart, end: dateEnd})
   })
 
   events = cal;
@@ -78,33 +86,34 @@ const Calendars = (props) => {
     <div className={styles.calendarWrapper}>
 
     <h1 className={styles.calendarTitle}>Calendar</h1>
-    {/* Sorry!! Gotta style the calendar part first
-      <h2>Add New Event</h2>
+    {/* 
+      Sorry!! Gotta style the calendar part first
+        <h2>Add New Event</h2>
 
-      <div>
-      <input 
-        type="text" 
-        placeholder="Add Title" 
-        style={{ width: "20%", marginRight: "10px" }} 
-        value={newEvent.title} 
-        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
+        <div>
+        <input 
+          type="text" 
+          placeholder="Add Title" 
+          style={{ width: "20%", marginRight: "10px" }} 
+          value={newEvent.title} 
+          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
 
-      <DatePicker 
-        placeholderText="Start Date" 
-        style={{ marginRight: "10px" }} selected={newEvent.start} 
-        onChange={(start) => setNewEvent({ ...newEvent, start })} />
+        <DatePicker 
+          placeholderText="Start Date" 
+          style={{ marginRight: "10px" }} selected={newEvent.start} 
+          onChange={(start) => setNewEvent({ ...newEvent, start })} />
 
-      <DatePicker 
-        placeholderText="End Date" 
-        selected={newEvent.end} 
-        onChange={(end) => setNewEvent({ ...newEvent, end })} />
-     
-     <button 
-      style={{ marginTop: "10px" }} 
-      onClick={handleAddEvent}>
-       Add Event
-     </button>
-      </div>
+        <DatePicker 
+          placeholderText="End Date" 
+          selected={newEvent.end} 
+          onChange={(end) => setNewEvent({ ...newEvent, end })} />
+      
+      <button 
+        style={{ marginTop: "10px" }} 
+        onClick={handleAddEvent}>
+        Add Event
+      </button>
+        </div>
     */}
 
       <Calendar 
