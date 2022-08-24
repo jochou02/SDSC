@@ -88,22 +88,27 @@ class Calendar extends React.Component {
   render() {
     return(<>
       <LoggedInTester />
-      <p>{ localStorage.getItem('auth-token') }</p>
-      <br /> <br />
+      <p className={styles.calendarText}>{ localStorage.getItem('auth-token') }</p>
 
-      <label style={{color: 'white'}}>iCal Link</label>
+      <Calendars cal={this.state.cal}/>
+      <br />
+
+      <label className={styles.calendarLabel}>iCal Link</label>
       <br />
 
       <input 
       onChange={(event) => {
-        this.setState({ ical_link: event.target.value })}}>
+        this.setState({ ical_link: event.target.value })}}
+      className={styles.calendarInput}>
       </input>
       <br />
 
-      <button onClick={this.handleSubmit}>Submit</button>
+      <button 
+      onClick={this.handleSubmit}
+      className={styles.calendarButton}>
+        Submit
+      </button>
       <br />
-
-      <Calendars cal={this.state.cal}/>
     </>)
   }
 }
