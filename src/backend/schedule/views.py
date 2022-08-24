@@ -140,7 +140,22 @@ class UpdateScheduleView(APIView):
         #For testing only
         request_content = ujson.loads(request.body.decode("utf-8"))
 
-        cal = Schedule.objects.get(pk=1)
+        event_id = request_content['uid']
+
+
+        schedule = Schedule.objects.get(pk=1)
+        cal = Calendar.from_ical(schedule.content)
+
+        for component in cal.walk():
+            if (component.name == 'VEVENT' and component.get('uid') == event_id):
+                if request_content['description']:
+                    component['description'] = request_content['description']
+
+                if request_content['summary']:
+                    component['summary'] = request_content['summary']
+
+        schedule.content = cal.to_ical().decode()
+        schedule.save()
 
         return Response({})
 
