@@ -1,6 +1,7 @@
 import React from 'react';
 import LoggedInTester from '../buttons/LoggedInTester';
 import styles from '../styles/Calendar.module.css'
+import Calendars from './components/CalendarUI.js'
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -14,7 +15,6 @@ class Calendar extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCalendar = this.getCalendar.bind(this);
-    this.ShowCalendar = this.ShowCalendar.bind(this);
   }
 
   componentDidMount() {
@@ -63,11 +63,14 @@ class Calendar extends React.Component {
     fetch('http://127.0.0.1:8000/schedule/get_schedule/', { headers, })
         .then(response => response.json())
         .then((data) => {
-          this.setState({cal: data}, () => {console.log()})
+          this.setState({cal: data}, () => {
+            //console.log()
+          })
         })
     .catch(console.log)
   }
 
+  /* No longer needed
   ShowCalendar({ cal }) {
     return(
       <div>
@@ -80,11 +83,12 @@ class Calendar extends React.Component {
       </div>
     )
   }
+  */
 
   render() {
     return(<>
       <LoggedInTester />
-      { localStorage.getItem('auth-token') }
+      <p>{ localStorage.getItem('auth-token') }</p>
       <br /> <br />
 
       <label style={{color: 'white'}}>iCal Link</label>
@@ -99,8 +103,7 @@ class Calendar extends React.Component {
       <button onClick={this.handleSubmit}>Submit</button>
       <br />
 
-      <this.ShowCalendar cal={this.state.cal}/>
-      <br />
+      <Calendars cal={this.state.cal}/>
     </>)
   }
 }
