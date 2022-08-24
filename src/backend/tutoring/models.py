@@ -5,7 +5,7 @@ from account.LISTS import *
 
 class Course(models.Model):
 
-    course_dept = models.CharField(max_length=10, choices=DEPT_LIST)
+    course_dept = models.CharField(max_length=10)
     course_num = models.CharField(max_length=200, null=True)
     prof = models.CharField(max_length=200, null=True, blank=True)
 
