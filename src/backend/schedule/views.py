@@ -34,11 +34,33 @@ def dump_cal(cal):
             # so be careful in case certain entry doesnt exist
             # note that the time is in zulu time
             if component.get('dtstart'):
-                temp['dtstart'] = component.get('dtstart').dt
+                dtstart = component.get('dtstart').dt
+                print(type(dtstart))
+                temp['dtstart_year'] = dtstart.year
+                temp['dtstart_month'] = dtstart.month
+                temp['dtstart_day'] = dtstart.day
+
+                try:
+                    temp['dtstart_hour'] = dtstart.hour
+                    temp['dtstart_minute'] = dtstart.minute
+                    temp['dtstart_second'] = dtstart.second
+                except:
+                    pass
 
             if component.get('dtend'):
-                temp['dtend'] = component.get('dtend').dt
+                dtend = component.get('dtend').dt
+                temp['dtend_year'] = dtend.year
+                temp['dtend_month'] = dtend.month
+                temp['dtend_day'] = dtend.day
 
+                try:
+                    temp['dtend_hour'] = dtend.hour
+                    temp['dtend_minute'] = dtend.minute
+                    temp['dtend_second'] = dtend.second
+                except:
+                    pass
+
+            # Not sure if this would be of any use to the front-end
             if component.get('dtstamp'):
                 temp['dtstamp'] = component.get('dtstamp').dt
 
@@ -87,7 +109,7 @@ class FetchScheduleView(APIView):
         #print(request.user.id)
 
         try:
-            schedule = Schedule.objects.get(pk=request.user.id)
+            schedule = Schedule.objects.get(pk=1)
             #print("schedule")
             #print(schedule)
         except:
@@ -153,6 +175,9 @@ class UpdateScheduleView(APIView):
 
                 if request_content['summary']:
                     component['summary'] = request_content['summary']
+
+                if request_content['hour_start']:
+                    new_dt_start = datetime.date()
 
         schedule.content = cal.to_ical().decode()
         schedule.save()
