@@ -18,11 +18,11 @@ class LoggedInTester extends Component {
 
         { localStorage.getItem('auth-token') ? 
         <><div>
-          <p>Logged In</p>
+          Logged In
           <LogoutButton/>
         </div></> : 
         <><div>
-          <p>Not Logged In</p>
+          Not Logged In
           <LoginButton/>
           </div></>
         }</>

@@ -116,7 +116,9 @@ class FetchScheduleView(APIView):
             #print("schedule")
             #print(schedule)
         except:
-            print("No schedule found")
+            temp = Schedule.objects.create(pk=request.user.id)
+            temp.content = {}
+            temp.save()
             return Response({})
 
         return Response(dump_cal(Calendar.from_ical(schedule.content)))

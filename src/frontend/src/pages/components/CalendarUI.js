@@ -4,19 +4,25 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { Children, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-//import DatePicker from "react-datepicker";
+//import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
-//import { toBeRequired } from '@testing-library/jest-dom/dist/matchers';
+import "../../styles/CalendarUI.scss"
+/*
+//Imports no longer needed ?
+import { useState } from "react";
+import { toBeRequired } from '@testing-library/jest-dom/dist/matchers';
 import { ca } from 'date-fns/locale';
+import DatePicker from "react-datepicker";
+*/
 
 // https://www.youtube.com/watch?v=lyRP_D0qCfk&ab_channel=DarwinTech --> need to add packages from this vid
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
+
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -25,51 +31,53 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-var events = [
-  {
-    title: "Test",
-    start: "7/20/2022",
-    end: "7/25/2022"
-  }, 
-  {
-    title: "Test2",
-    start: "7/20/2022",
-    end: "7/25/2022"
-  } 
-];
-
 const Calendars = (props) => {
+  useEffect(() => {
+    const initialValue = document.body.style.zoom;
+
+    // Change zoom level on mount
+    document.body.style.zoom = "65%";
+
+    return () => {
+      // Restore default value
+      document.body.style.zoom = initialValue;
+    };
+  }, []);
+
   var cal = [];
 
-  props.cal.map(e => {
-    //UTC counts month starting from 0: January = 0, February = 1, etc.
-    function adjustedMonth(month) {
-      if (month == 1) 
-        return 0;
-      else 
-        return month-1;
-    }
+  //Error checking for empty props.cal
+  if (props.cal !== [])
+    props.cal.map(e => {
+      //UTC counts month starting from 0: January = 0, February = 1, etc.
+      function adjustedMonth(month) {
+        if (month === 1) 
+          return 0;
+        else 
+          return month-1;
+      }   
 
-   var dateStart = new Date(Date.UTC(
-      e.dtstart_year, 
-      adjustedMonth(e.dtstart_month), 
-      e.dtstart_day, 
-      e.dtstart_hour, 
-      e.dtstart_minute
-    ))
+      var dateStart = new Date(Date.UTC(
+        e.dtstart_year, 
+        adjustedMonth(e.dtstart_month), 
+        e.dtstart_day, 
+        e.dtstart_hour, 
+        e.dtstart_minute
+      ))
 
-   var dateEnd = new Date(Date.UTC(
-      e.dtend_year, 
-      adjustedMonth(e.dtend_month), 
-      e.dtend_day, 
-      e.dtend_hour, 
-      e.dtend_minute
-    ))
+      var dateEnd = new Date(Date.UTC(
+        e.dtend_year, 
+        adjustedMonth(e.dtend_month), 
+        e.dtend_day, 
+        e.dtend_hour, 
+        e.dtend_minute
+      ))
 
-    cal.push({"title": e.event, start: dateStart, end: dateEnd})
-  })
+      cal.push({"title": e.event, start: dateStart, end: dateEnd})
 
-  events = cal;
+      //Not really needed to return but terminal bothers me if i don't
+      return cal
+    })
 
   //const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
 
@@ -121,8 +129,8 @@ const Calendars = (props) => {
         events = {cal}
         startAccessor ="start" endAccessor="end" 
         style={{
-          height:500, 
-          margin:"50px"}}
+          height:"500px",
+          margin:"30px 50px 50px 50px"}}
       />
     </div>
   ) 
