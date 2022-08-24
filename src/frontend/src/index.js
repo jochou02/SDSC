@@ -19,6 +19,7 @@ import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
 import Home from './pages/Home';
 import Calendar from './pages/Calendar';
+import Calendars from './pages/Calendar2';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,6 +36,7 @@ root.render(
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
       <Route path="calendar" element={<Calendar />} />
+      <Route path="calendar2" element={<Calendars />} />
     </Routes>
   </BrowserRouter>
 );
