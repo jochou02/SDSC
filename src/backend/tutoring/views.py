@@ -1,5 +1,5 @@
 from api.serializers import *
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
@@ -7,7 +7,9 @@ from account.models import *
 from account.LISTS import *
 from .models import *
 import json
-from django.core.serializers.json import DjangoJSONEncoder
+from rest_framework.parsers import JSONParser
+
+
 
 # TESTING ONLY #
 
@@ -24,7 +26,7 @@ class GetCoursesSample(APIView):
         serializer2 = CourseSerializer(queryset2, many=True)
         data2 = serializer2.data
 
-        queryset3 = student.past_courses.all()
+        queryset3 = student.tutoring_courses.all()
         serializer3 = CourseSerializer(queryset3, many=True)
         data3 = serializer3.data
 
@@ -34,9 +36,24 @@ class GetCoursesSample(APIView):
             'tutoring_courses': data3
         })
 
+    def put(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            course_dept, course_num = serializer.data['course_dept'], serializer.data['course_num']
+            course = Course.objects.get(course_dept=course_dept, course_num=course_num)
+            student = Student.objects.get(pk=1)
+            student.tutoring_courses.remove(course)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# END TESTING SECTION #
+
+
+
 class GetCurrentCourses(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # Retrieve CURRENT classes 
     def get(self, request):
         if (request.user.is_authenticated):
             student = Student.objects.get(pk=request.user.id)
@@ -44,13 +61,23 @@ class GetCurrentCourses(APIView):
             serializer = CourseSerializer(queryset, many=True)
             data = serializer.data
             return Response(data)
+        return Response({})
 
-        else:
-            return Response({})
+    # Put request REMOVES course from CURRENT courses of Student
+    def put(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            course_dept, course_num = serializer.data['course_dept'], serializer.data['course_num']
+            course = Course.objects.get(course_dept=course_dept, course_num=course_num)
+            student = Student.objects.get(pk=1)
+            student.tutoring_courses.remove(course)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GetPastCourses(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # Retrieve PAST classes 
     def get(self, request):
         if (request.user.is_authenticated):
             student = Student.objects.get(pk=request.user.id)
@@ -58,13 +85,23 @@ class GetPastCourses(APIView):
             serializer = CourseSerializer(queryset, many=True)
             data = serializer.data
             return Response(data)
+        return Response({})
 
-        else:
-            return Response({})
+    # Put request REMOVES course from PAST courses of Student
+    def put(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            course_dept, course_num = serializer.data['course_dept'], serializer.data['course_num']
+            course = Course.objects.get(course_dept=course_dept, course_num=course_num)
+            student = Student.objects.get(pk=1)
+            student.past_courses.remove(course)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GetTutoringCourses(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # Retrieve TUTORING classes 
     def get(self, request):
         if (request.user.is_authenticated):
             student = Student.objects.get(pk=request.user.id)
@@ -72,15 +109,23 @@ class GetTutoringCourses(APIView):
             serializer = CourseSerializer(queryset, many=True)
             data = serializer.data
             return Response(data)
+        return Response({})
 
-        else:
-            return Response({})
-
-# END TESTING SECTION #
+    # Put request REMOVES course from TUTORING courses of Student
+    def put(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            course_dept, course_num = serializer.data['course_dept'], serializer.data['course_num']
+            course = Course.objects.get(course_dept=course_dept, course_num=course_num)
+            student = Student.objects.get(pk=1)
+            student.tutoring_courses.remove(course)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GetAllCourses(APIView):
     authentication_classes = [TokenAuthentication]
 
+    # Retrieve ALL classes 
     def get(self, request):
         if (request.user.is_authenticated):
             student = Student.objects.get(pk=request.user.id)
@@ -93,7 +138,7 @@ class GetAllCourses(APIView):
             serializer2 = CourseSerializer(queryset2, many=True)
             data2 = serializer2.data
 
-            queryset3 = student.past_courses.all()
+            queryset3 = student.tutoring_courses.all()
             serializer3 = CourseSerializer(queryset3, many=True)
             data3 = serializer3.data
 
@@ -102,19 +147,7 @@ class GetAllCourses(APIView):
                 'past_courses': data2,
                 'tutoring_courses': data3
             })
-
-        else:
-            return Response({})
-
-def removeCurrentCourse(request, pk):
-    request.user.student.current_courses.remove(Course.objects.get(id=pk))
-
-def removePastCourse(request, pk):
-    request.user.student.past_courses.remove(Course.objects.get(id=pk))
-
-def removeTutoringCourse(request, pk):
-    request.user.student.tutoring_courses.remove(Course.objects.get(id=pk))
-    request.user.student.past_courses.add(Course.objects.get(id=pk))
+        return Response({})
 
 def markComplete(request, pk):
     updated_course = Course.objects.get(id=pk)

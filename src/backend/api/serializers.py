@@ -19,7 +19,7 @@ class AuthUserSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['course_dept', 'course_num', 'prof']
+        fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
