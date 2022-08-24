@@ -35,7 +35,6 @@ def dump_cal(cal):
             # note that the time is in zulu time
             if component.get('dtstart'):
                 dtstart = component.get('dtstart').dt
-                print(type(dtstart))
                 temp['dtstart_year'] = dtstart.year
                 temp['dtstart_month'] = dtstart.month
                 temp['dtstart_day'] = dtstart.day
@@ -45,7 +44,9 @@ def dump_cal(cal):
                     temp['dtstart_minute'] = dtstart.minute
                     temp['dtstart_second'] = dtstart.second
                 except:
-                    pass
+                    temp['dtstart_hour'] = 12
+                    temp['dtstart_minute'] = 0
+                    temp['dtstart_second'] = 0
 
             if component.get('dtend'):
                 dtend = component.get('dtend').dt
@@ -58,7 +59,9 @@ def dump_cal(cal):
                     temp['dtend_minute'] = dtend.minute
                     temp['dtend_second'] = dtend.second
                 except:
-                    pass
+                    temp['dtend_hour'] = 12
+                    temp['dtend_minute'] = 0
+                    temp['dtend_second'] = 0
 
             # Not sure if this would be of any use to the front-end
             if component.get('dtstamp'):
@@ -109,7 +112,7 @@ class FetchScheduleView(APIView):
         #print(request.user.id)
 
         try:
-            schedule = Schedule.objects.get(pk=1)
+            schedule = Schedule.objects.get(pk=request.user.id)
             #print("schedule")
             #print(schedule)
         except:
