@@ -18,7 +18,11 @@ import Karma from './pages/Karma';
 import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
 import Home from './pages/Home';
-import TestProfile from './pages/components/TestProfile';
+<<<<<<< HEAD
+import Calendar from './pages/Calendar';
+=======
+import OtherProfile from './pages/components/OtherProfile';
+>>>>>>> Sprint4-Demo
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -34,7 +38,11 @@ root.render(
       <Route path="forgot_pass" element={<ForgotPass />} />
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
-      <Route path="test_profile" element={<TestProfile />} />
+<<<<<<< HEAD
+      <Route path="calendar" element={<Calendar />} />
+=======
+      <Route path="user/:userId" element={<OtherProfile />} />
+>>>>>>> Sprint4-Demo
     </Routes>
   </BrowserRouter>
 );

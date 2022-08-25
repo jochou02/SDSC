@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import LinkProfile from '../components/LinkProfile';
+import styles from '../../styles/MatchingReceived.module.css';
 
 class MatchingReceived extends Component {
     constructor(props) {
@@ -144,29 +146,31 @@ class MatchingReceived extends Component {
     }
 
     ShowFinalized = ({ finalized }) => {
-            return (
-                <>
-                <div className="col">
-                <h1>Recent Connections</h1>
-                    {finalized.map((match) => <>
-                        <ul>
-
-                            <li >
-                            {match.first_name} {match.last_name}</li>
-                            <div>{match.user_college}</div>
-
-                            <hr />
-
-                         </ul>
-                        </>
-                    )}
-                </div>
-                </>
-            );
+        return (
+            <>
+            <div className="col">
+            <h1>Recent Connections</h1>
+            <div className={styles.connectionsWrapper}>
+                {finalized.map((match) => <>
+                    <ul style={{marginBottom: "0px"}}>
+                        <li style={{marginBottom: "5px"}}>
+                            {match.first_name} {match.last_name}
+                        </li>
+                        <div style={{marginBottom: "5px"}}>
+                            {match.user_college}
+                        </div>
+                        <LinkProfile id={match.id}/>
+                        <hr style={{marginTop: "20px"}}/>
+                    </ul>
+                    </>
+                )}
+            </div>
+            </div>
+            </>
+        );
     }
      
     render() {
-
         return (
             <>
             <this.ShowReceived received = {this.state.matching_received} />

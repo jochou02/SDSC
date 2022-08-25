@@ -1,0 +1,4 @@
+.connectionsWrapper {
+  display: flex;
+  flex-direction: column;
+}
