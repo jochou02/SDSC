@@ -19,7 +19,7 @@ import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
 import Home from './pages/Home';
 import TestProfile from './pages/components/TestProfile';
-import WaiTime from './buttons/WaitTime';
+import WaitTime from './buttons/WaitTime';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
