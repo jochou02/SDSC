@@ -15,6 +15,9 @@ class PrefsQuiz extends Component {
         phone: '',
         ig: '',
         discord: '',
+        user_interest1: '',
+        user_interest2: '',
+        user_interest3: '',
         prefs_save_success: false,
       };
 
@@ -41,7 +44,10 @@ class PrefsQuiz extends Component {
               major: data.user_major,
               phone: data.phone,
               ig: data.ig,
-              discord: data.discord
+              discord: data.discord,
+              user_interest1: data.user_interest1,
+              user_interest2: data.user_interest2,
+              user_interest3: data.user_interest3,
             });
             //console.log(data);
         })
@@ -59,7 +65,11 @@ class PrefsQuiz extends Component {
           tutor_checked: this.state.tutor_checked,
           phone: this.state.phone,
           ig: this.state.ig,
-          discord: this.state.discord})
+          discord: this.state.discord,
+          user_interest1: this.state.user_interest1,
+          user_interest2: this.state.user_interest2,
+          user_interest3: this.state.user_interest3
+        })
       };
     
       fetch('http://127.0.0.1:8000/account/set_prefs/', requestOptions)
@@ -164,6 +174,37 @@ class PrefsQuiz extends Component {
           style={{marginBottom: "15px"}}
           onChange={(event) => {
             this.setState({ discord: event.target.value })
+          }} 
+        />
+
+        <label>Interest 1</label>
+        <input 
+          type="text" 
+          value={this.state.user_interest1} 
+          className="field"
+          style={{marginBottom: "15px"}}
+          onChange={(event) => {
+            this.setState({ user_interest1: event.target.value })
+          }} 
+        />
+        <label>Interest 2</label>
+        <input 
+          type="text" 
+          value={this.state.user_interest2} 
+          className="field"
+          style={{marginBottom: "15px"}}
+          onChange={(event) => {
+            this.setState({ user_interest2: event.target.value })
+          }} 
+        />
+        <label>Interest 3</label>
+        <input 
+          type="text" 
+          value={this.state.user_interest3} 
+          className="field"
+          style={{marginBottom: "15px"}}
+          onChange={(event) => {
+            this.setState({ user_interest3: event.target.value })
           }} 
         />
 
