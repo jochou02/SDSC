@@ -19,6 +19,7 @@ import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
 import Home from './pages/Home';
 import TestProfile from './pages/components/TestProfile';
+import Reviews from './pages/Reviews';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,6 +36,8 @@ root.render(
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
       <Route path="test_profile" element={<TestProfile />} />
+      <Route path="reviews"
+      element={<Reviews />} />
     </Routes>
   </BrowserRouter>
 );

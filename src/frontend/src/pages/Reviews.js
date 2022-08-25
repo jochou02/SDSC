@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import '../../App.css'
-import "../Reviews.css";
+import '../styles/App.css'
+import "../styles/Reviews.css"
 import StarRatingComponent from 'react-star-rating-component';
 
 
@@ -9,31 +9,34 @@ export default function Reviews(){
     const[classData,setClassData] = useState([ //temporary dummy data
         {course_name:"CSE 100", avg_approval:"93.2%", avg_hours: "11.33", avg_grade:"B (3.07)", }, //not sure if names are correct
     ]);
+
     const[review, setReviews] = useState([ // rating, description, course(course_dept, course_num,prof), student
         {prof:"Professor A", rating:"5",description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."},
         {prof:"Professor B", rating:"3",description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."},
         {prof:"Professor C", rating:"4", description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."},
         {prof:"Professor D", rating:"2",description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."}
     ])
+
     const[rating,makeRating] = useState("");    //holds the user's new rating
     const[description,makeDescription]=useState(""); //holds the user's new review
 
     
     const onChange = (e) => {   //holds user description of rating
-        makeDescription(e.target.description);
+        makeDescription(e.target.value);
     }
 
-    const setRating = (e) =>{   //holds users rating # (1 to 5)
-        makeRating(e.target);
+    const setRating = (e) => {   //holds users rating # (1 to 5)
+        makeRating(e);
     }
 
     const onSubmitEvent = (e) => {  //make it so that this function creates a new review and pushes into our reviews state
         e.preventDefault();
         let a = {prof:"Professor A", rating:rating, description:description}
-        review.push(a)
-        console.log(review);
+        review.push(a);
     }
 
+    
+    /*
     useEffect(()=>{
         const headers = {"Content-Type": "application/json"};
        
@@ -63,6 +66,8 @@ export default function Reviews(){
         })
         .catch(console.log)
     })
+    */
+
     return (
         <div className = "ReviewPageContainer">         
             <div className = 'ReviewStats'>
@@ -95,13 +100,22 @@ export default function Reviews(){
                 </div>
             </div>
             <div className = 'ReviewSection'>
-            <form onSubmit = {onSubmitEvent}>
-                <textarea placeholder="Write your own review!" input type="text" 
-                className='reviewBox' onChange={onChange} onSubmit={""} 
+            <form>
+                <textarea 
+                    placeholder="Write your own review!" 
+                    type="text" 
+                    className='reviewBox' 
+                    onChange={onChange}
                 />
                 
-                <StarRatingComponent className = "stars" onStarClick={setRating}></StarRatingComponent>
-                <button type ="submit" className = "reviewButton">
+                <StarRatingComponent 
+                    className = "stars" onStarClick={setRating} name="stars">
+                </StarRatingComponent>
+
+                <button 
+                    type ="submit" 
+                    className = "reviewButton"
+                    onClick={onSubmitEvent}>
                 Submit Review
                 </button>
             </form>
