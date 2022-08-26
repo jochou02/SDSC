@@ -28,6 +28,7 @@ export default function Reviews(){
         let a = {prof:prof, rating:rating, description:description}
         review.push(a) 
         console.log(review);
+        sendDataToBackend();
     }
 
     const onStarClick=(e)=>{ //holds users rating # (1 to 5)
@@ -38,7 +39,9 @@ export default function Reviews(){
     const profInput=(e)=>{
         makeProf(e.target.value);
     }
-    useEffect(()=>{
+
+    
+    const sendDataToBackend=()=>{
         const headers = {"Content-Type": "application/json"};
        
         if (localStorage.getItem('auth-token')) {
@@ -66,7 +69,8 @@ export default function Reviews(){
                     setClassData(data)
         })
         .catch(console.log)
-    })
+    }
+    
     return (
         <div className = "ReviewPageContainer">         
             <div className = 'ReviewStats'>
