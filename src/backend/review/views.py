@@ -12,15 +12,16 @@ import ujson
 # Create your views here.
 
 class GetReviews(APIView):
+    authentication_classes = [TokenAuthentication]
 
-    def get(self, request, pk1, pk2):
+    #add pk1 and pk2 back to parameter
+    def get(self, request):
         if (request.user.is_authenticated):
-            course = Course.objects.get(course_dept=pk1, course_num=pk2)
+            course = Course.objects.get(course_dept="CSE", course_num="100")
             queryset = course.review_set.all()
             serializer = ReviewSerializer(queryset, many=True)
             data = serializer.data
             return Response(data)
-
 
 
 class GetCourseData(APIView):
