@@ -68,12 +68,12 @@ class Student(models.Model):
     def set_karma(self, add_karma):
         # print("！！\nset_karma has been called\n")
 
-        # print("self.user_karma before:")
-        # print(self.user_karma)
+        print("self.user_karma before:")
+        print(self.user_karma)
 
         self.user_karma += add_karma
-        # print("self.user_karma after:")
-        # print(self.user_karma)
+        print("self.user_karma after:")
+        print(self.user_karma)
 
         # print("！！\n")
 
@@ -92,3 +92,11 @@ class Student(models.Model):
     def set_discord(self, discord):
         self.discord = discord
 
+    def set_user_interest1(self, user_interest1):
+        self.user_interest1 = user_interest1
+
+    def set_user_interest2(self, user_interest2):
+        self.user_interest2 = user_interest2
+
+    def set_user_interest3(self, user_interest3):
+        self.user_interest3 = user_interest3

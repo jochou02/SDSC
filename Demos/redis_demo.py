@@ -4,7 +4,7 @@ import pprint
 
 # Open a connection to our Redis cache.
 # 132.249.242.203 is the cloud instance where cache is on
-r = redis.Redis(host='132.249.242.203')
+r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
 
 # grab the value associated with key from redis
 # our course keys are just course names in the same format as below
@@ -24,7 +24,7 @@ print("****")
 # grab a wait-time
 # the keys are of the format wait_id, where id is the id of the location
 
-b = ujson.loads(r.get('wait_8'))
+b = ujson.loads(r.get('wait_12'))
 
 p = pprint.PrettyPrinter(indent = 4)
 p.pprint(b)
