@@ -1,3 +1,4 @@
+from socket import timeout
 from django.shortcuts import render
 
 # Create your views here.
@@ -19,6 +20,7 @@ from .models import Schedule
 
 from rest_framework.authentication import TokenAuthentication
 
+from ics import Calendar as icsCal, Event
 
 def dump_cal(cal):
     toReturn = []
@@ -215,3 +217,54 @@ class DeleteEventView(APIView):
         schedule.save()
 
         return Response(dump_cal(temp))
+
+
+class ExportScheduleView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        request_content = ujson.loads(request.body.decode("utf-8"))
+
+        cal = request_content['cal']
+        #print(cal)
+
+        c = icsCal()
+
+        for event in cal:
+            e = Event()
+            e.name = event.get('event')
+
+            def adjustedTime(time):
+                if (time == 0):
+                    return '00'
+                else:
+                    return str(time)
+
+            dateStartStr = ''
+            dateStartStr = (
+            str(event.get('dtstart_year')) + "/" +
+            str(event.get('dtstart_month')) + "/" +
+            str(event.get('dtstart_day')) + " " +
+            adjustedTime(event.get('dtstart_hour')) + ":" + 
+            adjustedTime(event.get('dtstart_minute')))
+
+            dateEndStr = ''
+            dateEndStr = (
+            str(event.get('dtend_year')) + "/" +
+            str(event.get('dtend_month')) + "/" +
+            str(event.get('dtend_day')) + " " +
+            adjustedTime(event.get('dtend_hour')) + ":" + 
+            adjustedTime(event.get('dtend_minute')))
+
+            #print("Start: " + dateStartStr + ", End: " + dateEndStr)
+
+            e.begin = dateStartStr
+            e.end = dateEndStr
+            
+            c.events.add(e)
+
+
+        with open('myCal.ics', 'w') as export_file:
+            export_file.writelines(c.serialize_iter())
+
+        return Response({})

@@ -9,4 +9,5 @@ urlpatterns=[
     path('upload_schedule/', views.UploadScheduleView.as_view(), name='upload_schedule'),
     path('add_event/', views.AddEventView.as_view(), name='add_event'),
     path('delete_event/', views.DeleteEventView.as_view(), name='delete_event'),
+    path('export_schedule/', views.ExportScheduleView.as_view(), name='export_schedule'),
 ]

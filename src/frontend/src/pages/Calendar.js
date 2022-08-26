@@ -15,6 +15,7 @@ class Calendar extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCalendar = this.getCalendar.bind(this);
+    this.exportCalendar = this.exportCalendar.bind(this);
   }
 
   componentDidMount() {
@@ -64,26 +65,29 @@ class Calendar extends React.Component {
         .then(response => response.json())
         .then((data) => {
           this.setState({cal: data}, () => {
-            //console.log(data)
+            console.log()
           })
         })
     .catch(console.log)
   }
 
-  /* No longer needed
-  ShowCalendar({ cal }) {
-    return(
-      <div>
-        {cal.map(e => 
-        <div className={styles.eventWrapper}>
-          <h1 className={styles.eventTitle}>Event: {e.event}</h1>
-          <p className={styles.eventDescrip}>Description: {e.event}</p>
-        </div>
-        )}
-      </div>
-    )
+  exportCalendar() {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth-token'),
+      },
+      body: JSON.stringify({cal: this.state.cal})
+    };
+
+    fetch('http://127.0.0.1:8000/schedule/export_schedule/', requestOptions)
+    .then(response => response.json())
+      .then(( ) => {
+        console.log()
+      })
+    .catch(console.log);
   }
-  */
 
   render() {
     return(<>
@@ -107,6 +111,13 @@ class Calendar extends React.Component {
       onClick={this.handleSubmit}
       className={styles.calendarButton}>
         Submit
+      </button>
+      <br /> <br />
+
+      <button 
+      onClick={this.exportCalendar}
+      className={styles.calendarButton}>
+        Export
       </button>
       <br />
     </>)

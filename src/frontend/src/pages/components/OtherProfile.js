@@ -26,7 +26,8 @@ class OtherProfile extends Component {
       },
       body: JSON.stringify({id: this.state.id})
     };
-    fetch('http://127.0.0.1:8000/connect/get_info/', requestOptions)
+
+    fetch('http://127.0.0.1:8000/connect/get_info_test/', requestOptions)
     .then(response => response.json())
       .then((data) => {
         this.setState({userInfo: data}, () => {console.log()})

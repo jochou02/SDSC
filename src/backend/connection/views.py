@@ -43,6 +43,8 @@ class GetInfo(APIView):
 
 class GetInfoTest(APIView):
 
+    authentication_classes = [TokenAuthentication]
+
     def get(self, request):
         toRespond = StudentSerializer(Student.objects.get(pk=1)).data
         return Response(toRespond)
