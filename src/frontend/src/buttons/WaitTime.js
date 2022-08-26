@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
-const initial_wait = {
+var initial_wait = {
     "Cafe Ventanas": {
         "name": "Cafe Ventanas",
         "id": 56,
@@ -614,12 +614,7 @@ class WaitTime extends Component {
     }
 
     componentDidMount() {
-        const headers = {"Content-Type": "application/json"};
-        if (localStorage.getItem('auth-token')) {
-            headers["Authorization"] = localStorage.getItem('auth-token');
-        }
-
-        fetch('127.0.0.1:8000/wait_time/data', {headers, })
+        fetch('http://127.0.0.1:8000/wait_time/data/')
             .then(res => res.json())
             .then((data) => {
                 this.setState({
@@ -627,6 +622,8 @@ class WaitTime extends Component {
                 });
             })
     }
+
+
 
     handleClose() {
         this.setState({show: false});
