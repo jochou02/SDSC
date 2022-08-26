@@ -654,235 +654,283 @@ class WaitTime extends Component {
                             <h5>
                                 1st Floor East
 
-                                Example: Capacity {this.state.wait_data['WongAvery Library']['capacity']}
                             </h5>
-                            <p className='fw-light fs-6 text-muted'>Capacity: 150</p>
-                            {this.state.gfste < 20 ? <p className='text-success'> Not Busy(..%)</p> :
-                            this.state.gfste < 80 ? <p className='text-warning'> Busy({this.state.gfste}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gfste}%)</p>}
-                            {this.state.gfste < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gfste} label={`${this.state.gfste}%`} /> :
-                            this.state.gfste < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gfste} label={`${this.state.gfste}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gfste} label={`${this.state.gfste}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][0]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][0]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][0]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][0]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][0]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][0]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 1st Floor West                    
                             </h5>
-                            {this.state.gfstw < 20 ? <p className='text-success'> Not Busy({this.state.gfstw}%)</p> :
-                            this.state.gfstw < 80 ? <p className='text-warning'> Busy({this.state.gfstw}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gfstw}%)</p>}
-                            {this.state.gfstw < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gfstw} label={`${this.state.gfstw}%`} /> :
-                            this.state.gfstw < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gfstw} label={`${this.state.gfstw}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gfstw} label={`${this.state.gfstw}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][1]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][1]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][1]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][1]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][1]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][1]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 2nd Floor East                    
                             </h5>
-                            {this.state.gsece < 20 ? <p className='text-success'> Not Busy({this.state.gsece}%)</p> :
-                            this.state.gsece < 80 ? <p className='text-warning'> Busy({this.state.gsece}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gsece}%)</p>}
-                            {this.state.gsece < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gsece} label={`${this.state.gsece}%`} /> :
-                            this.state.gsece < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gsece} label={`${this.state.gsece}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gsece} label={`${this.state.gsece}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][2]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][2]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][2]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][2]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][2]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][2]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 2nd Floor West                    
                             </h5>
-                            {this.state.gsecw < 20 ? <p className='text-success'> Not Busy({this.state.gsecw}%)</p> :
-                            this.state.gsecw < 80 ? <p className='text-warning'> Busy({this.state.gsecw}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gsecw}%)</p>}
-                            {this.state.gsecw < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gsecw} label={`${this.state.gsecw}%`} /> :
-                            this.state.gsecw < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gsecw} label={`${this.state.gsecw}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gsecw} label={`${this.state.gsecw}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][3]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][3]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][3]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][3]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][3]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][3]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 4th Floor                    
                             </h5>
-                            {this.state.gfor < 20 ? <p className='text-success'> Not Busy({this.state.gfor}%)</p> :
-                            this.state.gfor < 80 ? <p className='text-warning'> Busy({this.state.gfor}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gfor}%)</p>}
-                            {this.state.gfor < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gfor} label={`${this.state.gfor}%`} /> :
-                            this.state.gfor < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gfor} label={`${this.state.gfor}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gfor} label={`${this.state.gfor}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][4]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][4]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][4]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][4]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][4]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][4]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 5th Floor                    
                             </h5>
-                            {this.state.gfif < 20 ? <p className='text-success'> Not Busy({this.state.gfif}%)</p> :
-                            this.state.gfif < 80 ? <p className='text-warning'> Busy({this.state.gfif}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gfif}%)</p>}
-                            {this.state.gfif < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gfif} label={`${this.state.gfif}%`} /> :
-                            this.state.gfif < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gfif} label={`${this.state.gfif}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gfif} label={`${this.state.gfif}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][5]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][5]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][5]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][5]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][5]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][5]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 6th Floor                    
                             </h5>
-                            {this.state.gsix < 20 ? <p className='text-success'> Not Busy({this.state.gsix}%)</p> :
-                            this.state.gsix < 80 ? <p className='text-warning'> Busy({this.state.gsix}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gsix}%)</p>}
-                            {this.state.gsix < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gsix} label={`${this.state.gsix}%`} /> :
-                            this.state.gsix < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gsix} label={`${this.state.gsix}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gsix} label={`${this.state.gsix}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][6]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][6]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][6]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][6]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][6]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][6]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 7th Floor                    
                             </h5>
-                            {this.state.gsev < 20 ? <p className='text-success'> Not Busy({this.state.gsev}%)</p> :
-                            this.state.gsev < 80 ? <p className='text-warning'> Busy({this.state.gsev}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gsev}%)</p>}
-                            {this.state.gsev < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gsev} label={`${this.state.gsev}%`} /> :
-                            this.state.gsev < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gsev} label={`${this.state.gsev}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gsev} label={`${this.state.gsev}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][7]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][7]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][7]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][7]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][7]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][7]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 8th Floor                    
                             </h5>
-                            {this.state.geig < 20 ? <p className='text-success'> Not Busy({this.state.geig}%)</p> :
-                            this.state.geig < 80 ? <p className='text-warning'> Busy({this.state.geig}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.geig}%)</p>}
-                            {this.state.geig < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.geig} label={`${this.state.geig}%`} /> :
-                            this.state.geig < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.geig} label={`${this.state.geig}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.geig} label={`${this.state.geig}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][8]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][8]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][8]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][8]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][8]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][8]['busyness']}%`} />}
                             </Accordion.Body>
                             <Accordion.Body>
                             <h5>
                                 Teaching and Learning Commons                    
                             </h5>
-                            {this.state.gtlc < 20 ? <p className='text-success'> Not Busy({this.state.gtlc}%)</p> :
-                            this.state.gtlc < 80 ? <p className='text-warning'> Busy({this.state.gtlc}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.gtlc}%)</p>}
-                            {this.state.gtlc < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gtlc} label={`${this.state.gtlc}%`} /> :
-                            this.state.gtlc < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.gtlc} label={`${this.state.gtlc}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.gtlc} label={`${this.state.gtlc}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Geisel Library']['subLocs'][9]['capacity']}</p>
+                            {this.state.wait_data['Geisel Library']['subLocs'][9]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']}%)</p> :
+                            this.state.wait_data['Geisel Library']['subLocs'][9]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']}%)</p>}
+                            {this.state.wait_data['Geisel Library']['subLocs'][9]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']}%`} /> :
+                            this.state.wait_data['Geisel Library']['subLocs'][9]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']} label={`${this.state.wait_data['Geisel Library']['subLocs'][9]['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='1'>
                             <Accordion.Header>RIMAC Fitness Gym</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.rim < 20 ? <p className='text-success'> Not Busy({this.state.rim}%)</p> :
-                            this.state.rim < 80 ? <p className='text-warning'> Busy({this.state.rim}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.rim}%)</p>}
-                            {this.state.rim < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.rim} label={`${this.state.rim}%`} /> :
-                            this.state.rim < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.rim} label={`${this.state.rim}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.rim} label={`${this.state.rim}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['RIMAC Fitness Gym']['capacity']}</p>
+
+                            {this.state.wait_data['RIMAC Fitness Gym']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['RIMAC Fitness Gym']['busyness']}%)</p> :
+                            this.state.wait_data['RIMAC Fitness Gym']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['RIMAC Fitness Gym']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['RIMAC Fitness Gym']['busyness']}%)</p>}
+                            {this.state.wait_data['RIMAC Fitness Gym']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['RIMAC Fitness Gym']['busyness']} label={`${this.state.wait_data['RIMAC Fitness Gym']['busyness']}%`} /> :
+                            this.state.wait_data['RIMAC Fitness Gym']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['RIMAC Fitness Gym']['busyness']} label={`${this.state.wait_data['RIMAC Fitness Gym']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['RIMAC Fitness Gym']['busyness']} label={`${this.state.wait_data['RIMAC Fitness Gym']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='2'>
                             <Accordion.Header>Main Gym</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.maing < 20 ? <p className='text-success'> Not Busy({this.state.maing}%)</p> :
-                            this.state.maing < 80 ? <p className='text-warning'> Busy({this.state.maing}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.maing}%)</p>}
-                            {this.state.maing < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.maing} label={`${this.state.maing}%`} /> :
-                            this.state.maing < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.maing} label={`${this.state.maing}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.maing} label={`${this.state.maing}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Main Gym']['capacity']}</p>
+
+                            {this.state.wait_data['Main Gym']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Main Gym']['busyness']}%)</p> :
+                            this.state.wait_data['Main Gym']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Main Gym']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Main Gym']['busyness']}%)</p>}
+                            {this.state.wait_data['Main Gym']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Main Gym']['busyness']} label={`${this.state.wait_data['Main Gym']['busyness']}%`} /> :
+                            this.state.wait_data['Main Gym']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Main Gym']['busyness']} label={`${this.state.wait_data['Main Gym']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Main Gym']['busyness']} label={`${this.state.wait_data['Main Gym']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='3'>
                             <Accordion.Header>Cafe Ventanas</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.cafev < 20 ? <p className='text-success'> Not Busy({this.state.cafev}%)</p> :
-                            this.state.cafev < 80 ? <p className='text-warning'> Busy({this.state.cafev}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.cafev}%)</p>}
-                            {this.state.cafev < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.cafev} label={`${this.state.cafev}%`} /> :
-                            this.state.cafev < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.cafev} label={`${this.state.cafev}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.cafev} label={`${this.state.cafev}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Cafe Ventanas']['capacity']}</p>
+
+                            {this.state.wait_data['Cafe Ventanas']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Cafe Ventanas']['busyness']}%)</p> :
+                            this.state.wait_data['Cafe Ventanas']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Cafe Ventanas']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Cafe Ventanas']['busyness']}%)</p>}
+                            {this.state.wait_data['Cafe Ventanas']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Cafe Ventanas']['busyness']} label={`${this.state.wait_data['Cafe Ventanas']['busyness']}%`} /> :
+                            this.state.wait_data['Cafe Ventanas']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Cafe Ventanas']['busyness']} label={`${this.state.wait_data['Cafe Ventanas']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Cafe Ventanas']['busyness']} label={`${this.state.wait_data['Cafe Ventanas']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='4'>
-                            <Accordion.Header>6th Restaurants</Accordion.Header>
+                            <Accordion.Header>6th Restaurant</Accordion.Header>
+
                             <Accordion.Body>
-                            {this.state.sixth < 20 ? <p className='text-success'> Not Busy({this.state.sixth}%)</p> :
-                            this.state.sixth < 80 ? <p className='text-warning'> Busy({this.state.sixth}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.sixth}%)</p>}
-                            {this.state.sixth < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.sixth} label={`${this.state.sixth}%`} /> :
-                            this.state.sixth < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.sixth} label={`${this.state.sixth}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.sixth} label={`${this.state.sixth}%`} />}
+                            <h5>
+                                {this.state.wait_data['6th Restaurant']['subLocs'][0]['name']}
+                            </h5>
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['6th Restaurant']['subLocs'][0]['capacity']}</p>
+
+                            {this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']}%)</p> :
+                            this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']}%)</p>}
+                            {this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']} label={`${this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']}%`} /> :
+                            this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']} label={`${this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']} label={`${this.state.wait_data['6th Restaurant']['subLocs'][0]['busyness']}%`} />}
+                            </Accordion.Body>
+
+                            <Accordion.Body>
+                            <h5>
+                                {this.state.wait_data['6th Restaurant']['subLocs'][1]['name']}
+                            </h5>
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['6th Restaurant']['subLocs'][1]['capacity']}</p>
+
+                            {this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']}%)</p> :
+                            this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']}%)</p>}
+                            {this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']} label={`${this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']}%`} /> :
+                            this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']} label={`${this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']} label={`${this.state.wait_data['6th Restaurant']['subLocs'][1]['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='5'>
                             <Accordion.Header>The Bistro</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.bistro < 20 ? <p className='text-success'> Not Busy({this.state.bistro}%)</p> :
-                            this.state.bistro < 80 ? <p className='text-warning'> Busy({this.state.bistro}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.bistro}%)</p>}
-                            {this.state.bistro < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.bistro} label={`${this.state.bistro}%`} /> :
-                            this.state.bistro < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.bistro} label={`${this.state.bistro}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.bistro} label={`${this.state.bistro}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['The Bistro']['capacity']}</p>
+
+                            {this.state.wait_data['The Bistro']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['The Bistro']['busyness']}%)</p> :
+                            this.state.wait_data['The Bistro']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['The Bistro']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['The Bistro']['busyness']}%)</p>}
+                            {this.state.wait_data['The Bistro']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['The Bistro']['busyness']} label={`${this.state.wait_data['The Bistro']['busyness']}%`} /> :
+                            this.state.wait_data['The Bistro']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['The Bistro']['busyness']} label={`${this.state.wait_data['The Bistro']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['The Bistro']['busyness']} label={`${this.state.wait_data['The Bistro']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='6'>
                             <Accordion.Header>Canyon Vista</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.cv < 20 ? <p className='text-success'> Not Busy({this.state.cv}%)</p> :
-                            this.state.cv < 80 ? <p className='text-warning'> Busy({this.state.cv}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.cv}%)</p>}
-                            {this.state.cv < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.cv} label={`${this.state.cv}%`} /> :
-                            this.state.cv < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.cv} label={`${this.state.cv}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.cv} label={`${this.state.cv}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Canyon Vista']['capacity']}</p>
+
+                            {this.state.wait_data['Canyon Vista']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Canyon Vista']['busyness']}%)</p> :
+                            this.state.wait_data['Canyon Vista']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Canyon Vista']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Canyon Vista']['busyness']}%)</p>}
+                            {this.state.wait_data['Canyon Vista']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Canyon Vista']['busyness']} label={`${this.state.wait_data['Canyon Vista']['busyness']}%`} /> :
+                            this.state.wait_data['Canyon Vista']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Canyon Vista']['busyness']} label={`${this.state.wait_data['Canyon Vista']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Canyon Vista']['busyness']} label={`${this.state.wait_data['Canyon Vista']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='7'>
                             <Accordion.Header>64 Degrees</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.sfd < 20 ? <p className='text-success'> Not Busy({this.state.sfd}%)</p> :
-                            this.state.sfd < 80 ? <p className='text-warning'> Busy({this.state.sfd}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.sfd}%)</p>}
-                            {this.state.sfd < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.sfd} label={`${this.state.sfd}%`} /> :
-                            this.state.sfd < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.sfd} label={`${this.state.sfd}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.sfd} label={`${this.state.sfd}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['64 Degrees']['capacity']}</p>
+
+                            {this.state.wait_data['64 Degrees']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['64 Degrees']['busyness']}%)</p> :
+                            this.state.wait_data['64 Degrees']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['64 Degrees']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['64 Degrees']['busyness']}%)</p>}
+                            {this.state.wait_data['64 Degrees']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['64 Degrees']['busyness']} label={`${this.state.wait_data['64 Degrees']['busyness']}%`} /> :
+                            this.state.wait_data['64 Degrees']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['64 Degrees']['busyness']} label={`${this.state.wait_data['64 Degrees']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['64 Degrees']['busyness']} label={`${this.state.wait_data['64 Degrees']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='8'>
                             <Accordion.Header>Foodworx</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.fw < 20 ? <p className='text-success'> Not Busy({this.state.fw}%)</p> :
-                            this.state.fw < 80 ? <p className='text-warning'> Busy({this.state.fw}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.fw}%)</p>}
-                            {this.state.fw < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.fw} label={`${this.state.fw}%`} /> :
-                            this.state.fw < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.fw} label={`${this.state.fw}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.fw} label={`${this.state.fw}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Foodworx']['capacity']}</p>
+
+                            {this.state.wait_data['Foodworx']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Foodworx']['busyness']}%)</p> :
+                            this.state.wait_data['Foodworx']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Foodworx']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Foodworx']['busyness']}%)</p>}
+                            {this.state.wait_data['Foodworx']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Foodworx']['busyness']} label={`${this.state.wait_data['Foodworx']['busyness']}%`} /> :
+                            this.state.wait_data['Foodworx']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Foodworx']['busyness']} label={`${this.state.wait_data['Foodworx']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Foodworx']['busyness']} label={`${this.state.wait_data['Foodworx']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='9'>
                             <Accordion.Header>Pines</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.pines < 20 ? <p className='text-success'> Not Busy({this.state.pines}%)</p> :
-                            this.state.pines < 80 ? <p className='text-warning'> Busy({this.state.pines}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.pines}%)</p>}
-                            {this.state.pines < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.pines} label={`${this.state.pines}%`} /> :
-                            this.state.pines < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.pines} label={`${this.state.pines}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.pines} label={`${this.state.pines}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Pines']['capacity']}</p>
+
+                            {this.state.wait_data['Pines']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Pines']['busyness']}%)</p> :
+                            this.state.wait_data['Pines']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Pines']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Pines']['busyness']}%)</p>}
+                            {this.state.wait_data['Pines']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Pines']['busyness']} label={`${this.state.wait_data['Pines']['busyness']}%`} /> :
+                            this.state.wait_data['Pines']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Pines']['busyness']} label={`${this.state.wait_data['Pines']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Pines']['busyness']} label={`${this.state.wait_data['Pines']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='10'>
                             <Accordion.Header>OceanView Terrace</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.ovt < 20 ? <p className='text-success'> Not Busy({this.state.ovt}%)</p> :
-                            this.state.ovt < 80 ? <p className='text-warning'> Busy({this.state.ovt}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.ovt}%)</p>}
-                            {this.state.ovt < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.ovt} label={`${this.state.ovt}%`} /> :
-                            this.state.ovt < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.ovt} label={`${this.state.ovt}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.ovt} label={`${this.state.ovt}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['OceanView Terrace']['capacity']}</p>
+
+                            {this.state.wait_data['OceanView Terrace']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['OceanView Terrace']['busyness']}%)</p> :
+                            this.state.wait_data['OceanView Terrace']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['OceanView Terrace']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['OceanView Terrace']['busyness']}%)</p>}
+                            {this.state.wait_data['OceanView Terrace']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['OceanView Terrace']['busyness']} label={`${this.state.wait_data['OceanView Terrace']['busyness']}%`} /> :
+                            this.state.wait_data['OceanView Terrace']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['OceanView Terrace']['busyness']} label={`${this.state.wait_data['OceanView Terrace']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['OceanView Terrace']['busyness']} label={`${this.state.wait_data['OceanView Terrace']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey='11'>
                             <Accordion.Header>Club Med</Accordion.Header>
                             <Accordion.Body>
-                            {this.state.cm < 20 ? <p className='text-success'> Not Busy({this.state.cm}%)</p> :
-                            this.state.cm < 80 ? <p className='text-warning'> Busy({this.state.cm}%)</p> :
-                            <p className='text-danger'> Very Busy({this.state.cm}%)</p>}
-                            {this.state.cm < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.cm} label={`${this.state.cm}%`} /> :
-                            this.state.cm < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.cm} label={`${this.state.cm}%`} /> :
-                            <ProgressBar animated='true' striped variant='danger' now={this.state.cm} label={`${this.state.cm}%`} />}
+                            <p className='fw-light fs-6 text-muted'>Capacity: {this.state.wait_data['Club Med']['capacity']}</p>
+
+                            {this.state.wait_data['Club Med']['busyness'] < 20 ? <p className='text-success'> Not Busy({this.state.wait_data['Club Med']['busyness']}%)</p> :
+                            this.state.wait_data['Club Med']['busyness'] < 80 ? <p className='text-warning'> Busy({this.state.wait_data['Club Med']['busyness']}%)</p> :
+                            <p className='text-danger'> Very Busy({this.state.wait_data['Club Med']['busyness']}%)</p>}
+                            {this.state.wait_data['Club Med']['busyness'] < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.wait_data['Club Med']['busyness']} label={`${this.state.wait_data['Club Med']['busyness']}%`} /> :
+                            this.state.wait_data['Club Med']['busyness'] < 80 ? <ProgressBar animated='true' striped variant='warning' now={this.state.wait_data['Club Med']['busyness']} label={`${this.state.wait_data['Club Med']['busyness']}%`} /> :
+                            <ProgressBar animated='true' striped variant='danger' now={this.state.wait_data['Club Med']['busyness']} label={`${this.state.wait_data['Club Med']['busyness']}%`} />}
                             </Accordion.Body>
                         </Accordion.Item>
                         </Accordion>
