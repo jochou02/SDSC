@@ -26,6 +26,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/0.pack" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/1.pack" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/1.pack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/10.pack" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/10.pack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/11.pack" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/11.pack" afterDir="false" />
@@ -41,6 +42,11 @@
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/frontend/src/buttons/WaitTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/buttons/WaitTime.js" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/src/index.js" afterDir="false" />
+>>>>>>> demo
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +117,10 @@
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
     <state x="552" y="252" width="1089" height="740" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2194.1194/-3840.407.2194.1194@0.0.2194.1194" timestamp="1660706756103" />
+    <state x="93" y="93" width="1733" height="853" key="DiffContextDialog" timestamp="1661204624127">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="93" y="93" width="1733" height="853" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1661204624127" />
     <state x="958" y="369" width="838" height="505" key="EnvironmentVariablesDialog" timestamp="1660706722516">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
@@ -133,7 +143,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/backend/account/views.py</url>
-          <line>109</line>
+          <line>111</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
