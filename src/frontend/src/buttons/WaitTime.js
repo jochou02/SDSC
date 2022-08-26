@@ -5,34 +5,627 @@ import Accordion from 'react-bootstrap/Accordion';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const initial_wait = {
+    "Cafe Ventanas": {
+        "name": "Cafe Ventanas",
+        "id": 56,
+        "busyness": 22,
+        "people": 22,
+        "isAvailable": true,
+        "capacity": 100,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.22,
+        "subLocs": false
+    },
+    "WongAvery Library": {
+        "name": "WongAvery Library",
+        "id": 8,
+        "busyness": 8,
+        "people": 59,
+        "isAvailable": true,
+        "capacity": 748,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": "floor",
+        "bestLocations": [
+            {
+                "abbreviation": "2",
+                "id": 15,
+                "busyness": 6
+            }
+        ],
+        "percentage": 0.08,
+        "subLocs": [
+            {
+                "busyness": 11,
+                "people": 21,
+                "capacity": 190,
+                "isAvailable": true,
+                "id": 14,
+                "name": "1st Floor",
+                "abbreviation": "1",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.11
+            },
+            {
+                "busyness": 6,
+                "people": 33,
+                "capacity": 523,
+                "isAvailable": true,
+                "id": 15,
+                "name": "2nd Floor",
+                "abbreviation": "2",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.06
+            }
+        ]
+    },
+    "WongAvery Grad Study": {
+        "name": "WongAvery Grad Study",
+        "id": 17,
+        "busyness": 15,
+        "people": 5,
+        "isAvailable": true,
+        "capacity": 35,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.15,
+        "subLocs": false
+    },
+    "RIMAC Fitness Gym": {
+        "name": "RIMAC Fitness Gym",
+        "id": 12,
+        "busyness": 17,
+        "people": 30,
+        "isAvailable": true,
+        "capacity": 180,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.17,
+        "subLocs": false
+    },
+    "Main Gym": {
+        "name": "Main Gym",
+        "id": 13,
+        "busyness": 3,
+        "people": 1,
+        "isAvailable": true,
+        "capacity": 50,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.03,
+        "subLocs": false
+    },
+    "6th Restaurant": {
+        "name": "6th Restaurant",
+        "id": 70,
+        "busyness": 0,
+        "people": 0,
+        "isAvailable": true,
+        "capacity": 350,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0,
+        "subLocs": [
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 300,
+                "isAvailable": true,
+                "id": 162,
+                "name": "Indoors",
+                "abbreviation": "6I",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            },
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 50,
+                "isAvailable": true,
+                "id": 163,
+                "name": "Patio",
+                "abbreviation": "6I",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            }
+        ]
+    },
+    "Roger's Market": {
+        "name": "Roger's Market",
+        "id": 55,
+        "busyness": 0,
+        "people": 0,
+        "isAvailable": true,
+        "capacity": 75,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0,
+        "subLocs": false
+    },
+    "Club Med": {
+        "name": "Club Med",
+        "id": 58,
+        "busyness": 17,
+        "people": 7,
+        "isAvailable": true,
+        "capacity": 40,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.17,
+        "subLocs": false
+    },
+    "Canyon Vista": {
+        "name": "Canyon Vista",
+        "id": 57,
+        "busyness": 2,
+        "people": 2,
+        "isAvailable": true,
+        "capacity": 100,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.02,
+        "subLocs": false
+    },
+    "Geisel Library": {
+        "name": "Geisel Library",
+        "id": 7,
+        "busyness": 12,
+        "people": 335,
+        "isAvailable": true,
+        "capacity": 2785,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": "floor",
+        "bestLocations": [
+            {
+                "abbreviation": "1W",
+                "id": 2,
+                "busyness": 6
+            },
+            {
+                "abbreviation": "2W",
+                "id": 4,
+                "busyness": 9
+            },
+            {
+                "abbreviation": "6",
+                "id": 7,
+                "busyness": 9
+            }
+        ],
+        "percentage": 0.12,
+        "subLocs": [
+            {
+                "busyness": 11,
+                "people": 16,
+                "capacity": 150,
+                "isAvailable": true,
+                "id": 1,
+                "name": "1st Floor East",
+                "abbreviation": "1E",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.11
+            },
+            {
+                "busyness": 6,
+                "people": 29,
+                "capacity": 520,
+                "isAvailable": true,
+                "id": 2,
+                "name": "1st Floor West",
+                "abbreviation": "1W",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.06
+            },
+            {
+                "busyness": 27,
+                "people": 165,
+                "capacity": 620,
+                "isAvailable": true,
+                "id": 3,
+                "name": "2nd Floor East",
+                "abbreviation": "2E",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.27
+            },
+            {
+                "busyness": 9,
+                "people": 41,
+                "capacity": 460,
+                "isAvailable": true,
+                "id": 4,
+                "name": "2nd Floor West",
+                "abbreviation": "2W",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.09
+            },
+            {
+                "busyness": 4,
+                "people": 3,
+                "capacity": 80,
+                "isAvailable": true,
+                "id": 5,
+                "name": "4th Floor",
+                "abbreviation": "4",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.04
+            },
+            {
+                "busyness": 8,
+                "people": 13,
+                "capacity": 155,
+                "isAvailable": true,
+                "id": 6,
+                "name": "5th Floor",
+                "abbreviation": "5",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.08
+            },
+            {
+                "busyness": 9,
+                "people": 39,
+                "capacity": 440,
+                "isAvailable": true,
+                "id": 7,
+                "name": "6th Floor",
+                "abbreviation": "6",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.09
+            },
+            {
+                "busyness": 7,
+                "people": 14,
+                "capacity": 195,
+                "isAvailable": true,
+                "id": 8,
+                "name": "7th Floor",
+                "abbreviation": "7",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.07
+            },
+            {
+                "busyness": 9,
+                "people": 15,
+                "capacity": 165,
+                "isAvailable": true,
+                "id": 9,
+                "name": "8th Floor",
+                "abbreviation": "8",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.09
+            },
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 195,
+                "isAvailable": true,
+                "id": 194,
+                "name": "Teaching and Learning Commons",
+                "abbreviation": "TLC",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            }
+        ]
+    },
+    "64 Degrees": {
+        "name": "64 Degrees",
+        "id": 54,
+        "busyness": 0,
+        "people": 1,
+        "isAvailable": true,
+        "capacity": 175,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0,
+        "subLocs": false
+    },
+    "Foodworx": {
+        "name": "Foodworx",
+        "id": 53,
+        "busyness": 5,
+        "people": 1,
+        "isAvailable": true,
+        "capacity": 20,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.05,
+        "subLocs": false
+    },
+    "Pines": {
+        "name": "Pines",
+        "id": 52,
+        "busyness": 0,
+        "people": 0,
+        "isAvailable": true,
+        "capacity": 100,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0,
+        "subLocs": false
+    },
+    "OceanView Terrace": {
+        "name": "OceanView Terrace",
+        "id": 51,
+        "busyness": 3,
+        "people": 3,
+        "isAvailable": true,
+        "capacity": 100,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.03,
+        "subLocs": false
+    },
+    "Price Center": {
+        "name": "Price Center",
+        "id": 14,
+        "busyness": 0,
+        "people": 0,
+        "isAvailable": false,
+        "capacity": 650,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": "food court",
+        "bestLocations": [
+            {
+                "abbreviation": "E",
+                "id": 11,
+                "busyness": 0
+            }
+        ],
+        "percentage": 0,
+        "subLocs": [
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 450,
+                "isAvailable": false,
+                "id": 11,
+                "name": "Price Center East",
+                "abbreviation": "E",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            },
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 200,
+                "isAvailable": false,
+                "id": 10,
+                "name": "Price Center West",
+                "abbreviation": "W",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            }
+        ]
+    },
+    "Student Services Center": {
+        "name": "Student Services Center",
+        "id": 10,
+        "busyness": 23,
+        "people": 14,
+        "isAvailable": true,
+        "capacity": 62,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": "location",
+        "bestLocations": [
+            {
+                "abbreviation": "CO",
+                "id": 22,
+                "busyness": 10
+            }
+        ],
+        "percentage": 0.23,
+        "subLocs": [
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 14,
+                "isAvailable": false,
+                "id": 21,
+                "name": "Campus Card Office",
+                "abbreviation": "CCO",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            },
+            {
+                "busyness": 10,
+                "people": 1,
+                "capacity": 15,
+                "isAvailable": true,
+                "id": 22,
+                "name": "Cashier's Office",
+                "abbreviation": "CO",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.1
+            },
+            {
+                "busyness": 29,
+                "people": 10,
+                "capacity": 33,
+                "isAvailable": true,
+                "id": 27,
+                "name": "Financial Aid Office",
+                "abbreviation": "FAO",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0.29
+            }
+        ]
+    },
+    "Parking Offices": {
+        "name": "Parking Offices",
+        "id": 9,
+        "busyness": 0,
+        "people": 0,
+        "isAvailable": false,
+        "capacity": 90,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": "office",
+        "bestLocations": [
+            {
+                "abbreviation": "O",
+                "id": 19,
+                "busyness": 0
+            },
+            {
+                "abbreviation": "G",
+                "id": 17,
+                "busyness": 0
+            }
+        ],
+        "percentage": 0,
+        "subLocs": [
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 15,
+                "isAvailable": false,
+                "id": 19,
+                "name": "Osler",
+                "abbreviation": "O",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            },
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 60,
+                "isAvailable": false,
+                "id": 17,
+                "name": "Gilman",
+                "abbreviation": "G",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            },
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 10,
+                "isAvailable": false,
+                "id": 18,
+                "name": "Athena",
+                "abbreviation": "A",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            },
+            {
+                "busyness": 0,
+                "people": 0,
+                "capacity": 5,
+                "isAvailable": false,
+                "id": 20,
+                "name": "Hillcrest",
+                "abbreviation": "H",
+                "hourSummary": "open",
+                "isOpen": true,
+                "percentage": 0
+            }
+        ]
+    },
+    "7th Market": {
+        "name": "7th Market",
+        "id": 60,
+        "busyness": 68,
+        "people": 10,
+        "isAvailable": true,
+        "capacity": 15,
+        "hourSummary": "open",
+        "isOpen": true,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0.68,
+        "subLocs": false
+    },
+    "The Bistro": {
+        "name": "The Bistro",
+        "id": 59,
+        "busyness": 0,
+        "people": 0,
+        "isAvailable": true,
+        "capacity": 70,
+        "hourSummary": "Closed until 11:00am",
+        "isOpen": false,
+        "bestLabel": null,
+        "bestLocations": [],
+        "percentage": 0,
+        "subLocs": false
+    }
+}
  
 class WaitTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
             show: true,
-             gfste: 10,
-             gfstw: 30, 
-             gsece: 25,
-             gsecw: 90,
-             gfor: 45,
-             gfif: 60,
-             gsix: 50,
-             gsev: 40,
-             geig: 80,
-             gtlc: 45,
-             rim: 85,
-             maing: 45,
-             cafev: 30,
-             sixth: 60,
-             bistro: 55,
-             cv: 15,
-             sfd : 35,
-             fw: 5,
-             pines: 75,
-             ovt: 45,
-             cm: 20
+            wait_data: initial_wait
         }
+
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    componentDidMount() {
+        const headers = {"Content-Type": "application/json"};
+        if (localStorage.getItem('auth-token')) {
+            headers["Authorization"] = localStorage.getItem('auth-token');
+        }
+
+        fetch('127.0.0.1:8000/wait_time/data', {headers, })
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({
+                    wait_data: data
+                });
+            })
     }
 
     handleClose() {
@@ -60,9 +653,11 @@ class WaitTime extends Component {
                             <Accordion.Body>
                             <h5>
                                 1st Floor East
+
+                                Example: Capacity {this.state.wait_data['WongAvery Library']['capacity']}
                             </h5>
                             <p className='fw-light fs-6 text-muted'>Capacity: 150</p>
-                            {this.state.gfste < 20 ? <p className='text-success'> Not Busy({this.state.gfste}%)</p> :
+                            {this.state.gfste < 20 ? <p className='text-success'> Not Busy(..%)</p> :
                             this.state.gfste < 80 ? <p className='text-warning'> Busy({this.state.gfste}%)</p> :
                             <p className='text-danger'> Very Busy({this.state.gfste}%)</p>}
                             {this.state.gfste < 20 ? <ProgressBar animated='true' striped variant='success' now={this.state.gfste} label={`${this.state.gfste}%`} /> :
