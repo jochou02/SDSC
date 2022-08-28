@@ -17,14 +17,14 @@ export default function Reviews(){
 
     const [courseName]  = useState("CSE 100");
 
-    const[review, setReviews] = useState([ // rating, description, course(course_dept, course_num,prof), student
-        {prof:"Professor A", rating:"5",description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."},
-        {prof:"Professor B", rating:"3",description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."},
-        {prof:"Professor C", rating:"4", description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."},
-        {prof:"Professor D", rating:"2",description:"Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young. Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise existence direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening belonging supposing."}
+    const[review, setReviews] = useState([ 
+        // rating, description, course(course_dept, course_num,prof), student
     ])
+
     const[rating,makeRating] = useState("");    //state that holds the user's new rating
+
     const[description,makeDescription]=useState(""); //state that holds the user's new review
+
     const[prof,makeProf]=useState(""); //state that holds the prof the review is referring to
 
     
@@ -49,16 +49,8 @@ export default function Reviews(){
     }
 
     
-
-    
     const sendDataToBackend=()=>{
-        //authenticates users
-        const headers = {"Content-Type": "application/json"};
-        if (localStorage.getItem('auth-token')) {
-            headers["Authorization"] = localStorage.getItem('auth-token');
-        }
-
-        //suppose to send user inputted review and then fetch the data immediately after to update page
+        //supposed to send user inputted review and then fetch the data immediately after to update page
         let a = {prof:prof, rating:rating, description:description}
         const requestOptions = {
             method: 'POST',
@@ -67,21 +59,21 @@ export default function Reviews(){
               'Authorization': localStorage.getItem('auth-token'),
             },
             body: JSON.stringify({a})
-          };
-          fetch('http://127.0.0.1:8000/review/get_reviews/', {requestOptions, }) 
-                    .then(response => response.json())
-                    .then((data) => {
-                    setReviews(data)
-        })
-            .catch(console.log)
-        //fetches data for reviews
-        // fetch('http://127.0.0.1:8000/review/get_reviews/', { headers, }) 
-        //             .then(response => response.json())
-        //             .then((data) => {
-        //             //console.log(data)
-        //             setReviews(data)
-        // })
-        //.catch(console.log)
+        };
+        //Add a separate API request here to send user inputted review, POST w/ requestOptions
+
+        const headers = {"Content-Type": "application/json"};
+
+        //Authenticates user
+        if (localStorage.getItem('auth-token')) {
+              headers["Authorization"] = localStorage.getItem('auth-token');
+        }
+        
+        //GET request
+        fetch('http://127.0.0.1:8000/review/get_reviews/', {headers, }) 
+            .then(response => response.json())
+            .then((data) => {setReviews(data)})
+        .catch(console.log)
 
         //for class stats
         const courseName = {
@@ -99,7 +91,6 @@ export default function Reviews(){
         })
         .catch(console.log)
     }
-    
     
     return (
         

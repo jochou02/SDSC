@@ -18,7 +18,9 @@ class GetReviews(APIView):
     def get(self, request):
         if (request.user.is_authenticated):
             course = Course.objects.get(course_dept="CSE", course_num="100")
+
             queryset = course.review_set.all()
+
             serializer = ReviewSerializer(queryset, many=True)
             data = serializer.data
             return Response(data)
