@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './App.css';
+import '../styles/Tutoring.css';
 import TutorBox from "./TutorBox";
 import myjson from "./Sample.json";
 import myclasses from "./Classes.json";
@@ -9,13 +9,27 @@ import Navbar from "./Navbar.jsx";
 import axios from 'axios';
 
 const Tutor = () => {
-    const [classSelected, setClassSelected] = useState([]);
+    const [data, setData] = useState({});
+    const getData = () => {
+        const headers = {"Content-Type": "application/json"};
 
-    //Pull data
-    /*axios.get("http://127.0.0.1:8000/api/students/")
-        .then(function (response) {
-            console.log(response.data);
-    })*/
+        if (localStorage.getItem('auth-token')) {
+            headers["Authorization"] = localStorage.getItem('auth-token');
+        }
+
+        fetch("http://127.0.0.1:8000/tutoring/find_tutors/", { headers, })
+                    .then(response => response.json())
+                    .then((data) => {
+                    setData({ foo: data })
+        }).catch(console.log)
+        console.log("pulled from db successfully", data)
+    }
+    
+    useEffect(() => {
+        getData();
+    }, [])
+
+    const [classSelected, setClassSelected] = useState([]);
     //Retrieve the list of courses the tutors can teach
     const classBank = myjson.tutor.map((tutor) => tutor.Course);
     //Retrieves the list of tutors

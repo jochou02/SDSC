@@ -26,7 +26,7 @@ class Courses extends Component {
             headers["Authorization"] = localStorage.getItem('auth-token');
         }
 
-        fetch("http://127.0.0.1:8000/tutoring/get_all_courses/", { headers, })
+        fetch("http://127.0.0.1:8000/tutoring/find_tutor/BENG/128A", { headers, })
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
