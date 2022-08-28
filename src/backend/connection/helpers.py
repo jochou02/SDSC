@@ -13,6 +13,5 @@ def redis_get_student(r, pipe, id):
         student = StudentSerializer(Student.objects.get(pk=id)).data
         pipe.set(f"student_{id}", ujson.dumps(student))
 
-
     return student
 

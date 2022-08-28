@@ -5,45 +5,78 @@ from rest_framework.authentication import TokenAuthentication
 from account.models import *
 from .models import *
 from api.serializers import *
+from .helpers import get_course_name
 
 import redis
 import ujson
 
 # Create your views here.
 
+class GetCourseData(APIView):
+
+    def post(self, request):
+        request_content = ujson.loads(request.body.decode("utf-8"))
+        course_dept = request_content.get('course_dept')
+        course_num = request_content.get('course_num')
+
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+
+        #print((course_dept + " " + course_num))
+
+        data = ujson.loads(r.get(course_dept + " " + course_num))
+
+        return Response(data)
+
 class GetReviews(APIView):
     authentication_classes = [TokenAuthentication]
 
-    #add pk1 and pk2 back to parameter
-    def get(self, request):
+    def post(self, request):
+        #print(request.user.is_authenticated)
         if (request.user.is_authenticated):
-            course = Course.objects.get(course_dept="CSE", course_num="100")
+            r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+
+            request_content = ujson.loads(request.body)
+
+            course_dept = request_content.get('course_dept')
+            course_num = request_content.get('course_num')
+
+            course = Course.objects.get(course_dept=course_dept, course_num=course_num)
 
             queryset = course.review_set.all()
 
             serializer = ReviewSerializer(queryset, many=True)
             data = serializer.data
+
             return Response(data)
 
 
-class GetCourseData(APIView):
+class SetReviews(APIView):
+    authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        request_content = ujson.loads(request.body.decode("utf-8"))
-        course_name = request_content['course_name']
+        request_content = ujson.loads(request.body)
+        print(request_content)
 
-        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+        #Open connection to Redis
+        r = redis.StrictRedis(
+            host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+        pipe = r.pipeline()
 
-        # print(r.get('CSE 100'))
+        tempCourse = Course.objects.get(course_dept=request_content.get('course_dept'),course_num=request_content.get('course_num'))
 
-        return Response(ujson.loads(r.get(course_name)))
+        temp = Review.objects.create(course_id=tempCourse.id, student_id=request.user.id);
 
+        temp.description = request_content.get('description');
 
-class GetCourseDataTest(APIView):
+        #For some reason the migration was getting stuck so can't migrate -> this doesn't work
+        #temp.prof = request_content.get('prof')
 
-    def post(self, request):
-        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+        #TO-DO: Require rating so this doesn't occur, since rating = 0 shows up as blank box in Reviews page
+        if (request_content.get('rating') == ''):
+            temp.rating = 0
+        else:
+            temp.rating = request_content.get('rating');
 
-        # print(r.get('CSE 100'))
+        temp.save();
 
-        return Response(ujson.loads(r.get('CSE 100')))
+        return Response({})

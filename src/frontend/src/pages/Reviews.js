@@ -1,36 +1,33 @@
 //import React, {useState, useEffect} from 'react'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import { useParams } from 'react-router-dom';
 import '../styles/App.css'
 import "../styles/Reviews.css"
 import StarRatingComponent from 'react-star-rating-component';
 
-export default function Reviews(){
-    
-    /*
-    const[classData,setClassData] = useState([ //temporary dummy data (i think the prof for this data is from wherever its routed from?)
-        {course_name:"CSE 100", avg_approval:"93.2%", avg_hours: "11.33", avg_grade:"B (3.07)", }, //not sure if names are correct
-    ]);
-    */
+export default function Reviews() {
 
-    const[classData,setClassData] = 
-        useState({});
+    const[classData,setClassData] = useState({});
 
-    const [courseName]  = useState("CSE 100");
+    const [courseDept]  = useState(useParams().courseDept);
+
+    const [courseNum]  = useState(useParams().courseNum);
 
     const[review, setReviews] = useState([ 
         // rating, description, course(course_dept, course_num,prof), student
     ])
 
-    const[rating,makeRating] = useState("");    //state that holds the user's new rating
+    const[rating,makeRating] = useState("");    
+    //state that holds the user's new rating
 
-    const[description,makeDescription]=useState(""); //state that holds the user's new review
+    const[description,makeDescription] = useState(""); //state that holds the user's new review
 
-    const[prof,makeProf]=useState(""); //state that holds the prof the review is referring to
-
+    const[prof,makeProf] = useState(""); //state that holds the prof the review is referring to
     
     const onChange = (e) => {   //function which holds user description of rating
         makeDescription(e.target.value);
     }
+
     const onStarClick=(e)=>{ //function which holds users rating # (1 to 5)
         makeRating(e);
         //console.log(e);
@@ -40,63 +37,71 @@ export default function Reviews(){
         makeProf(e.target.value);
     }
 
-    const onSubmitEvent = (e) => {  //function creates a new review and pushes into our reviews state
-        e.preventDefault();
-        let a = {prof:prof, rating:rating, description:description}
-        review.push(a) //might not need this bc sendDataToBackend updates the database before its fetched
-        console.log(review);
-        sendDataToBackend();
-    }
-
-    
-    const sendDataToBackend=()=>{
-        //supposed to send user inputted review and then fetch the data immediately after to update page
-        let a = {prof:prof, rating:rating, description:description}
+    useEffect(() => {
+        //GET request for class stats
         const requestOptions = {
             method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-              'Authorization': localStorage.getItem('auth-token'),
-            },
-            body: JSON.stringify({a})
-        };
-        //Add a separate API request here to send user inputted review, POST w/ requestOptions
-
-        const headers = {"Content-Type": "application/json"};
-
-        //Authenticates user
-        if (localStorage.getItem('auth-token')) {
-              headers["Authorization"] = localStorage.getItem('auth-token');
+            body: JSON.stringify({
+                course_dept: courseDept,
+                course_num: courseNum
+            })
         }
+
+        fetch('http://127.0.0.1:8000/review/get_course_data/', requestOptions) 
+            .then(response => response.json())
+            .then((data) => {
+                setClassData(data);
+            })
+        .catch(console.log)
+
+        //GET request for reviews
+        const requestOptions2 = {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('auth-token'),
+            },
+            body: JSON.stringify({
+                course_dept: courseDept,
+                course_num: courseNum
+            })
+          };
         
-        //GET request
-        fetch('http://127.0.0.1:8000/review/get_reviews/', {headers, }) 
+        fetch("http://127.0.0.1:8000/review/get_reviews/", requestOptions2, ) 
             .then(response => response.json())
             .then((data) => {setReviews(data)})
         .catch(console.log)
 
-        //for class stats
-        const courseName = {
-            method: 'POST',
-            body: JSON.stringify({
-                course_name: 'CSE 100' //i think fill this in when routing?
-            })
-        }
+        // eslint-disable-next-line
+    }, []);
 
-        fetch('http://127.0.0.1:8000/review/get_course_data/', courseName) 
-                    .then(response => response.json())
-                    .then((data) => {
-                    //console.log(data)
-                    setClassData(data)
-        })
+    const onSubmitEvent = (e) => {
+        e.preventDefault();
+        //POST request for setting reviews
+        const requestOptions = {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('auth-token'),
+            },
+            body: JSON.stringify({
+                prof: prof,
+                rating: rating,
+                description: description,
+                course_dept: courseDept,
+                course_num: courseNum
+            })
+        };
+
+        fetch('http://127.0.0.1:8000/review/set_reviews/', requestOptions, ) 
+            .then(response => response.json())
         .catch(console.log)
     }
     
     return (
-        
         <div className = "ReviewPageContainer"> 
             <div className = 'ReviewStats'>
-            <div>{courseName}</div>
+            <div>{courseDept} {courseNum}</div>
                 <div className = "classStat">
                     Avg Class Approval:
                     <div>{classData.AvgApproval}</div>    

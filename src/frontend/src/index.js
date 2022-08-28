@@ -34,7 +34,7 @@ root.render(
       <Route path="forgot_pass" element={<ForgotPass />} />
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
-      <Route path="reviews" element={<Reviews />} />
+      <Route path="reviews/:courseDept/:courseNum" element={<Reviews />} />
     </Routes>
   </BrowserRouter>
 );

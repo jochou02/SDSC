@@ -8,9 +8,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Review(models.Model):
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    #TO-DO: maybe update this?
+    #prof = models.TextField(default="")
+
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
     rating = models.IntegerField(
         default=5,
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
+    
     description = models.TextField()
