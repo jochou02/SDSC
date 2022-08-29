@@ -605,7 +605,7 @@ class WaitTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: true,
+            show: false,
             wait_data: initial_wait
         }
 
