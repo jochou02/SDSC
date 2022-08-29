@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import LoggedInTester from '../../buttons/LoggedInTester'
 import styles from '../../styles/OtherProfile.module.css'
-import pfp from '../../icons/racoon.jpeg'
 import withRouter from './withRouter';
 
 class OtherProfile extends Component {
@@ -45,7 +44,7 @@ class OtherProfile extends Component {
   ShowProfile = ({ userInfo }) => {
     return (<>
       <div className={styles.profile_wrapper2}>      
-        <img src={pfp} alt="pfp" className={styles.pfp}></img>
+        <img src={""} alt="pfp" className={styles.pfp}></img>
         <div className={styles.profile_info_wrapper}>
           <p>ID: {userInfo['id']}</p>
           <p className={styles.name}>

@@ -33,8 +33,8 @@ class Profile extends Component {
         .then((data) => {
             this.setState({ pfp: 
                 "http://127.0.0.1:8000/static/" + 
-                data.split("\/")[2] 
-            }, () => console.log());
+                data.split("/")[2] 
+            }, () => console.log(this.state.pfp));
         })
         .catch(console.log)
     }
