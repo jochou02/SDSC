@@ -7,9 +7,6 @@ import time
 
 import pprint
 
-from bs4 import BeautifulSoup
-from multiprocessing import Pool
-
 from tqdm import tqdm
 
 
@@ -28,24 +25,32 @@ def parsePage(page):
             except:
                 pass
 
-    r.set(f"wait_{page['id']}", ujson.dumps(page))
+    return page
+    # r.set(f"wait_{page['id']}", ujson.dumps(page))
 
 
 session = requests.Session()
-r = redis.Redis(host='132.249.242.203')
+# r = redis.Redis(host='132.249.242.203')
+r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
 
 def main():
     start_time = time.time()
     
     temp = ujson.loads(getPage("https://waitz.io/live/ucsd").content)['data']
+    toReturn = {}
+    for page in temp:
+        toReturn[page['name']] = parsePage(page)
 
-    p = Pool(6)
-    p.map(parsePage, temp)
+    p = pprint.PrettyPrinter(indent=4)
+    p.pprint(toReturn.keys())
 
-    p.terminate()
-    p.join()
+    r.set('wait_time', ujson.dumps(toReturn))
 
-    print("Time took: ", time.time() - start_time)
+    # p = Pool(6)
+    # p.map(parsePage, temp)
+    #
+    # p.terminate()
+    # p.join()
 
 
 if __name__ == "__main__":
