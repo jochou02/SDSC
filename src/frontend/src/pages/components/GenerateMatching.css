@@ -1,0 +1,88 @@
+.homePageContainer{
+    height:132vh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    object-fit:contains;
+    background-color:182b49; 
+}
+.welcomeSign{
+    font-size:50px;
+    padding-top:20px;
+    padding-bottom:5px;
+    border-radius:20px;
+    background-color:white;
+    color:navy;
+    text-align:center;
+    border-style:solid;
+    margin-left:0px;
+    font-style:bold;
+    border-color:rgb(0,98,155);
+    border-width:10px;
+    width:1400px;
+    height:80px;
+}
+
+.matchMessage{
+    text-align:left;
+    margin-top:30px;
+    font-size:34px;
+    color:white;
+    margin-left:200px;
+}
+
+.matchButton{
+    background-color:rgb(222,222,222);
+    color:black;
+    margin-top:230px;
+    margin-right:550px;
+    margin-bottom:-80px;
+    margin-left:-200px;
+    width:230px;
+    height:80px;
+    font-size:32px;
+    border-radius:30px;
+    border-color:rgb(0,98,155);
+    border-width:10px;
+
+}
+
+.matchingsSent{
+    border-style:solid;
+    color:orange;
+    margin-top:100px;
+    width:1000px;
+    padding-bottom:120px;
+    overflow-y:scroll;
+    font-size:24px;
+    border-radius:14px;
+    padding-left:12px;
+    color:navy;
+    background-color:white;
+    border-color:rgb(0,98,155);
+    border-width:10px;
+    height:80px;
+
+}
+
+.col{
+    height:0px;
+    padding-top:70px;
+}
+
+.yourMatch{
+    font-size:30px;
+    border-style:solid;
+    border-color:navy;
+    width:500px;
+    height:200px;
+    background-color:white;
+    color:navy;
+    border-radius:14px;
+    margin-left:900px;
+    text-align:center;
+    margin-top:-50px;
+    border-color:rgb(0,98,155);
+    border-width:10px;
+}

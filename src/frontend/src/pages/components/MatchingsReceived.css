@@ -1,0 +1,44 @@
+.matchingTitle{
+    padding-bottom:0px;
+    border-style:solid;
+    color:red;
+    padding-bottom:120px;
+    margin-top:240px;
+    overflow-y:scroll;
+    font-size:24px;
+    border-radius:14px;
+    padding-left:12px;
+    color:navy;
+    background-color:white;
+    border-color:rgb(0,98,155);
+    border-width:10px;
+    height:80px;
+
+}
+
+.recentConnections{
+    border-style:solid;
+    color:blue;
+    padding-bottom:120px;
+    width:1000px;
+    margin-top:410px;
+    overflow-y:scroll;
+    font-size:24px;
+    border-radius:14px;
+    padding-left:12px;
+    color:navy;
+    background-color:white;
+    border-color:rgb(0,98,155);
+    border-width:10px;
+    height:80px;
+}
+
+/* .match{
+    display:flex;
+    flex-direction:column;
+    margin-top:120px;
+    justify-content:space-between;
+    font-size:16px;
+    align-items:left;
+    
+} */
