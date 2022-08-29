@@ -4,6 +4,13 @@ import LoggedInTester from '../buttons/LoggedInTester';
 
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
+import Test from './components/Test';
+import Navbar from './components/Navbar.js'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Courses from './Courses';
+import Calendar from './Calendar';
+import Reviews from './Reviews';
+import Tutoring from './Tutoring';
 
 /* import Profile from './Profile' */
 
@@ -53,14 +60,19 @@ class Home extends Component {
     render() {
       return (
         <>
-            <LoggedInTester />
+        <div className = 'homePageContainer'>
+       
+     <Navbar />
+     
+    <LoggedInTester />
 
-            {/* Example of showing user's information */}
-            <this.ShowProfile foo={this.state.foo} />
+{/* Example of showing user's information */}
+<this.ShowProfile foo={this.state.foo} />
+<GenerateMatching className ='generateMatching'/> 
+<MatchingReceived className = 'matchingReceived'/>
 
-            <GenerateMatching /> 
-            <MatchingReceived />
 
+        </div>
         </>
       );
     }
