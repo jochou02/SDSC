@@ -1,4 +1,5 @@
 from socket import timeout
+import tkinter
 from django.shortcuts import render
 
 # Create your views here.
@@ -12,6 +13,9 @@ import zlib
 
 from icalendar import Calendar, Event
 from datetime import datetime
+#from tkinter import Tk
+#from tkinter.filedialog import askopenfilename
+import os
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -263,8 +267,22 @@ class ExportScheduleView(APIView):
             
             c.events.add(e)
 
+        #root = tkinter.Tk();
+        #root.withdraw();
+        #filename = askopenfilename()
 
-        with open('myCal.ics', 'w') as export_file:
-            export_file.writelines(c.serialize_iter())
+        #I couldn't get a file browser to work so just save to desktop
 
-        return Response({})
+        message = ''
+
+        try: 
+            path = os.path.join(os.path.expanduser('~'), 'Desktop', 'Calendar.ics')
+
+            with open(path, 'w') as export_file:
+                export_file.writelines(c.serialize_iter())
+
+            message = "The iCal export has been saved to your desktop"
+        except:
+            message = "There was an error in exporting"
+
+        return Response(message)

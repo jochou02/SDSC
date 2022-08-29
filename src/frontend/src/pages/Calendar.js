@@ -83,8 +83,8 @@ class Calendar extends React.Component {
 
     fetch('http://127.0.0.1:8000/schedule/export_schedule/', requestOptions)
     .then(response => response.json())
-      .then(( ) => {
-        console.log()
+      .then(message => {
+        alert(message)
       })
     .catch(console.log);
   }

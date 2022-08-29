@@ -4,7 +4,7 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { Children, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 //import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
