@@ -150,7 +150,7 @@ class PrefsQuiz extends Component {
 
       inputElement.addEventListener("change", (e) => {
         var size_limit = false;
-        if(inputElement.files[0].size > 200000){
+        if(inputElement.files[0].size > 1048576){
           console.log("FILE TOO BIG!")
           size_limit = true;
         };
@@ -220,12 +220,12 @@ class PrefsQuiz extends Component {
         
         <br />
         <p>Change profile picture</p>
+        <p>{"(Image size must be < 1 MB)"}</p>
         <button onClick={this.openFileDialog}>Select file</button>
         <br />
 
         <img src={this.state.pfp} alt=""></img>
-        <br /><br />
-
+        {this.state.pfp === "" ? <></> : <><br /><br /></>}
 {/* 
         {this.state.pfp_success ? <this.displayPicture /> : <p>No pfp</p>}
 */}

@@ -7,7 +7,10 @@ import withRouter from './withRouter';
 class OtherProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = { id: '', userInfo: [], };
+    this.state = { 
+      id: '', 
+      pfp: '', 
+      userInfo: [], };
   }
 
   componentDidMount() {
@@ -25,12 +28,28 @@ class OtherProfile extends Component {
       },
       body: JSON.stringify({id: this.state.id})
     };
-    fetch('http://127.0.0.1:8000/connect/get_info/', requestOptions)
+
+    fetch('http://127.0.0.1:8000/connect/get_info_test/', requestOptions)
     .then(response => response.json())
       .then((data) => {
-        this.setState({userInfo: data}, () => {console.log()})
+        this.setState({userInfo: data}, () => {
+          //console.log(this.state.userInfo)
+        })
       })
     .catch(console.log);
+
+    fetch('http://127.0.0.1:8000/connect/get_pfp/', requestOptions, )
+        .then(response => response.json())
+        .then((data) => {
+          if(data.length > 0) {
+            this.setState({ pfp: 
+                "http://127.0.0.1:8000/static/" + 
+                data.split("/")[2] 
+            }, () => {
+              console.log(this.state.pfp);
+            });
+          } 
+        })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,7 +63,7 @@ class OtherProfile extends Component {
   ShowProfile = ({ userInfo }) => {
     return (<>
       <div className={styles.profile_wrapper2}>      
-        <img src={""} alt="pfp" className={styles.pfp}></img>
+        <img src={this.state.pfp} alt="pfp" className={styles.pfp}></img>
         <div className={styles.profile_info_wrapper}>
           <p>ID: {userInfo['id']}</p>
           <p className={styles.name}>

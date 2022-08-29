@@ -46,18 +46,29 @@ class GetPFPView(APIView):
     def get(self, request):
         start_time = time.time()
 
-        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
-        pipe = r.pipeline()
-
         if (request.user.is_authenticated):
             print("Below is pfp time")
             print("--- %s seconds ---" % (time.time() - start_time))
             return Response(get_pfp(request.user.id))
         else:
             return Response({})
+
+    def post(self, request):
+        request_content = ujson.loads(request.body.decode("utf-8"))
+        print(request_content)
+
+        start_time = time.time()
+
+        if (request.user.is_authenticated):
+            print("Below is pfp time")
+            print("--- %s seconds ---" % (time.time() - start_time))
+            return Response(get_pfp(request_content['id']))
+        else:
+            return Response({})
         
 
 class GetInfoTest(APIView):
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request):
         toRespond = StudentSerializer(Student.objects.get(pk=1)).data
