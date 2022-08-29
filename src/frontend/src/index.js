@@ -36,8 +36,7 @@ root.render(
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
       <Route path="test_profile" element={<TestProfile />} />
-      <Route path="reviews"
-      element={<Reviews />} />
+      <Route path="reviews" element={<Reviews />} />
     </Routes>
   </BrowserRouter>
 );
