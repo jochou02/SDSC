@@ -41,7 +41,7 @@ class Student(models.Model):
     user_major = models.CharField(max_length=200, choices=MAJOR_LIST)
     #profile_pic = models.ImageField(default="../icons/pfp.png",blank=True)
 
-    profile_pic = models.TextField(default="")
+    profile_pic = models.ImageField(upload_to='icons',blank=True)
 
     # User contact info
     phone = models.CharField(max_length=200, default="")

@@ -14,7 +14,8 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        const headers = {"Content-Type": "application/json"};
+        var headers = {
+            "Content-Type": "application/json",};
 
         if (localStorage.getItem('auth-token')) {
             headers["Authorization"] = localStorage.getItem('auth-token');
@@ -27,11 +28,13 @@ class Profile extends Component {
                 console.log();
             })
 
-        fetch('http://127.0.0.1:8000/connect/get_pfp/', { headers, })
+        fetch('http://127.0.0.1:8000/connect/get_pfp/', {headers}, )
         .then(response => response.json())
         .then((data) => {
-            this.setState({ pfp: data});
-            //console.log(this.state.pfp);
+            this.setState({ pfp: 
+                "http://127.0.0.1:8000/static/" + 
+                data.split("\/")[2] 
+            }, () => console.log());
         })
         .catch(console.log)
     }
