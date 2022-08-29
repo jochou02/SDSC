@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-// eslint-disable-next-line
-import { useLocation } from 'react-router-dom'
+//import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester'
 import Karma from '../pages/Karma'
-import styles from "../styles/Profile.module.css"
-
-import pfp from "../icons/pfp.png"
+import styles from '../styles/Profile.module.css'
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { foo: [], };
+        this.state = { foo: [], pfp: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -29,6 +26,13 @@ class Profile extends Component {
                 this.setState({ foo: data });
                 console.log();
             })
+
+        fetch('http://127.0.0.1:8000/connect/get_pfp/', { headers, })
+        .then(response => response.json())
+        .then((data) => {
+            this.setState({ pfp: data});
+            //console.log(this.state.pfp);
+        })
         .catch(console.log)
     }
 
@@ -58,8 +62,8 @@ class Profile extends Component {
     //ノート: Change phone number to display in ###-###-#### format
     ShowProfile = ({ foo }) => {
         return (<>
-            <div className={styles.profile_wrapper2}>      
-                <img src={pfp} alt="pfp" className={styles.pfp}></img>
+            <div className={styles.profile_wrapper2}>     
+                <img src={this.state.pfp} alt="pfp" className={styles.pfp}></img>
                 <div className={styles.profile_info_wrapper}>
                     <p>ID: {foo['id']}</p>
                     <p className={styles.name}>

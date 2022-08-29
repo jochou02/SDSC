@@ -11,7 +11,7 @@ from account.LISTS import *
 from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
-from .helpers import redis_get_student, redis_set_student
+from .helpers import redis_get_student, redis_set_student, get_pfp
 
 import random
 import ujson
@@ -37,6 +37,22 @@ class GetInfo(APIView):
         if (request.user.is_authenticated):
             print("--- %s seconds ---" % (time.time() - start_time))
             return Response(redis_get_student(r, pipe, request.user.id))
+        else:
+            return Response({})
+
+class GetPFPView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        start_time = time.time()
+
+        r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+        pipe = r.pipeline()
+
+        if (request.user.is_authenticated):
+            print("Below is pfp time")
+            print("--- %s seconds ---" % (time.time() - start_time))
+            return Response(get_pfp(request.user.id))
         else:
             return Response({})
         

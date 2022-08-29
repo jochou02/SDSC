@@ -53,7 +53,7 @@ class Register extends Component {
     }
 
     handleSubmitAuth(event) {
-      if (this.state.email_success == true) {
+      if (this.state.email_success === true) {
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', },

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import LoggedInTester from '../../buttons/LoggedInTester'
 import styles from '../../styles/OtherProfile.module.css'
-import pfp from '../../icons/pfp.png'
+import pfp from '../../icons/racoon.jpeg'
 import withRouter from './withRouter';
 
 class OtherProfile extends Component {

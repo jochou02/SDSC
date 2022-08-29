@@ -6,6 +6,8 @@ from django.apps import apps
 import ujson
 import redis
 
+import base64, io
+
 def redis_get_student(r, pipe, id):
     try:
         student = ujson.loads(r.get(f"student_{id}"))
@@ -21,6 +23,12 @@ def redis_set_student(r, id, temp):
     r.set(f"student_{id}", ujson.dumps(temp))
 
     return temp
+
+def get_pfp(id):
+    pfp = StudentSerializer(Student.objects.get(pk=id)).data.get('profile_pic')
+
+    return pfp
+
 
 
 

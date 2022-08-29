@@ -19,6 +19,8 @@ from email.message import EmailMessage
 
 from .helpers import redis_get_student, redis_set_student
 
+import base64, io, codecs
+
 '''
     Test things out. Deprecated. 
 '''
@@ -207,6 +209,11 @@ class SetUserPrefs(APIView):
             temp.user_interest2 = request_content['user_interest2']
         if request_content['user_interest3']:
             temp.user_interest3 = request_content['user_interest3']
+        if request_content['pfp']:
+            base64_str = request_content['pfp']
+
+            temp.profile_pic = base64_str
+            
 
         temp.save()
         
