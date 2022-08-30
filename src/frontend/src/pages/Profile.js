@@ -112,8 +112,7 @@ class Profile extends Component {
         return (<>
             <p className={styles.contact_info}>{contact['contact']}</p></>)
     }
-
-    //TO-DO: Replace text inside module_text with actual course info
+    
     ShowCourses = () => {
         return (<>
             <div className={styles.module}>

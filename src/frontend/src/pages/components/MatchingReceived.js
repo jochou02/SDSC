@@ -125,6 +125,8 @@ class MatchingReceived extends Component {
 
                             <li>{match.first_name} {match.last_name}</li>
                             <div>{match.user_college}</div>
+                            <LinkProfile id={match.id}/>
+                            <hr style={{marginTop: "20px"}}/>
 
                             <button onClick={() => this.handleRequestAccept(match)}>
                                     Accept

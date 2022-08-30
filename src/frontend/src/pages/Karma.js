@@ -11,6 +11,7 @@ class Karma extends Component {
       foo: [],
       add_karma: 0, 
       user_id: 0,
+      other_user_id: this.props.user_id
     };
     this.addKarma = this.addKarma.bind(this);
   }
@@ -38,7 +39,9 @@ class Karma extends Component {
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem('auth-token'),
       },
-      body: JSON.stringify({add_karma: this.state.add_karma, user_id: this.state.user_id})
+      body: JSON.stringify({
+        add_karma: 1, 
+        user_id: this.state.user_id})
     };
     fetch('http://127.0.0.1:8000/connect/add_karma/', requestOptions)
     .then(response => {response.json()})
@@ -62,39 +65,25 @@ class Karma extends Component {
   render() {
     return (
       <>
-      {/*
-        <div className={styles.componentWrapper}>
-        <LoggedInTester />
-        { localStorage.getItem('auth-token') } <br /><br /><br />
-        </div>
-      */}
-        {/* Example of showing user's information */}
-        <div className={styles.profileWrapper}>
-
-        {/* 
-        <this.ShowProfile foo={this.state.foo} /> 
-        */}
+{/*
         <p>
           {"Karma to add (testing): "+ this.state.add_karma}
         </p>
+*/}
         <button
           value={this.state.add_karma}
           className={styles.add_button}
-          onClick={(event) => {
-            this.setState(prevState => ({
-              add_karma: prevState.add_karma +1
-            }));
-          }}
+          onClick={this.addKarma}
         >
           Karma+1
         </button>
-
+{/* 
         <button
           onClick={this.addKarma}
           className={styles.backend_button}>
           Send info to backend
         </button>
-        </div>
+*/}
       </>
     );
   }
