@@ -4,11 +4,16 @@ import React, { Component } from 'react';
 
 //import LoggedInTester from '../buttons/LoggedInTester';
 
+import LinkCourse from './components/LinkCourse';
+
+/*
 const Course = ({ course_dept, course_num }) => (
     <div>
+        <LinkCourse />
         <p>{course_dept} {course_num}</p>
     </div>
 );
+*/
 
 class Courses extends Component {
 
@@ -40,26 +45,20 @@ class Courses extends Component {
             {   
                 !localStorage.getItem('auth-token') ? <></> : <>
                     <h1>Current Courses</h1>
-                    {this.state.foo?.current_courses?.map((course) => (
-                        <Course
-                            course_dept={course.course_dept}
-                            course_num={course.course_num}
-                        />
-                    ))}
+                    {this.state.foo?.current_courses?.map((course) => (<>
+                        <LinkCourse course_dept={course.course_dept} course_num={course.course_num}/>
+                        <br />
+                    </>))}
                     <h1>Past Courses</h1>
-                    {this.state.foo?.past_courses?.map((course) => (
-                        <Course
-                            course_dept={course.course_dept}
-                            course_num={course.course_num}
-                        />
-                    ))}
+                    {this.state.foo?.past_courses?.map((course) => (<>
+                        <LinkCourse course_dept={course.course_dept} course_num={course.course_num}/>
+                        <br />
+                    </>))}
                     <h1>Tutoring Courses</h1>
-                    {this.state.foo?.tutoring_courses?.map((course) => (
-                        <Course
-                            course_dept={course.course_dept}
-                            course_num={course.course_num}
-                        />
-                    ))}
+                    {this.state.foo?.tutoring_courses?.map((course) => (<>
+                        <LinkCourse course_dept={course.course_dept} course_num={course.course_num}/>
+                        <br />
+                    </>))}
                 </>
             }
             </>

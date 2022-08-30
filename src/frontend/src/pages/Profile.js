@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester'
-import Karma from '../pages/Karma'
+//import Karma from '../pages/Karma'
+import LinkCourse from './components/LinkCourse';
 import styles from '../styles/Profile.module.css'
 
 class Profile extends Component {
@@ -120,20 +121,29 @@ class Profile extends Component {
                 <div className={styles.module_grid}>
                     {this.state.courses?.current_courses?.map((course) => (
                         <div className={styles.module_item } style={{backgroundColor: "var(--color-accent)"}}>
+                        <Link to={`/reviews/${course.course_dept}/${course.course_num}`} className={styles.courseLink}>
                             <p className={styles.module_text} style={{fontWeight: "800"}}>
-                            {course.course_dept} {course.course_num}</p>
+                                {course.course_dept} {course.course_num}
+                            </p>
+                        </Link>
                         </div>
                     ))}
                     {this.state.courses?.tutoring_courses?.map((course) => (
                         <div className={styles.module_item} style={{backgroundColor: "var(--color-secondary)"}}>
+                        <Link to={`/reviews/${course.course_dept}/${course.course_num}`} className={styles.courseLink}>
                             <p className={styles.module_text} style={{fontWeight: "800"}}>
-                            {course.course_dept} {course.course_num}</p>
+                                {course.course_dept} {course.course_num}
+                            </p>
+                        </Link>
                         </div>
                     ))}
                     {this.state.courses?.past_courses?.map((course) => (
                         <div className={styles.module_item} style={{opacity: 0.5}}>
+                        <Link to={`/reviews/${course.course_dept}/${course.course_num}`} className={styles.courseLink}>
                             <p className={styles.module_text} style={{fontWeight: "800"}}>
-                            {course.course_dept} {course.course_num}</p>
+                                {course.course_dept} {course.course_num}
+                            </p>
+                        </Link>
                         </div>
                     ))}
                 </div>
