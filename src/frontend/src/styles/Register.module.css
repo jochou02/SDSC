@@ -61,6 +61,7 @@
   outline: none;
   padding: 10px;
   background-color: rgb(230,230,230);
+  margin-bottom: 9px;
 }
 
 .emailError:focus-visible {
@@ -78,6 +79,7 @@
   outline: none;
   padding: 10px;
   background-color: rgb(230,230,230);
+  margin-bottom: 9px;
 }
 
 .emailSuccess:focus-visible {

@@ -4,7 +4,9 @@ import LoggedInTester from '../buttons/LoggedInTester';
 
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
-import Test from './components/Test';
+
+import Navbar from './Navbar'
+import WaitTime from '../buttons/WaitTime'
 
 /* import Profile from './Profile' */
 
@@ -54,6 +56,7 @@ class Home extends Component {
     render() {
       return (
         <>
+            <Navbar />
             <LoggedInTester />
 
             {/* Example of showing user's information */}
@@ -61,8 +64,6 @@ class Home extends Component {
 
             <GenerateMatching /> 
             <MatchingReceived />
-
-            <Test />
 
         </>
       );
