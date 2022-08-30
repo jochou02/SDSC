@@ -12,6 +12,7 @@ class OtherProfile extends Component {
       id: '', //ID of user to display profile for
       viewerID: '', //ID of user who is viewing profile i.e. auth user
       userInfo: [],
+      courses: [],
       pfp: '', 
       matched: [],
       pending: [],
@@ -131,6 +132,24 @@ class OtherProfile extends Component {
         })
   }
 
+  getCourses() {
+    var headers = {
+      "Content-Type": "application/json",};
+
+  if (localStorage.getItem('auth-token')) {
+      headers["Authorization"] = localStorage.getItem('auth-token');
+  }
+
+    fetch("http://127.0.0.1:8000/tutoring/get_all_courses/", { headers, })
+                    .then(response => response.json())
+                    .then((data) => {
+                    this.setState({ courses: data }, () => {
+                        //console.log(this.state.courses)
+                    })
+        })
+        .catch(console.log)
+  }
+
   componentDidUpdate(prevProps, prevState) {
     //console.log(prevProps);
     //console.log(this.props.userInfo);
@@ -179,6 +198,54 @@ class OtherProfile extends Component {
         <p className={styles.contact_info}>{contact['contact']}</p></>)
   }
 
+  ShowCourses = () => {
+    this.getCourses();
+      return (<>
+          <div className={styles.module}>
+              <p className={styles.module_title}>Courses</p>
+              <div className={styles.module_grid}>
+                  {this.state.courses?.current_courses?.map((course) => (
+                      <div className={styles.module_item } style={{backgroundColor: "var(--color-accent)"}}>
+                          <p className={styles.module_text} style={{fontWeight: "800"}}>
+                          {course.course_dept} {course.course_num}</p>
+                      </div>
+                  ))}
+                  {this.state.courses?.tutoring_courses?.map((course) => (
+                      <div className={styles.module_item} style={{backgroundColor: "var(--color-secondary)"}}>
+                          <p className={styles.module_text} style={{fontWeight: "800"}}>
+                          {course.course_dept} {course.course_num}</p>
+                      </div>
+                  ))}
+                  {this.state.courses?.past_courses?.map((course) => (
+                      <div className={styles.module_item} style={{opacity: 0.5}}>
+                          <p className={styles.module_text} style={{fontWeight: "800"}}>
+                          {course.course_dept} {course.course_num}</p>
+                      </div>
+                  ))}
+              </div>
+          </div>
+      </>);
+  }
+
+  ShowInterests = ({ userInfo }) => {
+    return (<>
+        <div className={styles.module}>
+            <p className={styles.module_title}>Interests</p>
+            <div className={styles.module_grid}>
+                <div className={styles.module_item} style={{backgroundColor: "var(--color-primary)"}}>
+                    <p className={styles.module_text}>{userInfo['user_interest1']}</p>
+                </div>
+                <div className={styles.module_item } style={{backgroundColor: "var(--color-primary)"}}>
+                    <p className={styles.module_text}>{userInfo['user_interest2']}</p>
+                </div>
+                <div className={styles.module_item} style={{backgroundColor: "var(--color-primary)"}}>
+                    <p className={styles.module_text}>{userInfo['user_interest3']}</p>
+                </div>
+            </div>
+        </div>
+    </>);
+  }
+
   render() {
     return (<>
       <div className={styles.componentWrapper}>
@@ -191,15 +258,14 @@ class OtherProfile extends Component {
         <div className={styles.profile_wrapper}>
           <this.ShowProfile userInfo={this.state.userInfo} />
         </div>
-{/* 
+ 
         <div className={styles.modules_wrapper}>
+          {this.state.valid_matched || this.state.valid_pending ? <>
           <this.ShowCourses />
-          <this.ShowInterests userInfo={this.userInfo} />
+          <this.ShowInterests userInfo={this.state.userInfo} /> </> : <></>}
         </div>
-*/}
-      </div>
 
-      {this.state.valid_matched || this.state.valid_pending ? <Karma /> : <></>}
+      </div>
     </>);
   }
 }
