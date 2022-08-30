@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import './GenerateMatching.css';
+import './GeneralStyling.css';
+import "./MatchingsReceived.css"
 
 class GenerateMatching extends Component {
     constructor(props) {
@@ -118,7 +121,11 @@ class GenerateMatching extends Component {
         return (
             <>
             <div className="col">
-            <h1>Matchings Sent</h1>
+            <div className='component'>
+            <div className ='match'>
+            <h1 className = 'matchingsSent'>Matchings Sent</h1>
+            </div>
+
                 {sent.map(match => <>
                     <ul key={match.id}>
                         <li>Name : {match.first_name} {match.last_name}</li>
@@ -136,6 +143,7 @@ class GenerateMatching extends Component {
                      </ul>
                     </>
                 )}
+                </div>
             </div>
             </>
         );
@@ -162,17 +170,17 @@ class GenerateMatching extends Component {
             </>;
         } else {
             prompt = <>
-                <div>Welcome!</div>
+                <div className='welcomeSign'>Welcome to UC Socially Undead!</div>
     
-                <div>Click Match Me! to receive a matching.</div><br />
+                <div className='matchMessage'>Click Match Me! to receive a matching.</div><br />
             </>
         }
 
         return (
             <>
             <div className="col">
-            <h1>Your Match </h1>
-                    {prompt}
+            {prompt}
+            <h1 className='yourMatch'>Your Match </h1>
             </div>
             </>
         );
@@ -184,7 +192,8 @@ class GenerateMatching extends Component {
             <this.ShowMatching match={this.state.matching_latest} /> 
 
             {/* Generates a new match whenever clicked */}
-            <button onClick={this.handleGenerateMatch}>       
+            
+            <button onClick={this.handleGenerateMatch} className = 'matchButton'>       
                 Match Me!
             </button>
             <this.ShowSent sent={this.state.matching_sent} />
