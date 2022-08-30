@@ -17,6 +17,7 @@ import ForgotPass from './pages/ForgotPass';
 import Karma from './pages/Karma';
 import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
+import Courses2 from './pages/Courses2';
 import Home from './pages/Home';
 import Home2 from './pages/Home2';
 import Reviews from './pages/Reviews';
@@ -38,6 +39,7 @@ root.render(
       <Route path="reviews"
       element={<Reviews />} />
       <Route path="home2" element={<Home2 />} />
+      <Route path="courses2" element={<Courses2 />} />
     </Routes>
   </BrowserRouter>
 );

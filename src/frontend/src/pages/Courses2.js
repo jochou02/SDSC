@@ -1,7 +1,7 @@
 import { keyboard } from '@testing-library/user-event/dist/keyboard';
 import React, {Component, useState, useEffect} from 'react';
-import '../../App.css';
-import "../Courses.css";
+import '../styles/App.css'
+import '../styles/Courses.css'
 
 
 export default function Courses(){
