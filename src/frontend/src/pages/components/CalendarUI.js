@@ -47,7 +47,7 @@ const Calendars = (props) => {
   var cal = [];
 
   //Error checking for empty props.cal
-  if (props.cal !== [])
+  if (props.cal)
     props.cal.map(e => {
       //UTC counts month starting from 0: January = 0, February = 1, etc.
       function adjustedMonth(month) {
