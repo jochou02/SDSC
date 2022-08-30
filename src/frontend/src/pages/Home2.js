@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import '../../App.css'
-import "../Home.css";
+import '../styles/App.css';
+import '../styles/Home.css';
+import Navbar from './Navbar';
 
 export default function Home() {
   const [state,setState] = useState(false);
@@ -8,7 +9,8 @@ export default function Home() {
   const toggle=()=>{
     setState(!state);
   }
-  return (
+  return (<>
+    <Navbar />
       
         <div className ='homepage-container'>
         <div className = 'welcome-sign'>
@@ -77,6 +79,6 @@ export default function Home() {
           </div>
         </div>
     </div>
-    );
+    </>);
   }
 
