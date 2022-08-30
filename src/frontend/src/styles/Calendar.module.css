@@ -1,0 +1,31 @@
+.eventTitle, .eventDescrip {
+  color: white;
+}
+
+.eventWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.eventDescrip {
+  font-weight: 400;
+}
+
+.calendarButton {
+  background-color: var(--color-accent);
+  font-size: 25px;
+}
+
+.calendarLabel {
+  font-size: 35px;
+  color: white;
+}
+
+.calendarInput {
+  font-size: 25px;
+}
+
+.calendarText {
+  color: whitesmoke;
+}

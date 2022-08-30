@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "react-star-rating-component": "^1.4.1"
+    "icalendar": "^0.7.1"
   }
 }
