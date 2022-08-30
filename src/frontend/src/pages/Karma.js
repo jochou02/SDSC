@@ -8,28 +8,16 @@ class Karma extends Component {
   constructor (props) {
     super(props);
     this.state = { 
-      foo: [],
-      add_karma: 0, 
-      user_id: 0,
-      other_user_id: this.props.user_id
+      add_karma: 1, 
+      user_id: ''
     };
     this.addKarma = this.addKarma.bind(this);
   }
 
   componentDidMount() {
-    const headers = {"Content-Type": "application/json"};
-
-    if (localStorage.getItem('auth-token')) {
-      headers["Authorization"] = localStorage.getItem('auth-token');
-    }
-
-    fetch('http://127.0.0.1:8000/account/get_user_info/', { headers, })
-      .then(response => response.json())
-      .then((data) => {
-        this.setState({ foo: data })
-        this.setState({user_id: data.id})
-      })
-    .catch(console.log)
+    this.setState({user_id: this.props.id}, () => {
+      //console.log(this.state.user_id)
+    })
   }
 
   addKarma() {
@@ -46,20 +34,6 @@ class Karma extends Component {
     fetch('http://127.0.0.1:8000/connect/add_karma/', requestOptions)
     .then(response => {response.json()})
     .catch(console.log);
-  }
-
-  ShowProfile = ({ foo }) => {
-    return (<>
-    <p>ID: {foo['id']}</p>
-    <p className={styles.name}>
-        {foo['first_name']}
-        {' '}
-        {foo['last_name']}
-    </p>
-    <p>Email: {foo['email']}</p> 
-    <p>College: {foo['user_college']}</p>
-    <p>Karma: {foo['user_karma']}</p>
-    </>);
   }
 
   render() {

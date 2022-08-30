@@ -86,14 +86,20 @@ class OtherProfile extends Component {
       if (matched['id'] === this.state.id)
         this.setState({valid_matched: true}, () => {
           //console.log(this.state.valid_matched)
+          //console.log("getting courses")
+          this.getCourses();
         })
+      return ''
     })
 
     this.state.pending.map((pending) => {
       if (pending['id'] === this.state.id)
       this.setState({valid_pending: true}, () => {
         //console.log(this.state.valid_pending)
+        //console.log("getting courses")
+        this.getCourses();
       })
+      return ''
     })
   }
 
@@ -199,7 +205,6 @@ class OtherProfile extends Component {
   }
 
   ShowCourses = () => {
-    this.getCourses();
       return (<>
           <div className={styles.module}>
               <p className={styles.module_title}>Courses</p>
@@ -257,6 +262,7 @@ class OtherProfile extends Component {
       <div className={styles.wrapper}>
         <div className={styles.profile_wrapper}>
           <this.ShowProfile userInfo={this.state.userInfo} />
+          {this.state.valid_matched  ? <Karma id={this.state.id}/> : <></>}
         </div>
  
         <div className={styles.modules_wrapper}>
