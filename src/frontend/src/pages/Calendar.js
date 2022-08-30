@@ -3,6 +3,8 @@ import LoggedInTester from '../buttons/LoggedInTester';
 import styles from '../styles/Calendar.module.css'
 import Calendars from './components/CalendarUI.js'
 
+import Navbar from "./Navbar"
+
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
@@ -87,6 +89,7 @@ class Calendar extends React.Component {
 
   render() {
     return(<>
+      <Navbar />
       <LoggedInTester />
       <p className={styles.calendarText}>{ localStorage.getItem('auth-token') }</p>
 

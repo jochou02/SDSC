@@ -36,7 +36,7 @@ const Calendars = (props) => {
     const initialValue = document.body.style.zoom;
 
     // Change zoom level on mount
-    document.body.style.zoom = "65%";
+    //document.body.style.zoom = "65%";
 
     return () => {
       // Restore default value
