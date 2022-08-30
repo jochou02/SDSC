@@ -7,6 +7,8 @@ import LoggedInTester from '../buttons/LoggedInTester'
 import LinkCourse from './components/LinkCourse';
 import styles from '../styles/Profile.module.css'
 
+import Navbar from "./Navbar"
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -178,6 +180,8 @@ class Profile extends Component {
             {/* Sufficient to get whatever info we need from user */}
             { localStorage.getItem('auth-token') }
         </div>
+
+        <Navbar />
 
         <div className={styles.wrapper}>
             {/* Example of showing user's information */}

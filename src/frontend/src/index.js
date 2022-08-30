@@ -18,7 +18,13 @@ import Karma from './pages/Karma';
 import PrefsQuiz from './pages/PrefsQuiz';
 import Courses from './pages/Courses';
 import Home from './pages/Home';
+//import TestProfile from './pages/components/TestProfile';
+import WaitTime from './buttons/WaitTime';
+
+import Calendar from './pages/Calendar';
+
 import OtherProfile from './pages/components/OtherProfile';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -35,6 +41,10 @@ root.render(
       <Route path="forgot_pass" element={<ForgotPass />} />
       <Route path="karma" element={<Karma />} />
       <Route path="user_prefs" element={<PrefsQuiz />} />
+      <Route path='wait_time' element={<WaitTime />} />
+
+      <Route path="calendar" element={<Calendar />} />
+
       <Route path="user/:userId" element={<OtherProfile />} />
     </Routes>
   </BrowserRouter>

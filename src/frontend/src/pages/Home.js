@@ -5,6 +5,9 @@ import LoggedInTester from '../buttons/LoggedInTester';
 import GenerateMatching from './components/GenerateMatching';
 import MatchingReceived from './components/MatchingReceived';
 
+import Navbar from './Navbar'
+import WaitTime from '../buttons/WaitTime'
+
 /* import Profile from './Profile' */
 
 /*
@@ -53,6 +56,7 @@ class Home extends Component {
     render() {
       return (
         <>
+            <Navbar />
             <LoggedInTester />
 
             {/* Example of showing user's information */}
