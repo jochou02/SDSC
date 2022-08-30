@@ -39,13 +39,7 @@ class GetInfo(APIView):
             return Response(redis_get_student(r, pipe, request.user.id))
         else:
             return Response({})
-        
 
-class GetInfoTest(APIView):
-
-    def get(self, request):
-        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
-        return Response(toRespond)
 
     # To get info of any user given uid
     def post(self, request):
@@ -59,6 +53,13 @@ class GetInfoTest(APIView):
             return Response(redis_get_student(r, pipe, request_content['id']))
         else:
             return Response({})
+        
+
+class GetInfoTest(APIView):
+
+    def get(self, request):
+        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+        return Response(toRespond)
 
 
 # 地図: AddKarmaView API
