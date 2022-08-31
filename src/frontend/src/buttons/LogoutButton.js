@@ -8,7 +8,6 @@ class LogoutButton extends Component {
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     handleSubmit(event) {
         localStorage.removeItem('auth-token');
         window.location.href = 'http://localhost:3000/login';
@@ -21,7 +20,7 @@ class LogoutButton extends Component {
         <>
 
         <form onSubmit={this.handleSubmit}>    
-          <input type="submit" value="Log out" class="login-button"/>
+          <input type="submit" value="Log out" className="login-button"/>
         </form>
 
         </>

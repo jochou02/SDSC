@@ -171,7 +171,6 @@ class Profile extends Component {
             <div className={styles.modules_wrapper}>
                 <this.ShowCourses />
                 <this.ShowInterests foo={this.state.foo} />
-                <Karma />
             </div>
         </div>
 

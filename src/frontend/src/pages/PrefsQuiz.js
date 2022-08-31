@@ -207,7 +207,7 @@ class PrefsQuiz extends Component {
             this.setState({ user_interest3: event.target.value })
           }} 
         />
-
+{/* 
         <div className={styles.question}>
           <p>Would you like to become a tutor?</p>
           <input 
@@ -217,6 +217,7 @@ class PrefsQuiz extends Component {
         </div>
 
         {this.state.tutor_checked ? <this.TutorForm /> : <></>}
+*/}
 
         <input 
             type="submit" 
