@@ -19,12 +19,16 @@ class PrefsQuiz extends Component {
         user_interest2: '',
         user_interest3: '',
         prefs_save_success: false,
+        pfp_success: false,
+        pfp: '',
       };
 
       this.handleSubmitPrefs = this.handleSubmitPrefs.bind(this);
       this.onCheck = this.onCheck.bind(this);
       this.TutorForm = this.TutorForm.bind(this);
       this.CollegeForm = this.CollegeForm.bind(this);
+      this.openFileDialog = this.openFileDialog.bind(this);
+      this.displayPicture = this.displayPicture.bind(this);
     }
 
     componentDidMount() {
@@ -68,7 +72,8 @@ class PrefsQuiz extends Component {
           discord: this.state.discord,
           user_interest1: this.state.user_interest1,
           user_interest2: this.state.user_interest2,
-          user_interest3: this.state.user_interest3
+          user_interest3: this.state.user_interest3,
+          pfp: this.state.pfp
         })
       };
     
@@ -76,7 +81,8 @@ class PrefsQuiz extends Component {
         .then(response => response.json())
         .then((data) => {
           this.setState({ }, () => {
-            console.log();})
+            //console.log(data.pfp);
+          })
         })
         .catch(console.log)
         event.preventDefault();
@@ -125,6 +131,62 @@ class PrefsQuiz extends Component {
       )
     }
 
+    openFileDialog (accept, callback) {  
+      // Create an input element and display element
+      var inputElement = document.createElement("input");
+
+      // Set its type to file
+      inputElement.type = "file";
+
+      // Set accept to the file types you want the user to select. 
+      // Include both the file extension and the mime type
+      inputElement.accept = ".png";
+
+      // set onchange event to call callback when user has selected file
+      inputElement.addEventListener("change", callback)
+
+      // dispatch a click event to open the file dialog
+      inputElement.dispatchEvent(new MouseEvent("click")); 
+
+      inputElement.addEventListener("change", (e) => {
+        var size_limit = false;
+        if(inputElement.files[0].size > 1048576){
+          console.log("FILE TOO BIG!")
+          size_limit = true;
+        };
+        
+        var file = inputElement.files[0];
+        var imageType = /image.png/;
+
+        if (file.type.match(imageType) && size_limit === false) {
+          var p = new Promise(function(resolve) {
+            var reader = new FileReader();
+            reader.onload = function() {
+              var img = new Image();
+              img.src = reader.result;
+              var pfp = img.src
+              resolve(pfp);
+            };
+            reader.readAsDataURL(file);
+          });
+          
+          p.then((data) => {
+            this.setState({
+              pfp_success: true,
+              pfp: data
+            },() => console.log());
+          })
+        }
+      })
+    } 
+
+    displayPicture() {
+      //console.log(this.state.pfp)
+      return(<>
+        <img src={this.state.pfp} alt="pfp"></img>
+      </>)
+    }
+
     render() {
       return (
         <>
@@ -155,6 +217,18 @@ class PrefsQuiz extends Component {
               this.setState({ phone: event.target.value })
             }} 
         />
+        
+        <br />
+        <p>Change profile picture</p>
+        <p>{"(Image size must be < 1 MB)"}</p>
+        <button onClick={this.openFileDialog}>Select file</button>
+        <br />
+
+        <img src={this.state.pfp} alt=""></img>
+        {this.state.pfp === "" ? <></> : <><br /><br /></>}
+{/* 
+        {this.state.pfp_success ? <this.displayPicture /> : <p>No pfp</p>}
+*/}
 
         <label>Instagram</label>
         <input 
@@ -207,6 +281,7 @@ class PrefsQuiz extends Component {
             this.setState({ user_interest3: event.target.value })
           }} 
         />
+
 {/* 
         <div className={styles.question}>
           <p>Would you like to become a tutor?</p>
