@@ -297,7 +297,7 @@ def generate_match(request):
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
-    my_student = redis_get_student(r, request.user.id)
+    my_student = redis_get_student(r, r.pipeline(), request.user.id)
 
     my_interest = [my_student['user_interest1'], my_student['user_interest2'], my_student['user_interest3']]
 
