@@ -14,7 +14,7 @@ p {
   display: flex;
   /* background-color: red; */
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -132,7 +132,7 @@ p {
   border-radius: 3px;
   white-space: nowrap;
   text-align: center;
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .module_text {
