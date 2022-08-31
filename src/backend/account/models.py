@@ -49,9 +49,9 @@ class Student(models.Model):
     discord = models.CharField(max_length=200, default="")
 
     # User interests
-    user_interest1 = models.CharField(max_length=40, choices=INTEREST_LIST)
-    user_interest2 = models.CharField(max_length=40, choices=INTEREST_LIST)
-    user_interest3 = models.CharField(max_length=40, choices=INTEREST_LIST)
+    user_interest1 = models.CharField(max_length=200)
+    user_interest2 = models.CharField(max_length=200)
+    user_interest3 = models.CharField(max_length=200)
 
     # 3 categories of user's classes
     current_courses = models.ManyToManyField(Course, related_name='current_courses_set', blank=True)

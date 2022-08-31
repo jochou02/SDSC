@@ -6,6 +6,8 @@ from django.apps import apps
 import ujson
 import redis
 
+from embeddings import GloveEmbedding
+
 def redis_get_student(r, pipe, id):
     try:
         student = ujson.loads(r.get(f"student_{id}"))
@@ -21,6 +23,27 @@ def redis_set_student(r, id, temp):
     r.set(f"student_{id}", ujson.dumps(temp))
 
     return temp
+
+
+# ATTRIB = ('introvert', 'foody', 'chad', 'athletic', 'academic', 'UCSD')
+#
+# def calc_attrib(glove, interests, attrib):
+#     toReturn = dict.fromkeys(attrib)
+#
+#     for i in attrib:
+#         emb_attrib = glove.emb(i)
+#         for j in interests:
+#             emb_interest = glove.emb(j)
+#
+#             temp = 0
+#             for k in range(len(emb_interest)):
+#                 temp += emb_attrib[k] * emb_interest[k]
+#
+#         toReturn[i] = temp
+#
+#     return toReturn
+
+
 
 
 

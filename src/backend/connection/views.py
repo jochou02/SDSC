@@ -18,6 +18,10 @@ import ujson
 import time
 import redis
 
+from .word_vec import *
+
+from embeddings import GloveEmbedding
+
 # from numba import jit
 from multiprocessing import Pool
 
@@ -29,13 +33,11 @@ class GetInfo(APIView):
 
     # To get info for user that's currently logged in
     def get(self, request):
-        start_time = time.time()
 
         r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
         pipe = r.pipeline()
 
         if (request.user.is_authenticated):
-            print("--- %s seconds ---" % (time.time() - start_time))
             return Response(redis_get_student(r, pipe, request.user.id))
         else:
             return Response({})
@@ -176,6 +178,9 @@ class GenerateMatchingView(APIView):
         #print("hello from get")
         temp = generate_match(request)
         #print(generate_match(request))
+        #will have to do this on cloud instance
+        # g = GloveEmbedding('common_crawl_840', d_emb=300, show_progress=True)
+        print("DONE")
 
         # Send the information about the match back to the front end
 
