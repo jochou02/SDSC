@@ -11,7 +11,7 @@ from account.LISTS import *
 from account.serializer import StudentSerializer
 from api.serializers import *
 from .models import *
-from .helpers import redis_get_student, redis_set_student
+from .helpers import redis_get_student, redis_set_student, get_pfp
 
 import random
 import ujson
@@ -40,6 +40,39 @@ class GetInfo(APIView):
         else:
             return Response({})
 
+class GetPFPView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        start_time = time.time()
+
+        if (request.user.is_authenticated):
+            print("Below is pfp time")
+            print("--- %s seconds ---" % (time.time() - start_time))
+            return Response(get_pfp(request.user.id))
+        else:
+            return Response({})
+
+    def post(self, request):
+        request_content = ujson.loads(request.body.decode("utf-8"))
+        print(request_content)
+
+        start_time = time.time()
+
+        if (request.user.is_authenticated):
+            print("Below is pfp time")
+            print("--- %s seconds ---" % (time.time() - start_time))
+            return Response(get_pfp(request_content['id']))
+        else:
+            return Response({})
+        
+
+class GetInfoTest(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
+        return Response(toRespond)
 
     # To get info of any user given uid
     def post(self, request):
@@ -53,13 +86,6 @@ class GetInfo(APIView):
             return Response(redis_get_student(r, pipe, request_content['id']))
         else:
             return Response({})
-        
-
-class GetInfoTest(APIView):
-
-    def get(self, request):
-        toRespond = StudentSerializer(Student.objects.get(pk=1)).data
-        return Response(toRespond)
 
 
 # 地図: AddKarmaView API
