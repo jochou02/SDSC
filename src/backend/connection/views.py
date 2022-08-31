@@ -20,7 +20,7 @@ import redis
 
 from .word_vec import *
 
-from embeddings import GloveEmbedding
+#from embeddings import GloveEmbedding
 
 # from numba import jit
 from multiprocessing import Pool
@@ -327,7 +327,9 @@ def generate_match(request):
 
     my_interest = [my_student['user_interest1'], my_student['user_interest2'], my_student['user_interest3']]
 
-    my_attrib = calc_attrib(interests=my_interest)
+    #my_attrib = calc_attrib(interests=my_interest)
+
+    my_attrib = ""
 
     print(my_attrib)
 

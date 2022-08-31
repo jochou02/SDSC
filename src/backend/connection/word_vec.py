@@ -1,3 +1,4 @@
+'''
 import pandas as pd
 import numpy as np
 import os
@@ -62,3 +63,4 @@ def calc_attrib(interests, attr = ATTRIBUTE):
                 toReturn[i] += model.similarity(i, j).item()
     print("*****")
     return toReturn
+'''
