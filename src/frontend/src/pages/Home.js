@@ -44,7 +44,7 @@ class Home extends Component {
     ShowProfile = ({ foo }) => {
         return (
             <>
-                {   !localStorage.getItem('auth-token') ? <></> : <h1 class="welcome">
+                {   !localStorage.getItem('auth-token') ? <></> : <h1 className="welcome">
                         Welcome, {foo['first_name']} {foo['last_name']}
                     </h1>
                 }

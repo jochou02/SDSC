@@ -20,11 +20,9 @@ import Courses from './pages/Courses';
 import Home from './pages/Home';
 //import TestProfile from './pages/components/TestProfile';
 import WaitTime from './buttons/WaitTime';
-
 import Calendar from './pages/Calendar';
-
 import OtherProfile from './pages/components/OtherProfile';
-
+import Reviews from './pages/Reviews';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -46,6 +44,10 @@ root.render(
       <Route path="calendar" element={<Calendar />} />
 
       <Route path="user/:userId" element={<OtherProfile />} />
+
+      <Route path="user/:userId" element={<OtherProfile />} />
+
+      <Route path="reviews/:course_dept/:course_num" element={<Reviews />} />
     </Routes>
   </BrowserRouter>
 );
