@@ -120,12 +120,12 @@ class FetchScheduleView(APIView):
         #print(request.user.id)
 
         try:
-            print("try")
+            #print("try")
             schedule = Schedule.objects.get(pk=request.user.id)
             #print("schedule")
             #print(schedule)
         except:
-            print("except")
+            #print("except")
             temp = Schedule.objects.create(pk=request.user.id)
             temp.content = {}
             temp.save()
