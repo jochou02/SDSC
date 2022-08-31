@@ -19,6 +19,10 @@ from email.message import EmailMessage
 
 from .helpers import redis_get_student, redis_set_student
 
+import base64, io, codecs
+import PIL.Image as Image
+from django.core.files import File
+
 '''
     Test things out. Deprecated. 
 '''
@@ -207,6 +211,23 @@ class SetUserPrefs(APIView):
             temp.user_interest2 = request_content['user_interest2']
         if request_content['user_interest3']:
             temp.user_interest3 = request_content['user_interest3']
+        if request_content['pfp']:
+            base64_str = request_content['pfp']
+
+            encoded_str = base64_str.partition(",")[2]
+            encoded_str = encoded_str.encode('ascii')
+
+            image_io = io.BytesIO(base64.b64decode(encoded_str))
+
+            image_PIL = Image.open(image_io)
+            image_PIL.convert('RGB')
+            new_io = io.BytesIO();
+            image_PIL.save(new_io, 'PNG', quality=100)
+
+            image_file = File(new_io, name="pfp.png")
+            
+            temp.profile_pic = image_file
+            
 
         temp.save()
         

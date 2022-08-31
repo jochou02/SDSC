@@ -27,6 +27,7 @@ import OtherProfile from './pages/components/OtherProfile';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   //地図: Add new routes
   <BrowserRouter>

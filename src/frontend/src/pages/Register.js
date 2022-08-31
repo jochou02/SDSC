@@ -31,7 +31,6 @@ class Register extends Component {
       this.checkEmail = this.checkEmail.bind(this);
     }
 
-
     handleSubmitReg(event) {
         const requestOptions = {
             method: 'POST',
@@ -54,23 +53,25 @@ class Register extends Component {
     }
 
     handleSubmitAuth(event) {
-//        console.log("Yay");
+      if (this.state.email_success === true) {
         const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', },
-            body: JSON.stringify({ email: this.state.email,
-                                   mode: 'reg'})
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify({ 
+            email: this.state.email,
+            mode: 'reg'})
         };
 
         fetch('http://127.0.0.1:8000/account/gen_auth/', requestOptions)
-              .then(response => response.json())
-              .then((data) => {
-                    this.setState({ auth_server: data['auth_server'].toString() ,
-                                    auth_status: data['status']})
+          .then(response => response.json())
+          .then((data) => {
+            this.setState({ 
+              auth_server: data['auth_server'].toString(),
+              auth_status: data['status']})
         })
         .catch(console.log)
-
         event.preventDefault();
+      }
     }
 
     requestAuthCode() {
@@ -81,16 +82,14 @@ class Register extends Component {
                 className={styles.button}
                 style={{marginTop: 20}}/>
             </form>
-        </>
-        )
+        </>)
     }
 
     checkAuthCode() {
         return(
         <>
             { this.state.auth_success ? <p className={styles.successMessage}>Verification Success</p> : <this.authForm /> }
-        </>
-        )
+        </>)
     }
 
     authForm() {
@@ -144,7 +143,6 @@ class Register extends Component {
             }} 
           /> <br />
 
-
           <input 
             type="text" 
             value={this.state.username}
@@ -189,18 +187,27 @@ class Register extends Component {
       let regExp =  /^[a-z]+@+ucsd.edu$/;
       if(email.match(regExp)) {
         event.target.className = styles.emailSuccess;
-        this.setState({email_success: true},() => console.log());
+        this.setState({
+          email_success: true,
+          auth_status: '',
+        },() => console.log());
         return true;
       } else {
         //If field is empty, reset to default grey border
         if(email === "") {
             event.target.className = styles.email;
-            this.setState({email_success: false},() => console.log());
+            this.setState({
+              email_success: false,
+              auth_status: '',
+            },() => console.log());
             return true;
         }
         //If input is invalid
         event.target.className = styles.emailError;
-        this.setState({email_success: false},() => console.log(this.state.email_success));
+        this.setState({
+          email_success: false,
+          auth_status: '',
+        },() => console.log());
         return false;
       }
     }
@@ -243,7 +250,7 @@ class Register extends Component {
 
         { this.state.auth_status === 1 ? <p className={styles.errorMessage}>Email already exists</p> : <></>}
 
-        { this.state.email_success? <this.checkAuthCode /> : <this.requestAuthCode />}
+        { (this.state.email_success && this.state.auth_status !== '') ? <this.checkAuthCode /> : <this.requestAuthCode />}
         </div>
 
         <this.regForm />

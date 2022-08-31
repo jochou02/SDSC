@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
-// eslint-disable-next-line
-import { useLocation } from 'react-router-dom'
+//import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester'
-import Karma from '../pages/Karma'
-import styles from "../styles/Profile.module.css"
-
-import pfp from "../icons/pfp.png"
+//import Karma from '../pages/Karma'
+import LinkCourse from './components/LinkCourse';
+import styles from '../styles/Profile.module.css'
 
 import Navbar from "./Navbar"
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = { foo: [], };
+        this.state = { 
+            foo: [], 
+            pfp: '', 
+            courses: []
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        const headers = {"Content-Type": "application/json"};
+        var headers = {
+            "Content-Type": "application/json",};
 
         if (localStorage.getItem('auth-token')) {
             headers["Authorization"] = localStorage.getItem('auth-token');
@@ -31,6 +34,23 @@ class Profile extends Component {
                 this.setState({ foo: data });
                 console.log();
             })
+
+        fetch('http://127.0.0.1:8000/connect/get_pfp/', {headers}, )
+        .then(response => response.json())
+        .then((data) => {
+            this.setState({ pfp: 
+                "http://127.0.0.1:8000/static/" + 
+                data.split("/")[2] 
+            }, () => console.log(this.state.pfp));
+        })
+
+        fetch("http://127.0.0.1:8000/tutoring/get_all_courses/", { headers, })
+                    .then(response => response.json())
+                    .then((data) => {
+                    this.setState({ courses: data }, () => {
+                        //console.log(this.state.courses)
+                    })
+        })
         .catch(console.log)
     }
 
@@ -60,8 +80,8 @@ class Profile extends Component {
     //ノート: Change phone number to display in ###-###-#### format
     ShowProfile = ({ foo }) => {
         return (<>
-            <div className={styles.profile_wrapper2}>      
-                <img src={pfp} alt="pfp" className={styles.pfp}></img>
+            <div className={styles.profile_wrapper2}>     
+                <img src={this.state.pfp} alt="pfp" className={styles.pfp}></img>
                 <div className={styles.profile_info_wrapper}>
                     <p>ID: {foo['id']}</p>
                     <p className={styles.name}>
@@ -95,31 +115,39 @@ class Profile extends Component {
         return (<>
             <p className={styles.contact_info}>{contact['contact']}</p></>)
     }
-
-    //TO-DO: Replace text inside module_text with actual course info
+    
     ShowCourses = () => {
         return (<>
             <div className={styles.module}>
                 <p className={styles.module_title}>Courses</p>
                 <div className={styles.module_grid}>
-                    <div className={styles.module_item}>
-                        <p className={styles.module_text}>BIMM 100</p>
-                    </div>
-                    <div className={styles.module_item}>
-                        <p className={styles.module_text}>BIPN 102</p>
-                    </div>
-                    <div className={styles.module_item}>
-                        <p className={styles.module_text}>BICD 110</p>
-                    </div>
-                    <div className={styles.module_item}>
-                        <p className={styles.module_text}>BIMM 100</p>
-                    </div>
-                    <div className={styles.module_item}>
-                        <p className={styles.module_text}>BIPN 102</p>
-                    </div>
-                    <div className={styles.module_item} style={{backgroundColor: "#00629b"}}>
-                        <p className={styles.module_text}>BICD 110</p>
-                    </div>
+                    {this.state.courses?.current_courses?.map((course) => (
+                        <div className={styles.module_item } style={{backgroundColor: "var(--color-accent)"}}>
+                        <Link to={`/reviews/${course.course_dept}/${course.course_num}`} className={styles.courseLink}>
+                            <p className={styles.module_text} style={{fontWeight: "800"}}>
+                                {course.course_dept} {course.course_num}
+                            </p>
+                        </Link>
+                        </div>
+                    ))}
+                    {this.state.courses?.tutoring_courses?.map((course) => (
+                        <div className={styles.module_item} style={{backgroundColor: "var(--color-secondary)"}}>
+                        <Link to={`/reviews/${course.course_dept}/${course.course_num}`} className={styles.courseLink}>
+                            <p className={styles.module_text} style={{fontWeight: "800"}}>
+                                {course.course_dept} {course.course_num}
+                            </p>
+                        </Link>
+                        </div>
+                    ))}
+                    {this.state.courses?.past_courses?.map((course) => (
+                        <div className={styles.module_item} style={{opacity: 0.5}}>
+                        <Link to={`/reviews/${course.course_dept}/${course.course_num}`} className={styles.courseLink}>
+                            <p className={styles.module_text} style={{fontWeight: "800"}}>
+                                {course.course_dept} {course.course_num}
+                            </p>
+                        </Link>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>);
@@ -130,13 +158,13 @@ class Profile extends Component {
             <div className={styles.module}>
                 <p className={styles.module_title}>Interests</p>
                 <div className={styles.module_grid}>
-                    <div className={styles.module_item}>
+                    <div className={styles.module_item} style={{backgroundColor: "var(--color-primary)"}}>
                         <p className={styles.module_text}>{foo['user_interest1']}</p>
                     </div>
-                    <div className={styles.module_item}>
+                    <div className={styles.module_item } style={{backgroundColor: "var(--color-primary)"}}>
                         <p className={styles.module_text}>{foo['user_interest2']}</p>
                     </div>
-                    <div className={styles.module_item}>
+                    <div className={styles.module_item} style={{backgroundColor: "var(--color-primary)"}}>
                         <p className={styles.module_text}>{foo['user_interest3']}</p>
                     </div>
                 </div>

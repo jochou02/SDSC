@@ -153,3 +153,7 @@ p {
 .link:hover {
   text-decoration: underline;
 }
+
+.courseLink {
+  text-decoration: none;
+}
