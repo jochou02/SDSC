@@ -290,12 +290,25 @@ class ModifyPending(APIView):
 # Placeholder before we have a real matching algo
 # TODO: Conditions for matching
 def generate_match(request):
+    r = redis.StrictRedis(host="132.249.242.203", port=6379, db=0, password='kungfurubberducky2022')
+
+
     pending_matching = get_pending_matching_id(request)
 
     tot_users = Student.objects.exclude(pk__in=pending_matching)
 
+    my_student = redis_get_student(r, request.user.id)
+
+    my_interest = [my_student['user_interest1'], my_student['user_interest2'], my_student['user_interest3']]
+
+    my_attrib = calc_attrib(interests=my_interest)
+
+    min_diff = 0
+
+    # calculate the difference in attributes
+
     matched_user = random.choice(tot_users)
-    while (matched_user.id == request.user.id):
+    while matched_user.id == request.user.id:
         matched_user = random.choice(tot_users)
 
     return matched_user

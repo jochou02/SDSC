@@ -53,6 +53,8 @@ class Student(models.Model):
     user_interest2 = models.CharField(max_length=200)
     user_interest3 = models.CharField(max_length=200)
 
+    # Do we pre-calculate user attribute?
+
     # 3 categories of user's classes
     current_courses = models.ManyToManyField(Course, related_name='current_courses_set', blank=True)
     past_courses = models.ManyToManyField(Course, related_name='past_courses_set', blank=True)
@@ -100,3 +102,6 @@ class Student(models.Model):
 
     def set_user_interest3(self, user_interest3):
         self.user_interest3 = user_interest3
+
+    def pack_interests(self):
+        return [self.user_interest1, self.user_interest2, self.user_interest3]
