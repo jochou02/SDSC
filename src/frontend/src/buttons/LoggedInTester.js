@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import LoginButton from './LoginButton';
 
+import '../styles/home.css';
 
 class LoggedInTester extends Component {
 // eslint-disable-next-line
@@ -17,14 +18,14 @@ class LoggedInTester extends Component {
         <>
 
         { localStorage.getItem('auth-token') ? 
-        <><div>
-          Logged In
+        <div class="login-message">
+          You are currently logged in.
           <LogoutButton/>
-        </div></> : 
-        <><div>
-          Not Logged In
+        </div> : 
+        <div class="login-message">
+          You are not logged in.
           <LoginButton/>
-          </div></>
+          </div>
         }</>
       );
     }

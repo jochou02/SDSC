@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Navbar from "./Navbar"
 
 //import { useLocation } from 'react-router-dom'
 
@@ -37,6 +38,7 @@ class Courses extends Component {
     render() {
         return (
             <>
+            <Navbar />
             {   
                 !localStorage.getItem('auth-token') ? <></> : <>
                     <h1>Current Courses</h1>

@@ -147,11 +147,6 @@ class Profile extends Component {
     render() {
       return (
         <>
-        <div className={styles.componentWrapper}>
-            <LoggedInTester />
-            {/* Sufficient to get whatever info we need from user */}
-            { localStorage.getItem('auth-token') }
-        </div>
 
         <Navbar />
 
@@ -178,6 +173,12 @@ class Profile extends Component {
                 <this.ShowInterests foo={this.state.foo} />
                 <Karma />
             </div>
+        </div>
+
+        <div className={styles.componentWrapper}>
+            <LoggedInTester />
+            {/* Sufficient to get whatever info we need from user */}
+            {/* localStorage.getItem('auth-token') */}
         </div>
         </>
       );
