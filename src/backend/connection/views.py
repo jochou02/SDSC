@@ -303,6 +303,9 @@ def generate_match(request):
 
     my_attrib = calc_attrib(interests=my_interest)
 
+    print(my_attrib)
+
+
     min_diff = 0
 
     # calculate the difference in attributes

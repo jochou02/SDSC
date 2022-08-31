@@ -42,7 +42,8 @@ word2vec_output_file = glove_filename + '.word2vec'
 # glove2word2vec(glove_path, word2vec_output_file)
 
 # User attributes
-ATTRIBUTE = ('extrovert', 'athletic', 'tech', 'chad', 'academic')
+# Change nerdy to foody once on cloud instance and have better access to bigger datasets
+ATTRIBUTE = ('introvert', 'athletic', 'nerdy', 'chad', 'academics')
 
 print("start")
 model = KeyedVectors.load_word2vec_format(word2vec_output_file, binary=False)
