@@ -1,90 +1,89 @@
-import React, { useEffect, useState } from "react";
-import '../styles/Tutoring.css';
+import React, { useEffect, useState, useRef } from "react";
+import '../style/Tutoring.css';
 import TutorBox from "./TutorBox";
-import myjson from "./Sample.json";
-import myclasses from "./Classes.json";
-import Select from 'react-select';
-import AsyncSelect from 'react-select/async';
 import Navbar from "./Navbar.jsx";
-import axios from 'axios';
+import {AiOutlineSearch} from 'react-icons/ai'; //npm install react-icons --save
 
 const Tutor = () => {
-    const [data, setData] = useState({});
-    const getData = () => {
+    const [userInfo, setUserInfo] = useState({});
+    const courseDept = useRef("");
+    const courseNumber = useRef("");
+    const getData = (department, number) => {
         const headers = {"Content-Type": "application/json"};
 
         if (localStorage.getItem('auth-token')) {
             headers["Authorization"] = localStorage.getItem('auth-token');
         }
 
-        fetch("http://127.0.0.1:8000/tutoring/find_tutors/", { headers, })
+        fetch(`http://127.0.0.1:8000/tutoring/find_tutor/${department}/${number}`, { headers, })
                     .then(response => response.json())
                     .then((data) => {
-                    setData({ foo: data })
-        }).catch(console.log)
-        console.log("pulled from db successfully", data)
+                    setUserInfo(data)
+        }).catch(console.log())
+    }
+
+    // useEffect (() => {
+    //     console.log("effect is ran");
+    //     async function fetchData() {
+    //         setLoading(true);
+    //         await getData(searchClass, searchNumber);
+    //         setLoading(false);
+    //     }
+    //     if (clicked) {
+    //         fetchData();
+    //         console.log("fetched data")
+    //         setClicked(false);
+    //     }
+    // }, [clicked])
+
+    function handleClick() {
+        getData(courseDept.current.value.toUpperCase(),
+                courseNumber.current.value);
+        console.log(userInfo)
+        parseTutors();
+        console.log(tutors);
     }
     
-    useEffect(() => {
-        getData();
-    }, [])
-
-    const [classSelected, setClassSelected] = useState([]);
-    //Retrieve the list of courses the tutors can teach
-    const classBank = myjson.tutor.map((tutor) => tutor.Course);
-    //Retrieves the list of tutors
-    const tutors = myjson.tutor.map((tutor) => tutor);
-
-    let selectedTutors = [];
-
-    //When selected a class, will see if tutor is tutoring 
-    //the course, setting true and false. Then sets it.
-    const handleChange = (selectedOption) => {
-        console.log("handleChange", selectedOption);
-        for (let i = 0; i < classBank.length; i++) {
-            if (classBank[i] === selectedOption.label) {
-                selectedTutors[i] = true;
-            }
-            else {
-                selectedTutors[i] = false;
+    const tutorsList = [];
+    const [tutors, setTutors] = useState([]);
+    function parseTutors() {
+        for (let i = 0; i < userInfo.length; i++) {
+            tutorsList[i] = {
+                "ID" : i+1,
+                "Name" : userInfo[i].first_name,
+                "Course" : courseDept.current.value.toUpperCase() + " " + courseNumber.current.value,
+                "Phone_Number": userInfo[i].phone,
+                "Discord": userInfo[i].discord,
+                "Pfp": userInfo[i].profile_pic,
+                "Email": userInfo[i].email,
+                "Bio": "Hello, feel free to ask for help!",
             }
         }
-        setClassSelected(availbleTutors());
+        setTutors(tutorsList);
     }
-    
-    //puts available tutors inside an array and returns it
-    function availbleTutors() {
-        let displayTutors = [];
-        let displayTutorIndex = 0;
-        for (let i = 0; i < selectedTutors.length; i++) {
-            if (selectedTutors[i]) {
-                displayTutors[displayTutorIndex] = tutors[i];
-                displayTutorIndex++;
-            }
-        }
-        return displayTutors;
-    }
-
-    //Search bar functionality, renders the available classes as it is being searched
-    const loadOptions = (searchValue, callBack) => {
-        setTimeout( () => {
-          const filteredOptions = myclasses.filter((option) => 
-            option.label.toLowerCase().includes(searchValue.toLowerCase())
-          );
-          console.log('loadOptions', searchValue, filteredOptions);
-          callBack(filteredOptions);
-        }, 2000);
-    }
-    
     return (
         <div className="title">
             <div><Navbar /></div>
             <div><h1 class="heading">Tutors</h1></div>
             <div className="container" value="select a class">
-                <AsyncSelect loadOptions={loadOptions} onChange={handleChange}/>
-                {classSelected.map((tutor) => (
-                    <TutorBox tutor={tutor}/>
-                ))}
+                <div className="Search">
+                    <div className="searchInputs">
+                        <input type="text" 
+                               placeholder="Search class dept..." 
+                               ref={courseDept}>
+                        </input>
+                        <input type="text" 
+                               placeholder="Search class number..." 
+                               ref={courseNumber}>
+                        </input>
+                        <button onClick={handleClick}>
+                            <AiOutlineSearch/>
+                        </button>
+                    </div>
+                </div>
+                {tutors.map((tutor) => 
+                (<TutorBox tutor={tutor} />)
+                )}
             </div>
         </div>
     )
