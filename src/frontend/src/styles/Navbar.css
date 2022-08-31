@@ -1,3 +1,8 @@
+hr{
+  border: 1px solid grey;
+  margin: 0 auto;
+}
+
 .navbar {
     /* background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%); */
     background-color: #182b49;
@@ -9,7 +14,6 @@
     position: sticky;
     top: 0;
     z-index: 999;
-    margin-bottom: 20px;
   }
   
   .navbar-container {

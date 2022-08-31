@@ -87,6 +87,7 @@ function Navbar() {
                     {/* {button && <Button buttonStyle ='btn--outline'> Profile </Button>}                                */}
             </div>
         </nav>
+        <hr></hr>
     </>
   )
 }

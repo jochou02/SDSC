@@ -57,8 +57,6 @@ class Login extends Component {
       return ( 
         <>
 
-        <LoggedInTester />
-
         <div className={styles.logo} id="logo">
 			    <img src={trident} className={styles.logoPic} alt=""/> 
           <p className={styles.logoText}>UC Socially Undead</p>

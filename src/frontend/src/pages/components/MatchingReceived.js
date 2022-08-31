@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LinkProfile from '../components/LinkProfile';
-import styles from '../../styles/MatchingReceived.module.css';
+import '../../styles/MatchingReceived.module.css';
 
 class MatchingReceived extends Component {
     constructor(props) {
@@ -150,7 +150,7 @@ class MatchingReceived extends Component {
             <>
             <div className="col">
             <h1>Recent Connections</h1>
-            <div className={styles.connectionsWrapper}>
+            <div className="connectionsWrapper">
                 {finalized.map((match) => <>
                     <ul style={{marginBottom: "0px"}}>
                         <li style={{marginBottom: "5px"}}>

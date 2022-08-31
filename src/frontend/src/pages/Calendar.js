@@ -90,8 +90,6 @@ class Calendar extends React.Component {
   render() {
     return(<>
       <Navbar />
-      <LoggedInTester />
-      <p className={styles.calendarText}>{ localStorage.getItem('auth-token') }</p>
 
       <Calendars cal={this.state.cal}/>
       <br />
