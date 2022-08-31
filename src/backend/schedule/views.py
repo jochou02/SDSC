@@ -100,9 +100,11 @@ class UploadScheduleView(APIView):
         try: 
             temp = Schedule.objects.get(pk=request.user.id)
         except:
+            print("except")
             temp = Schedule.objects.create(pk=request.user.id)
 
         temp.content = cal
+        #print(temp.content)
         temp.save()
 
         return Response({})
@@ -118,10 +120,12 @@ class FetchScheduleView(APIView):
         #print(request.user.id)
 
         try:
+            print("try")
             schedule = Schedule.objects.get(pk=request.user.id)
             #print("schedule")
             #print(schedule)
         except:
+            print("except")
             temp = Schedule.objects.create(pk=request.user.id)
             temp.content = {}
             temp.save()
