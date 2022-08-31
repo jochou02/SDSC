@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import '../styles/Navbar.css';
 import Dropdown from './Dropdown';
 import { logDOM } from '@testing-library/react';
 //import logo from '../logo.PNG';
@@ -75,31 +75,13 @@ function Navbar() {
                             Calendar
                         </Link>    
                     </li>
-
-                    {/*
                     <li className = 'nav-item'>
-                        <Link to = '/wait_time' className = 'nav-links' onClick={closeMobileMenu}>
-                            Wait Times
-                        </Link>
+                        <WaitTime />
                     </li>
-                    */}
-
                     <li className = 'nav-item'>
                         <Link to = '/profile' className = 'nav-links' onClick={closeMobileMenu}>
                             Profile
                         </Link>
-                    </li>
-
-                    <li className = 'nav-item'><WaitTime /></li>
-
-                    <li className = 'nav-item-dropdown'
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    >
-                        <Link to = '/profile-dropdown' className = 'nav-links' onClick={closeMobileMenu}>
-                            Profile <i className ='fas fa-caret-down' />
-                        </Link>    
-                        {dropdown && <Dropdown />}
                     </li>              
                     </ul>     
                     {/* {button && <Button buttonStyle ='btn--outline'> Profile </Button>}                                */}

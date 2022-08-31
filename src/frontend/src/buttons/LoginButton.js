@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import '../styles/home.css';
 
 class LoginButton extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class LoginButton extends Component {
         <>
 
         <form onSubmit={this.handleSubmit}>    
-          <input type="submit" value="Log in" />
+          <input type="submit" value="Log in" class="login-button"/>
         </form>
 
         </>

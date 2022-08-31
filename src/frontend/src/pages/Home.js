@@ -8,6 +8,8 @@ import MatchingReceived from './components/MatchingReceived';
 import Navbar from './Navbar'
 import WaitTime from '../buttons/WaitTime'
 
+import '../styles/home.css';
+
 /* import Profile from './Profile' */
 
 /*
@@ -42,12 +44,9 @@ class Home extends Component {
     ShowProfile = ({ foo }) => {
         return (
             <>
-                {   !localStorage.getItem('auth-token') ? <></> : <>
-                    ID: {foo['id']} <br />
-                    Name: {foo['first_name']} {foo['last_name']} <br />
-                    E-Mail: {foo['email']} <br />
-                    College: {foo['user_college']}
-                    </>
+                {   !localStorage.getItem('auth-token') ? <></> : <h1 class="welcome">
+                        Welcome, {foo['first_name']} {foo['last_name']}
+                    </h1>
                 }
             </>
         );
@@ -56,15 +55,24 @@ class Home extends Component {
     render() {
       return (
         <>
-            <Navbar />
-            <LoggedInTester />
+            {!localStorage.getItem('auth-token') ? 
+                <>
+                    <LoggedInTester />
+                </> 
+                : 
+                <>
+                    <Navbar />
+                    
 
-            {/* Example of showing user's information */}
-            <this.ShowProfile foo={this.state.foo} />
+                    {/* Example of showing user's information */}
+                    <this.ShowProfile foo={this.state.foo} />
 
-            <GenerateMatching /> 
-            <MatchingReceived />
+                    <LoggedInTester />
 
+                    <GenerateMatching /> 
+                    <MatchingReceived />
+                </>
+            }
         </>
       );
     }

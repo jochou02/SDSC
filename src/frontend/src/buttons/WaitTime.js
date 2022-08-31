@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import '../styles/Navbar.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 var initial_wait = {
@@ -636,9 +637,9 @@ class WaitTime extends Component {
     render() {
         return (
             <>
-                <Button class="btn text-primary bg-transparent" onClick={this.handleShow}>
+                <a className = 'nav-links' onClick={this.handleShow}>
             Wait Times
-                </Button>
+                </a>
                 <Modal show = {this.state.show} size="lg" onHide={this.handleClose}>
                     <Modal.Header closeButton>
                     <Modal.Title>Wait Times</Modal.Title>
