@@ -6,7 +6,9 @@ from django.apps import apps
 import ujson
 import redis
 
-from embeddings import GloveEmbedding
+import base64, io
+
+#from embeddings import GloveEmbedding
 
 def redis_get_student(r, pipe, id):
     try:
@@ -16,6 +18,11 @@ def redis_get_student(r, pipe, id):
         pipe.set(f"student_{id}", ujson.dumps(student))
 
     return student
+
+def get_pfp(id):
+    pfp = StudentSerializer(Student.objects.get(pk=id)).data.get('profile_pic')
+
+    return pfp
 
 def redis_set_student(r, id, temp):
     #Idk why below isn't working but w/ temp it works so
