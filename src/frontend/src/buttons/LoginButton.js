@@ -20,7 +20,7 @@ class LoginButton extends Component {
         <>
 
         <form onSubmit={this.handleSubmit}>    
-          <input type="submit" value="Log in" class="login-button"/>
+          <input type="submit" value="Log in" className="login-button"/>
         </form>
 
         </>
