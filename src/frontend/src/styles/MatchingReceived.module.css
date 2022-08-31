@@ -1,3 +1,13 @@
+h1 {
+  text-align: center;
+}
+
+.col {
+  border-style: solid;
+  border-color: white;
+  background-color: red;
+}
+
 .connectionsWrapper {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../styles/MatchingReceived.module.css';
 
 class GenerateMatching extends Component {
     constructor(props) {

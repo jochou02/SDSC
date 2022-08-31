@@ -5,6 +5,8 @@ import Navbar from "./Navbar"
 
 //import LoggedInTester from '../buttons/LoggedInTester';
 
+import '../styles/courses.css';
+
 const Course = ({ course_dept, course_num }) => (
     <div>
         <p>{course_dept} {course_num}</p>
@@ -27,7 +29,7 @@ class Courses extends Component {
             headers["Authorization"] = localStorage.getItem('auth-token');
         }
 
-        fetch("http://127.0.0.1:8000/tutoring/find_tutor/BENG/128A", { headers, })
+        fetch("http://127.0.0.1:8000/tutoring/get_all_courses/", { headers, })
                     .then(response => response.json())
                     .then((data) => {
                     this.setState({ foo: data })
@@ -42,26 +44,52 @@ class Courses extends Component {
             {   
                 !localStorage.getItem('auth-token') ? <></> : <>
                     <h1>Current Courses</h1>
-                    {this.state.foo?.current_courses?.map((course) => (
-                        <Course
-                            course_dept={course.course_dept}
-                            course_num={course.course_num}
-                        />
-                    ))}
+                    <table class="table table-bordered">
+                        <tbody>
+                            {this.state.foo?.current_courses?.map((course) => (
+                                <tr>
+                                    <td><Course
+                                        course_dept={course.course_dept}
+                                        course_num={course.course_num}
+                                    /></td>
+                                    <td><a>Test1</a></td>
+                                    <td>Test</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
                     <h1>Past Courses</h1>
-                    {this.state.foo?.past_courses?.map((course) => (
-                        <Course
-                            course_dept={course.course_dept}
-                            course_num={course.course_num}
-                        />
-                    ))}
+                    <table class="table table-hover">
+                        <tbody>
+                            {this.state.foo?.past_courses?.map((course) => (
+                                <tr>
+                                    <td><Course
+                                        course_dept={course.course_dept}
+                                        course_num={course.course_num}
+                                    /></td>
+                                    <td>Test</td>
+                                    <td>Test</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
                     <h1>Tutoring Courses</h1>
-                    {this.state.foo?.tutoring_courses?.map((course) => (
-                        <Course
-                            course_dept={course.course_dept}
-                            course_num={course.course_num}
-                        />
-                    ))}
+                    <table class="table table-hover">
+                        <tbody>
+                            {this.state.foo?.tutoring_courses?.map((course) => (
+                                <tr>
+                                    <td><Course
+                                        course_dept={course.course_dept}
+                                        course_num={course.course_num}
+                                    /></td>
+                                    <td>Test</td>
+                                    <td>Test</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </>
             }
             </>
