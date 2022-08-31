@@ -16,6 +16,7 @@ class Register extends Component {
                      auth_user: '',
                      auth_status: '',
                      auth_success: false,
+                     email_success: false,
                     };
 
       this.handleSubmitReg = this.handleSubmitReg.bind(this);
@@ -26,6 +27,8 @@ class Register extends Component {
 
       this.regForm = this.regForm.bind(this);
       this.authForm = this.authForm.bind(this);
+
+      this.checkEmail = this.checkEmail.bind(this);
     }
 
 
@@ -180,6 +183,28 @@ class Register extends Component {
         )
     }
 
+    checkEmail(event) {
+      const email = event.target.value;
+      //Regular expression to check if email ends in ucsd.edu
+      let regExp =  /^[a-z]+@+ucsd.edu$/;
+      if(email.match(regExp)) {
+        event.target.className = styles.emailSuccess;
+        this.setState({email_success: true},() => console.log());
+        return true;
+      } else {
+        //If field is empty, reset to default grey border
+        if(email === "") {
+            event.target.className = styles.email;
+            this.setState({email_success: false},() => console.log());
+            return true;
+        }
+        //If input is invalid
+        event.target.className = styles.emailError;
+        this.setState({email_success: false},() => console.log(this.state.email_success));
+        return false;
+      }
+    }
+    
     render() {
       return (
         <>
@@ -198,18 +223,18 @@ class Register extends Component {
           onChange={(event) => { 
             this.setState({ email: event.target.value }) 
             //Border color will change as user types
-            checkEmail(event)
+            this.checkEmail(event)
           }}
 
           onFocus={(event) => {
-            checkEmail(event)
+            this.checkEmail(event)
           }}
 
           onBlur={(event) => {
             //If email is invalid, keep red border
             //Else, reset to default border
-            if(!checkEmail(event)) {
-              checkEmail(event)
+            if(!this.checkEmail(event)) {
+              this.checkEmail(event)
             } else {
               event.target.className=styles.email;
             }
@@ -218,7 +243,7 @@ class Register extends Component {
 
         { this.state.auth_status === 1 ? <p className={styles.errorMessage}>Email already exists</p> : <></>}
 
-        {this.state.auth_server ? <this.checkAuthCode /> : <this.requestAuthCode />}
+        { this.state.email_success? <this.checkAuthCode /> : <this.requestAuthCode />}
         </div>
 
         <this.regForm />
@@ -227,23 +252,6 @@ class Register extends Component {
     }
   }
 
-  const checkEmail = (event) => {
-    const email = event.target.value;
-    //Regular expression to check if email ends in ucsd.edu
-    let regExp =  /^[a-z]+@+ucsd.edu$/;
-    if(email.match(regExp)) {
-      event.target.className = styles.emailSuccess;
-        return true;
-    } else {
-        //If field is empty, reset to default grey border
-        if(email === "") {
-            event.target.className = styles.email;
-            return true;
-        }
-        //If input is invalid
-        event.target.className = styles.emailError;
-        return false;
-    }
-  }
+  
 
   export default Register

@@ -9,6 +9,8 @@ import styles from "../styles/Profile.module.css"
 
 import pfp from "../icons/pfp.png"
 
+import Navbar from "./Navbar"
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ class Profile extends Component {
             .then(response => response.json())
             .then((data) => {
                 this.setState({ foo: data });
-                //console.log(data);
+                console.log();
             })
         .catch(console.log)
     }
@@ -150,6 +152,8 @@ class Profile extends Component {
             {/* Sufficient to get whatever info we need from user */}
             { localStorage.getItem('auth-token') }
         </div>
+
+        <Navbar />
 
         <div className={styles.wrapper}>
             {/* Example of showing user's information */}
