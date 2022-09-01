@@ -50,7 +50,7 @@ root.render(
 
       <Route path="user/:userId" element={<OtherProfile />} />
 
-      <Route path="reviews/:course_dept/:course_num" element={<Reviews />} />
+      <Route path="reviews/:courseDept/:courseNum" element={<Reviews />} />
         
       <Route path="tutoring" element={<Tutor />} />
     </Routes>
