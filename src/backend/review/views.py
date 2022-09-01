@@ -16,6 +16,7 @@ class GetCourseData(APIView):
 
     def post(self, request):
         request_content = ujson.loads(request.body.decode("utf-8"))
+
         course_dept = request_content.get('course_dept')
         course_num = request_content.get('course_num')
 

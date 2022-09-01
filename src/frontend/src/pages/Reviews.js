@@ -40,6 +40,8 @@ export default function Reviews() {
     }
 
     useEffect(() => {
+        //console.log(courseDept)
+        //console.log(courseNum)
         //GET request for class stats
         const requestOptions = {
             method: 'POST',
@@ -126,7 +128,7 @@ export default function Reviews() {
                 className='reviewBox' onChange={onChange} onSubmit={onSubmitEvent} 
                 />
                 <input type="text" placeholder="Professor Name" className='profInput' onChange={profInput}></input>
-                <StarRatingComponent name = "stars" onStarClick={onStarClick}></StarRatingComponent>
+                <StarRatingComponent name = "stars" onStarClick={onStarClick} className="star_component"></StarRatingComponent>
                 <button type ="submit" className = "reviewButton">
                 Submit Review
                 </button>

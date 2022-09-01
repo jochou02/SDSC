@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import Navbar from "./Navbar"
-
+import { Link } from 'react-router-dom';
 //import { useLocation } from 'react-router-dom'
 
 //import LoggedInTester from '../buttons/LoggedInTester';
 
 import '../styles/courses.css';
 
-const Course = ({ course_dept, course_num }) => (
+const Course = ({ course_dept, course_num }) => (<>
     <div>
-        <p>{course_dept} {course_num}</p>
+        <Link to={`/reviews/${course_dept}/${course_num}`} className="courseLink">
+            <p className="courseText">{course_dept} {course_num}</p>
+        </Link>
     </div>
-);
+</>);
 
 class Courses extends Component {
 

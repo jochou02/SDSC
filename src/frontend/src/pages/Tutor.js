@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import '../styles/Tutoring.css';
+
 import TutorBox from "./components/TutorBox.jsx";
+
 import Navbar from "./Navbar.js"; // was jsx
 import {AiOutlineSearch} from 'react-icons/ai'; //npm install react-icons --save
 
