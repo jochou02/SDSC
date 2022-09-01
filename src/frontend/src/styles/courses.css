@@ -1,3 +1,11 @@
 a {
     color: white;
 }
+
+.courseLink {
+    text-decoration: none;
+}
+
+.courseText {
+    color: white;
+}
