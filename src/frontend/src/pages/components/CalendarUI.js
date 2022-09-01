@@ -9,12 +9,12 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 //import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/CalendarUI.scss"
+import { useState } from "react";
+import DatePicker from "react-datepicker";
 /*
 //Imports no longer needed ?
-import { useState } from "react";
 import { toBeRequired } from '@testing-library/jest-dom/dist/matchers';
 import { ca } from 'date-fns/locale';
-import DatePicker from "react-datepicker";
 */
 
 // https://www.youtube.com/watch?v=lyRP_D0qCfk&ab_channel=DarwinTech --> need to add packages from this vid
@@ -80,57 +80,64 @@ const Calendars = (props) => {
         e.dtend_minute
       ))
 
-      cal.push({"title": e.event, start: dateStart, end: dateEnd})
+      cal.push({title: e.event, start: dateStart, end: dateEnd})
 
       //Not really needed to return but terminal bothers me if i don't
       return cal
     })
 
-  //const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
 
-  //const [allEvents, setAllEvents] = useState(events);
-  //const [allEvents] = useState(events);
-
-  /*
   function handleAddEvent() {
-    setAllEvents([...allEvents, newEvent]);
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth-token'),
+      },
+      body: JSON.stringify({newEvent: newEvent})
+    };
+
+    fetch('http://127.0.0.1:8000/schedule/add_event/', requestOptions)
+    .then(response => response.json())
+      .then(data => {
+        //console.log(data)
+      })
+    .catch(console.log);
   } 
-  */
 
-  return(
-    <div className={styles.calendarWrapper}>
-
-    <h1 className={styles.calendarTitle}>Calendar</h1>
-    {/* 
-      Sorry!! Gotta style the calendar part first
-        <h2>Add New Event</h2>
-
+  return( <>      
+    <div>
+      <h2>Add New Event</h2>
         <div>
-        <input 
-          type="text" 
-          placeholder="Add Title" 
-          style={{ width: "20%", marginRight: "10px" }} 
-          value={newEvent.title} 
-          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
+          <input 
+            type="text" 
+            placeholder="Add Title" 
+            style={{ width: "20%", marginRight: "10px" }} 
+            value={newEvent.title} 
+            onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
 
-        <DatePicker 
-          placeholderText="Start Date" 
-          style={{ marginRight: "10px" }} selected={newEvent.start} 
-          onChange={(start) => setNewEvent({ ...newEvent, start })} />
+          <DatePicker 
+            placeholderText="Start Date" 
+            style={{ marginRight: "10px" }} selected={newEvent.start} 
+            onChange={(start) => setNewEvent({ ...newEvent, start })} />
 
-        <DatePicker 
-          placeholderText="End Date" 
-          selected={newEvent.end} 
-          onChange={(end) => setNewEvent({ ...newEvent, end })} />
-      
-      <button 
-        style={{ marginTop: "10px" }} 
-        onClick={handleAddEvent}>
-        Add Event
-      </button>
+          <DatePicker 
+            placeholderText="End Date" 
+            selected={newEvent.end} 
+            onChange={(end) => setNewEvent({ ...newEvent, end })} />
+        
+          <button 
+            style={{ marginTop: "10px" }} 
+            onClick={handleAddEvent}>
+            Add Event
+          </button>
+
         </div>
-    */}
+    </div>
 
+    <div className={styles.calendarWrapper}>
+    <h1 className={styles.calendarTitle}>Calendar</h1>
       <Calendar 
         localizer = {localizer} 
         events = {cal}
@@ -140,7 +147,7 @@ const Calendars = (props) => {
           margin:"30px 50px 50px 50px"}}
       />
     </div>
-  ) 
+    </>) 
   // <h1 className='wait-times'>Calendar</h1>;
 }
 

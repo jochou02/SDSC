@@ -11,7 +11,8 @@ import time
 import pytz
 import zlib
 
-from icalendar import Calendar, Event
+from icalendar import Calendar
+from icalendar import Event as CalEvent
 from datetime import datetime
 #from tkinter import Tk
 #from tkinter.filedialog import askopenfilename
@@ -140,31 +141,40 @@ class AddEventView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def post(self, request):
-        schedule = Schedule.objects.get(pk=1)
+        schedule = Schedule.objects.get(pk=request.user.id)
+
         cal = Calendar.from_ical(schedule.content)
+        #print(cal)
 
-        # request_content = ujson.loads(request.body.decode("utf-8"))
+        request_content = ujson.loads(request.body.decode("utf-8"))
+        new_event = request_content.get('newEvent')
 
-        e = Event()
+        e = CalEvent();
 
-        # e.add('summary', request_content['summary'])
-        # e.add('description', request_content['description'])
+        e.add('summary', new_event.get('title'))
+        #e.add('description', request_content['description'])
 
         # And we need to figure out a scheme to generate event id (could hash the time stamp)
         time_now = datetime.utcnow().replace(microsecond=0)
 
         # For testing only. Use time stamp for event id
-        e.add('uid', '123')
-        #e.add('uid', f'event_{str(time_now)}')
+        e.add('uid', f'event_{str(time_now)}')
+
+        start = datetime(new_event.get('start'))
+        print(start)
+        #e.add('dtstart', new_event.get('start'))
+
         # Note server time is zulu time
-        # e.add('dtstart', datetime(request_content['year'], request_content['month'], request_content['day'],
+        #e.add('dtstart', datetime(request_content['year'], request_content['month'], request_content['day'],
         #                           request_content['hour'], request_content['minute'], request_content['second'], tzinfo=pytz.utc))
+
         e.add('dtstamp', time_now)
+        print(e)
 
-        cal.add_component(e)
+        #cal.add_component(e)
 
-        schedule.content = cal.to_ical().decode()
-        schedule.save()
+        #schedule.content = cal.to_ical().decode()
+        #schedule.save()
 
         return Response(dump_cal(cal))
 
@@ -178,7 +188,6 @@ class UpdateScheduleView(APIView):
         request_content = ujson.loads(request.body.decode("utf-8"))
 
         event_id = request_content['uid']
-
 
         schedule = Schedule.objects.get(pk=1)
         cal = Calendar.from_ical(schedule.content)
