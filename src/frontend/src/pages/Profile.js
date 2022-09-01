@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React,  { Component }  from 'react';
 //import { useLocation } from 'react-router-dom'
-import { Link } from 'react-router-dom';
+import  Link  from 'react-router-dom';
 
 import LoggedInTester from '../buttons/LoggedInTester'
 //import Karma from '../pages/Karma'
