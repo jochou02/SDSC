@@ -1,7 +1,7 @@
 //import React, {useState, useEffect} from 'react'
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom';
-import '../styles/App.css'
+//import '../styles/App.css'
 import "../styles/Reviews.css"
 import StarRatingComponent from 'react-star-rating-component';
 
@@ -107,18 +107,18 @@ export default function Reviews() {
         <Navbar />
         <div className = "ReviewPageContainer"> 
             <div className = 'ReviewStats'>
-                <div>{courseDept} {courseNum}</div>
+                <div className = 'classTitle'>{courseDept} {courseNum}</div>
                 <div className = "classStat">
                     Avg Class Approval:
-                    <div>{classData.AvgApproval}</div>    
+                    <div className='classPercent'>{classData.AvgApproval}</div>    
                 </div>
                 <div className = "classStat">
                     Avg Hours Committed:
-                    <div>{classData.AvgTime}</div>    
+                    <div className='classPercent'>{classData.AvgTime}</div>    
                 </div>
                 <div className = "classStat">
                     Avg Grade:
-                    <div>{classData.AvgGrade}</div> 
+                    <div className='classPercent'>{classData.AvgGrade}</div> 
                 </div>
             </div>
 
@@ -127,20 +127,18 @@ export default function Reviews() {
                 <textarea placeholder="Write your own review!" type="text" 
                 className='reviewBox' onChange={onChange} onSubmit={onSubmitEvent} 
                 />
-                <input type="text" placeholder="Professor Name" className='profInput' onChange={profInput}></input>
+                
                 <StarRatingComponent name = "stars" onStarClick={onStarClick} className="star_component"></StarRatingComponent>
                 <button type ="submit" className = "reviewButton">
                 Submit Review
                 </button>
             </form>
+            <hr></hr>
             <div className = 'reviewTitle'>Reviews</div>
             {review.map(data => {
                 return <div className='reviews'>
-                <div className = 'profName'>{data.prof}
-                <div className = 'rating_out_5'>{data.rating}</div>
-                </div>
-                
-                <div className = 'ratingDescrption'>{data.description}</div>
+                    <div className = 'rating_out_5'>{data.rating}</div>
+                    <p className = 'ratingDescription'>{data.description}</p>
                 </div>
             })}
            
