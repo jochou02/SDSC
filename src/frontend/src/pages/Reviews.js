@@ -5,6 +5,8 @@ import '../styles/App.css'
 import "../styles/Reviews.css"
 import StarRatingComponent from 'react-star-rating-component';
 
+import Navbar from "./Navbar"
+
 export default function Reviews() {
 
     const[classData,setClassData] = useState({});
@@ -101,9 +103,11 @@ export default function Reviews() {
     }
     
     return (
+        <>
+        <Navbar />
         <div className = "ReviewPageContainer"> 
             <div className = 'ReviewStats'>
-            <div>{courseDept} {courseNum}</div>
+                <div>{courseDept} {courseNum}</div>
                 <div className = "classStat">
                     Avg Class Approval:
                     <div>{classData.AvgApproval}</div>    
@@ -142,6 +146,6 @@ export default function Reviews() {
            
             </div>
         </div>
-        
+        </>
     );
 }
