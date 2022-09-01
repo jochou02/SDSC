@@ -24,6 +24,9 @@ import Calendar from './pages/Calendar';
 import OtherProfile from './pages/components/OtherProfile';
 import Reviews from './pages/Reviews';
 
+import Tutor from './pages/Tutor';
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -48,6 +51,8 @@ root.render(
       <Route path="user/:userId" element={<OtherProfile />} />
 
       <Route path="reviews/:course_dept/:course_num" element={<Reviews />} />
+        
+      <Route path="tutoring" element={<Tutor />} />
     </Routes>
   </BrowserRouter>
 );
