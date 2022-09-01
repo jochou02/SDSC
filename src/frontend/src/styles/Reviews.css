@@ -1,3 +1,9 @@
+hr {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 80%;
+}
+
 .ReviewPageContainer{
     display:flex;
     align-items:top;
@@ -13,25 +19,26 @@
     font-size:40px;
     font-style:bold;
     border-radius:20px;
-    height:450px;
+    height:470px;
     width:400px;
     padding: 30px;
     margin-right: 20px;
 }
 
 .classStat{
-    margin-top:35px;
+    margin-top:29px;
     text-align:left;
     font-size:25px;
     color: black;
+    font-weight: bold;
 }
 
 .ReviewSection{
     font-size:20px;
     background-color:white;
-    color:navy;
+    color:black;
     width:700px;
-    height:600px;
+    height:750px;
     border-radius:30px;
     text-align:center;
     overflow-y:scroll;
@@ -39,22 +46,21 @@
 }
 
 .reviews{
-    margin-top:30px;
+    margin: 15px 0px;
     text-align:left;
-    margin-left:12px;
     border-radius:15px;
-    margin-right:12px;
-    padding-bottom:5px;
-    padding-left:10px;
     background-color:white;
     font-size:20px;
     display:flex;
+    align-items: top;
     flex-direction:row;
 }
 
 .reviewTitle{
+    margin-top: 25px;
     color:black;
-    font-size:60px;
+    font-size:40px;
+    font-weight: bold;
 }
 .profName{
     flex:1;
@@ -71,20 +77,17 @@
 }
 
 .rating_out_5{
-    margin-top:50px;
     text-align:center;
     border-style:solid;
-    margin-left:0px;
-    margin-right:40px;
     border-radius:20px;
-    padding-top:7px;
-    padding-bottom:7px;
+    margin-left: 25px;
+    height: 30px;
 }
+
 .ratingDescription{
-    flex:2;
-    margin-left:20px;
-    color:black;
-    font-size:15px;
+    color:grey;
+    font-size:20px;
+    margin: 0px 25px;
 }
 
 .reviewBox{
@@ -105,5 +108,15 @@
     margin-left:160px;
     width:160px;
     height:50px;
+}
+
+.classTitle {
+    font-weight: bold;
+    color: black;
+    font-size: 50px;
+}
+
+.classPercent {
+    font-weight: normal;
 }
 
